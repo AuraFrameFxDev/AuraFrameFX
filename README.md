@@ -108,7 +108,24 @@ We welcome contributions! Please refer to `CONTRIBUTING.md` for guidelines.
 
 ## License 📜
 
-This project is licensed under [Your License Here]—see the `LICENSE` file for details.
+# Proprietary License
+
+Copyright (c) 2025 M. Slate Fielder
+
+All Rights Reserved.
+
+This software and associated documentation files (the "Software") are the exclusive property of Slate Fielder.
+
+Permission is NOT granted to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, or to permit persons to whom the Software is furnished to do so, unless express written permission is obtained from the copyright holder.
+
+You may not:
+- Use, copy, alter, merge, publish, distribute, sublicense, and/or sell copies of the Software, in whole or in part, without explicit written permission.
+- Reverse engineer, decompile, or disassemble the Software, in whole or in part.
+- Remove or alter any copyright, trademark, or other proprietary notices from the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For licensing inquiries, see this repo page.
 
 ---
 
