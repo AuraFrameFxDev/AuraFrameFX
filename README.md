@@ -108,7 +108,8 @@ We welcome contributions! Please refer to `CONTRIBUTING.md` for guidelines.
 
 ## License 📜
 
-# Proprietary License
+This project is proprietary software.  
+See the LICENSE.txt file for details.
 
 Copyright (c) 2025 M. Slate Fielder
 
