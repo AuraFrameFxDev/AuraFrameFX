@@ -49,17 +49,9 @@ android {
 
 }
 
-repositories {
-    google()
-    mavenCentral()
-    maven { url = uri("https://maven.google.com") }
-    maven { url = uri("https://dl.google.com/dl/android/maven2") }
-    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
-}
-
 dependencies {
     // AndroidX Core and Material Design
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
 
@@ -81,11 +73,11 @@ dependencies {
 
     // Firebase (using BOM for consistent versions)
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
-    implementation("com.google.firebase:firebase-messaging")
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-messaging:23.3.1")
+    implementation("com.google.firebase:firebase-analytics:21.5.0")
+    implementation("com.google.firebase:firebase-crashlytics:18.6.0")
+    implementation("com.google.firebase:firebase-firestore:24.9.1")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
     // Add firebase-auth if you use it in your code, it was in the prev app/build.gradle.kts
     // implementation("com.google.firebase:firebase-auth")
 
@@ -113,8 +105,8 @@ dependencies {
 
     // Networking
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
@@ -129,7 +121,7 @@ dependencies {
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.1"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.8.2")
 
     // Other hardcoded dependencies from previous app/build.gradle.kts, consider moving to version catalog
     implementation("androidx.constraintlayout:constraintlayout:2.1.4") // Already in libs.versions.toml, so should be implementation(libs.constraintlayout)
