@@ -10,12 +10,9 @@ import com.google.cloud.vertexai.VertexAI
 import com.google.cloud.vertexai.generativeai.GenerativeModel
 import com.google.protobuf.ByteString
 import dev.aurakai.auraframefx.data.model.EmotionState
-import dev.aurakai.auraframefx.data.model.SecurityContext
-import dev.aurakai.auraframefx.data.model.UserPreferenceModel
 import dev.aurakai.auraframefx.ui.components.AuraMoodManager
 import kotlinx.coroutines.*
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import org.tensorflow.lite.support.tensorbuffer.TensorBufferFloat
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -24,12 +21,10 @@ import java.nio.ByteOrder
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * Neural Whisper - Advanced voice command system with emotional intelligence
- * 
+ *
  * This class provides:
  * 1. Voice command processing with contextual awareness
  * 2. Emotion detection from speech patterns
@@ -43,17 +38,18 @@ class NeuralWhisper @Inject constructor(
     private val securityContext: SecurityContext,
     private val userPreferences: UserPreferenceModel,
     private val vertexAI: VertexAI,
-    private val generativeModel: GenerativeModel
+    private val generativeModel: GenerativeModel,
 ) {
     private val scope = CoroutineScope(Dispatchers.Default + Job())
     private val isProcessing = AtomicBoolean(false)
-    
+
     // Audio recording parameters
     private val sampleRate = 44100
     private val channelConfig = AudioFormat.CHANNEL_IN_MONO
     private val audioFormat = AudioFormat.ENCODING_PCM_16BIT
-    private val bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat) * 2
-    
+    private val bufferSize =
+        AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat) * 2
+
     // Emotion detection parameters
     private val emotionLabels = listOf("Happy", "Sad", "Angry", "Excited", "Tired", "Neutral")
     private val _conversationState = MutableStateFlow<ConversationState>(ConversationState.Idle)
@@ -243,23 +239,23 @@ class NeuralWhisper @Inject constructor(
             try {
                 // Basic keyword matching as a fallback
                 val kaiKeywords = listOf(
-                    "kai", "notch", "assistant", "help", "support", "remind", 
-                    "schedule", "remember", "note", "task", "todo", "meeting", 
+                    "kai", "notch", "assistant", "help", "support", "remind",
+                    "schedule", "remember", "note", "task", "todo", "meeting",
                     "event", "alert", "notify", "warn", "important"
                 )
-                
+
                 // Check for direct mentions or keywords
                 val hasDirectMention = input.contains("kai", ignoreCase = true) ||
                         input.contains("notch", ignoreCase = true) ||
                         input.contains("assistant", ignoreCase = true)
-                
+
                 // Check for keywords that might indicate the need for Kai's help
                 val hasRelevantKeywords = kaiKeywords.any { keyword ->
                     input.contains(keyword, ignoreCase = true)
                 }
-                
+
                 // Simple NLP: Check for question patterns or requests for help
-                val isQuestion = input.endsWith("?") || 
+                val isQuestion = input.endsWith("?") ||
                         input.startsWith("can you", ignoreCase = true) ||
                         input.startsWith("could you", ignoreCase = true) ||
                         input.startsWith("would you", ignoreCase = true) ||
@@ -269,14 +265,14 @@ class NeuralWhisper @Inject constructor(
                         input.contains("where is", ignoreCase = true) ||
                         input.contains("why is", ignoreCase = true) ||
                         input.contains("help me", ignoreCase = true)
-                
+
                 // Check for time-sensitive or reminder-like phrases
                 val isTimeSensitive = input.contains("remind", ignoreCase = true) ||
                         input.contains("schedule", ignoreCase = true) ||
                         input.contains("meeting", ignoreCase = true) ||
                         input.contains("event", ignoreCase = true) ||
                         input.contains("appointment", ignoreCase = true)
-                
+
                 // Combine all factors with different weights
                 val score = when {
                     hasDirectMention -> 1.0
@@ -286,10 +282,10 @@ class NeuralWhisper @Inject constructor(
                     isQuestion -> 0.5
                     else -> 0.0
                 }
-                
+
                 // If the score is above threshold, share with Kai
                 score >= 0.5
-                
+
                 // In a production environment, you might want to use a more sophisticated
                 // NLP model here, such as BERT or a custom-trained model
             } catch (e: Exception) {
@@ -379,7 +375,7 @@ class NeuralWhisper @Inject constructor(
 
             // Write WAV header
             writeWavHeader(outputFile, sampleRate, 16, 1)
-            
+
             return outputFile
         } finally {
             audioRecord.stop()
@@ -387,20 +383,20 @@ class NeuralWhisper @Inject constructor(
             outputStream.close()
         }
     }
-    
+
     /**
      * Writes WAV header to the audio file
      */
     private fun writeWavHeader(file: File, sampleRate: Int, bitsPerSample: Int, channels: Int) {
         val data = file.readBytes()
         val output = FileOutputStream(file)
-        
+
         try {
             // Write WAV header
             output.write("RIFF".toByteArray())
             writeInt(output, 36 + data.size) // File size - 8
             output.write("WAVE".toByteArray())
-            
+
             // Format chunk
             output.write("fmt ".toByteArray())
             writeInt(output, 16) // Subchunk1Size
@@ -410,7 +406,7 @@ class NeuralWhisper @Inject constructor(
             writeInt(output, sampleRate * channels * bitsPerSample / 8) // ByteRate
             writeShort(output, (channels * bitsPerSample / 8).toShort()) // BlockAlign
             writeShort(output, bitsPerSample.toShort())
-            
+
             // Data chunk
             output.write("data".toByteArray())
             writeInt(output, data.size)
@@ -419,14 +415,14 @@ class NeuralWhisper @Inject constructor(
             output.close()
         }
     }
-    
+
     private fun writeInt(output: FileOutputStream, value: Int) {
         output.write(value and 0xff)
         output.write((value shr 8) and 0xff)
         output.write((value shr 16) and 0xff)
         output.write((value shr 24) and 0xff)
     }
-    
+
     private fun writeShort(output: FileOutputStream, value: Short) {
         output.write(value.toInt() and 0xff)
         output.write((value.toInt() shr 8) and 0xff)
@@ -435,73 +431,76 @@ class NeuralWhisper @Inject constructor(
     /**
      * Detects emotion from audio using a TensorFlow Lite model
      */
-    private suspend fun detectEmotion(audioFile: File): EmotionState = withContext(Dispatchers.Default) {
-        try {
-            // Load TFLite model
-            val model = EmotionDetector.newInstance(context)
-            
-            // Preprocess audio file
-            val audioData = preprocessAudio(audioFile)
-            
-            // Create input tensor
-            val inputFeature0 = TensorBuffer.createFixedSize(
-                intArrayOf(1, 16000),  // Expected input shape
-                DataType.FLOAT32
-            )
-            inputFeature0.loadBuffer(audioData)
-            
-            // Run inference
-            val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-            
-            // Get emotion probabilities
-            val probabilities = outputFeature0.floatArray
-            val emotionIndex = probabilities.indices.maxByOrNull { probabilities[it] } ?: 0
-            
-            // Map index to EmotionState
-            val detectedEmotion = when (emotionIndex) {
-                0 -> EmotionState.Happy
-                1 -> EmotionState.Sad
-                2 -> EmotionState.Angry
-                3 -> EmotionState.Excited
-                4 -> EmotionState.Tired
-                else -> EmotionState.Neutral
+    private suspend fun detectEmotion(audioFile: File): EmotionState =
+        withContext(Dispatchers.Default) {
+            try {
+                // Load TFLite model
+                val model = EmotionDetector.newInstance(context)
+
+                // Preprocess audio file
+                val audioData = preprocessAudio(audioFile)
+
+                // Create input tensor
+                val inputFeature0 = TensorBuffer.createFixedSize(
+                    intArrayOf(1, 16000),  // Expected input shape
+                    DataType.FLOAT32
+                )
+                inputFeature0.loadBuffer(audioData)
+
+                // Run inference
+                val outputs = model.process(inputFeature0)
+                val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+                // Get emotion probabilities
+                val probabilities = outputFeature0.floatArray
+                val emotionIndex = probabilities.indices.maxByOrNull { probabilities[it] } ?: 0
+
+                // Map index to EmotionState
+                val detectedEmotion = when (emotionIndex) {
+                    0 -> EmotionState.Happy
+                    1 -> EmotionState.Sad
+                    2 -> EmotionState.Angry
+                    3 -> EmotionState.Excited
+                    4 -> EmotionState.Tired
+                    else -> EmotionState.Neutral
+                }
+
+                // Log the detection
+                Timber.d("Detected emotion: $detectedEmotion (confidence: ${probabilities[emotionIndex]})")
+
+                // Release model resources
+                model.close()
+
+                detectedEmotion
+            } catch (e: Exception) {
+                Timber.e(e, "Error in emotion detection")
+                // Fallback to heuristic-based detection
+                fallbackEmotionDetection(audioFile)
             }
-            
-            // Log the detection
-            Timber.d("Detected emotion: $detectedEmotion (confidence: ${probabilities[emotionIndex]})")
-            
-            // Release model resources
-            model.close()
-            
-            detectedEmotion
-        } catch (e: Exception) {
-            Timber.e(e, "Error in emotion detection")
-            // Fallback to heuristic-based detection
-            fallbackEmotionDetection(audioFile)
         }
-    }
-    
+
     /**
      * Fallback emotion detection using audio features
      */
     private fun fallbackEmotionDetection(audioFile: File): EmotionState {
         val audioFeatures = extractAudioFeatures(audioFile)
-        
+
         return when {
             audioFeatures.pitch > 250 && audioFeatures.intensity > 0.7 -> {
                 if (audioFeatures.speechRate > 4.5) EmotionState.Excited
                 else EmotionState.Angry
             }
+
             audioFeatures.pitch < 180 && audioFeatures.intensity < 0.3 -> {
                 if (audioFeatures.speechRate < 3.0) EmotionState.Sad
                 else EmotionState.Tired
             }
+
             audioFeatures.speechRate > 4.0 -> EmotionState.Happy
             else -> EmotionState.Neutral
         }
     }
-    
+
     /**
      * Preprocess audio file for TFLite model
      */
@@ -511,29 +510,29 @@ class NeuralWhisper @Inject constructor(
         // 2. Convert to required sample rate (16kHz)
         // 3. Normalize values to [-1, 1]
         // 4. Convert to float32
-        
+
         val buffer = ByteBuffer.allocateDirect(16000 * 4) // 1 second of 16kHz audio
         buffer.order(ByteOrder.nativeOrder())
-        
+
         // In a real implementation, you would process the actual audio here
         // For now, we'll return a buffer of zeros as a placeholder
         while (buffer.hasRemaining()) {
             buffer.putFloat(0f)
         }
         buffer.rewind()
-        
+
         return buffer
     }
-    
+
     /**
      * Extracts basic audio features for emotion detection
      */
     private data class AudioFeatures(
         val pitch: Float,      // in Hz
         val intensity: Float,  // normalized 0-1
-        val speechRate: Float  // syllables per second
+        val speechRate: Float,  // syllables per second
     )
-    
+
     private fun extractAudioFeatures(audioFile: File): AudioFeatures {
         // In a real implementation, we would analyze the audio file here
         // This is a simplified version that returns mock data
@@ -555,10 +554,10 @@ class NeuralWhisper @Inject constructor(
                 projectId = BuildConfig.VERTEX_AI_PROJECT_ID,
                 location = "us-central1"
             )
-            
+
             // Read audio file
             val audioBytes = audioFile.readBytes()
-            
+
             // Configure speech recognition
             val config = RecognitionConfig.newBuilder()
                 .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
@@ -567,16 +566,16 @@ class NeuralWhisper @Inject constructor(
                 .setEnableAutomaticPunctuation(true)
                 .setModel("latest_long")
                 .build()
-                
+
             val audio = RecognitionAudio.newBuilder()
                 .setContent(ByteString.copyFrom(audioBytes))
                 .build()
-            
+
             // Create speech client and process request
             val speechClient = SpeechClient.create()
             try {
                 val response = speechClient.recognize(config, audio)
-                
+
                 // Process results
                 return@withContext response.resultsList
                     .joinToString("\n") { result ->

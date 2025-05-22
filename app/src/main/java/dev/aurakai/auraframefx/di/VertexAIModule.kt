@@ -9,16 +9,15 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.BuildConfig
-import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.ai.VertexAIClient
 import dev.aurakai.auraframefx.ai.VertexAIConfig
 import dev.aurakai.auraframefx.ai.VertexAIManager
-import java.io.InputStream
-import java.util.Properties
-import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.io.InputStream
+import java.util.Properties
+import javax.inject.Singleton
 
 /**
  * Dagger Hilt module that provides dependencies related to Vertex AI.
@@ -27,12 +26,12 @@ import kotlinx.coroutines.withContext
 @Module
 @InstallIn(SingletonComponent::class)
 object VertexAIModule {
-    
+
     private const val TAG = "VertexAIModule"
     private const val LOCAL_PROPERTIES_FILE = "local.properties"
     private const val PROPERTY_PROJECT_ID = "GOOGLE_CLOUD_PROJECT_ID"
     private const val PROPERTY_API_KEY = "GOOGLE_CLOUD_API_KEY"
-    
+
     private fun loadLocalProperties(context: Context): Properties {
         return try {
             val properties = Properties()
@@ -53,7 +52,7 @@ object VertexAIModule {
     @Provides
     @Singleton
     fun provideVertexAIConfig(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): VertexAIConfig {
         return runBlocking {
             withContext(Dispatchers.IO) {
@@ -66,14 +65,17 @@ object VertexAIModule {
                         setProperty(PROPERTY_API_KEY, BuildConfig.GOOGLE_CLOUD_API_KEY)
                     }
                 }
-                
+
                 val projectId = properties.getProperty(PROPERTY_PROJECT_ID, "")
                 val apiKey = properties.getProperty(PROPERTY_API_KEY, null)
-                
+
                 if (projectId.isBlank()) {
-                    Log.w(TAG, "Google Cloud Project ID is not set. Please configure it in $LOCAL_PROPERTIES_FILE")
+                    Log.w(
+                        TAG,
+                        "Google Cloud Project ID is not set. Please configure it in $LOCAL_PROPERTIES_FILE"
+                    )
                 }
-                
+
                 VertexAIConfig(
                     projectId = projectId.ifBlank { "default-project-id" },
                     location = "us-central1",
