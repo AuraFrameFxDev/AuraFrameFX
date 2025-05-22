@@ -52,6 +52,7 @@ android {
     // Enable Compose features
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get() // Use version catalog
@@ -139,11 +140,14 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     // implementation("com.google.firebase:firebase-auth")
 
-    // Vertex AI
-    implementation("com.google.cloud:google-cloud-aiplatform:3.26.0")
-    implementation("com.google.cloud:google-cloud-storage:2.28.1")
-    implementation("com.google.ai.client.generativeai:generative-ai:0.6.0")
-    implementation("com.google.cloud.vertexai:vertexai:0.6.0")
+    // Google Cloud Vertex AI
+    implementation("com.google.cloud:google-cloud-aiplatform:3.37.0")
+    implementation("com.google.cloud:google-cloud-storage:2.30.1")
+    implementation("com.google.ai.client.generativeai:generativeai:0.3.1")
+    implementation("com.google.cloud.vertexai:vertexai:1.34.0")
+    
+    // Ensure we have the required BOM for Google Cloud
+    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
     implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1:3.26.0")
 
     // Coroutines
