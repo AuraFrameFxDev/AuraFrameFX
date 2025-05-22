@@ -5,19 +5,20 @@ plugins {
     kotlin("kapt")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp") version "1.9.22-1.0.16"
     kotlin("plugin.serialization") version "1.9.22"
-    // Hilt is applied via project's build.gradle.kts
 }
 
 // Read local.properties file
-val localProperties = java.util.Properties().apply {
-    val localPropertiesFile = rootProject.file("local.properties")
-    if (localPropertiesFile.exists()) {
-        localPropertiesFile.inputStream().use { input ->
-            this.load(input)
-        }
+val localProperties = java.util.Properties()
+try {
+    val localPropertiesFile = project.rootProject.file("local.properties")
+    if (localPropertiesFile.isFile) {
+        localProperties.load(java.io.FileInputStream(localPropertiesFile))
     }
+} catch (e: Exception) {
+    logger.warn("Could not load local.properties: ${e.message}")
 }
 
 android {
@@ -25,12 +26,12 @@ android {
     compileSdk = 34
 
     sourceSets {
-        getByName("main") {
+        named("main") {
             java.srcDirs("src/main/java", "src/main/kotlin")
             res.srcDirs("src/main/res")
             assets.srcDirs("src/main/assets")
             resources.srcDirs("src/main/resources")
-            manifest.srcFile "src/main/AndroidManifest.xml"
+            manifest.srcFile("src/main/AndroidManifest.xml")
         }
     }
 

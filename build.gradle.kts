@@ -21,7 +21,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
     id("com.google.devtools.ksp") version "1.9.22-1.0.16" apply false
-    id("com.google.dagger.hilt.android") version "2.48.1" apply false
+
 }
 
 // Common configurations are now in settings.gradle.kts
