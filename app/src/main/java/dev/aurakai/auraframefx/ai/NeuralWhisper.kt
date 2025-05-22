@@ -4,54 +4,58 @@ import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
-import android.os.Environment
-import android.util.Log
 import androidx.core.content.ContextCompat
+import com.google.cloud.speech.v1.*
 import com.google.cloud.vertexai.VertexAI
 import com.google.cloud.vertexai.generativeai.GenerativeModel
 import com.google.protobuf.ByteString
-import com.google.cloud.speech.v1.RecognitionAudio
-import com.google.cloud.speech.v1.RecognitionConfig
-import com.google.cloud.speech.v1.SpeechClient
 import dev.aurakai.auraframefx.data.model.EmotionState
 import dev.aurakai.auraframefx.data.model.SecurityContext
 import dev.aurakai.auraframefx.data.model.UserPreferenceModel
 import dev.aurakai.auraframefx.ui.components.AuraMoodManager
 import kotlinx.coroutines.*
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import org.tensorflow.lite.support.common.ops.NormalizeOp
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.support.audio.TensorAudio
-import org.tensorflow.lite.support.common.TensorProcessor
 import org.tensorflow.lite.support.tensorbuffer.TensorBufferFloat
 import timber.log.Timber
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
+import kotlin.math.max
+import kotlin.math.min
 
 /**
- * Neural Whisper - An advanced contextual voice command system with emotional intelligence
- *
- * Created by Claude-3 Opus (Anthropic) for AuraFrameFX
- *
- * This feature provides:
- * 1. Contextual command chaining - remembers conversation history
- * 2. Emotional intelligence - detects and responds to user emotions
- * 3. Code-to-Natural language bridge - generates spelhooks from natural language
- * 4. Ambient learning - adapts to user preferences over time
- * 5. Dual AI System - coordinates with Kai in the notch bar for enhanced contextual awareness
+ * Neural Whisper - Advanced voice command system with emotional intelligence
+ * 
+ * This class provides:
+ * 1. Voice command processing with contextual awareness
+ * 2. Emotion detection from speech patterns
+ * 3. Natural language understanding and response generation
+ * 4. Integration with Kai for enhanced contextual awareness
+ * 5. Secure and private on-device processing
  */
 class NeuralWhisper @Inject constructor(
     private val context: Context,
+    private val moodManager: AuraMoodManager,
+    private val securityContext: SecurityContext,
+    private val userPreferences: UserPreferenceModel,
     private val vertexAI: VertexAI,
-    private val generativeModel: GenerativeModel,
+    private val generativeModel: GenerativeModel
 ) {
+    private val scope = CoroutineScope(Dispatchers.Default + Job())
+    private val isProcessing = AtomicBoolean(false)
+    
+    // Audio recording parameters
+    private val sampleRate = 44100
+    private val channelConfig = AudioFormat.CHANNEL_IN_MONO
+    private val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+    private val bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat) * 2
+    
+    // Emotion detection parameters
+    private val emotionLabels = listOf("Happy", "Sad", "Angry", "Excited", "Tired", "Neutral")
     private val _conversationState = MutableStateFlow<ConversationState>(ConversationState.Idle)
     val conversationState = _conversationState.asStateFlow()
     private val _emotionState = MutableLiveData<EmotionState>(EmotionState.Neutral)

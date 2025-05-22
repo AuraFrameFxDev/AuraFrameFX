@@ -130,12 +130,12 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     // implementation("com.google.firebase:firebase-auth")
 
-    // Vertex AI (temporarily disabled - uncomment when needed)
-    // implementation("com.google.cloud:google-cloud-aiplatform:3.26.0")
-    // implementation("com.google.cloud:google-cloud-storage:2.28.1")
-    // implementation("com.google.ai.client.generativeai:generative-ai:0.6.0")
-    // implementation("com.google.cloud.vertexai:vertexai:0.6.0")
-    // implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1:3.26.0")
+    // Vertex AI
+    implementation("com.google.cloud:google-cloud-aiplatform:3.26.0")
+    implementation("com.google.cloud:google-cloud-storage:2.28.1")
+    implementation("com.google.ai.client.generativeai:generative-ai:0.6.0")
+    implementation("com.google.cloud.vertexai:vertexai:0.6.0")
+    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1:3.26.0")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
