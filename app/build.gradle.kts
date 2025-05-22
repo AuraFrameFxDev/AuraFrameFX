@@ -55,6 +55,10 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
+    
+    // Security
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
     // Compose BOM for consistent Compose versions
     implementation(platform("androidx.compose:compose-bom:2024.02.00"))
@@ -78,6 +82,11 @@ dependencies {
 
     // Firebase (using BOM for consistent versions)
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    
+    // Genesis Protocol
+    implementation("com.google.crypto.tink:tink-android:1.9.0")
+    implementation("com.google.guava:guava:32.1.3-android")
+    implementation("org.bouncycastle:bcprov-jdk15to18:1.75")
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
