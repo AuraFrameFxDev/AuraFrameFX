@@ -1,16 +1,25 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
+    
+    plugins {
+        id("com.android.application") version "8.1.0" apply false
+        id("org.jetbrains.kotlin.android") version "1.9.22" apply false
+        id("com.google.dagger.hilt.android") version "2.48" apply false
+        id("com.google.gms.google-services") version "4.4.1" apply false
+        id("com.google.firebase.crashlytics") version "2.9.9" apply false
+        id("com.google.devtools.ksp") version "1.9.22-1.0.16" apply false
+        id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
+    }
+    
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.namespace == "com.android") {
-                useModule("com.android.tools.build:gradle:${requested.version}")
-            }
-            if (requested.id.id == "dagger.hilt.android.plugin") {
-                useModule("com.google.dagger:hilt-android-gradle-plugin:${requested.version}")
+            when (requested.id.namespace) {
+                "com.android" -> useModule("com.android.tools.build:gradle:${requested.version}")
+                "com.google.dagger.hilt" -> useModule("com.google.dagger:hilt-android-gradle-plugin:${requested.version}")
             }
         }
     }
