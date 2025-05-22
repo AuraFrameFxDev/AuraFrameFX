@@ -108,86 +108,95 @@ dependencies {
     // AndroidX Core and Material Design
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
 
-    // Security
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
-    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+    // Dagger Hilt for dependency injection
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    // Compose BOM for consistent Compose versions
-    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.compose.material:material-icons-extended")
+    // Retrofit for network calls
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
 
-    // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    // Room for local database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
-    // WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    // Coil for image loading
+    implementation(libs.coil.compose)
 
-    // Firebase (using BOM for consistent versions)
-    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    // Accompanist for additional Compose utilities
+    implementation(libs.accompanist.permissions)
+    implementation(libs.accompanist.systemuicontroller)
 
-    // Genesis Protocol
-    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
+    // Google ML Kit for on-device AI
+    implementation(libs.mlkit.barcode)
+    implementation(libs.mlkit.text.recognition)
 
-    // Google Cloud Speech-to-Text
-    implementation("com.google.cloud:google-cloud-speech:4.32.0") {
-        exclude(group = "io.grpc", module = "grpc-netty-shaded")
-    }
+    // CameraX
+    implementation(libs.camera.core)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+    implementation(libs.camera.extensions)
 
-    // Google Cloud AI Platform
-    implementation("com.google.cloud:google-cloud-aiplatform:3.37.0") {
-        exclude(group = "io.grpc", module = "grpc-netty-shaded")
-    }
+    // TensorFlow Lite for on-device machine learning
+    implementation(libs.tensorflow.lite)
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
+    implementation(libs.tensorflow.lite.gpu)
+    implementation(libs.tensorflow.lite.task.vision)
+
+    // Google Play Services
+    implementation(libs.play.services.mlkit.barcode)
 
     // Google Generative AI
-    implementation("com.google.ai.generativeai:generativeai:0.3.1")
+    implementation(libs.google.generativeai)
+
+    // Google Cloud Vertex AI
+    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
+    implementation("com.google.cloud:google-cloud-vertexai")
+    implementation("com.google.cloud:google-cloud-aiplatform")
+    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
+    implementation("com.google.generativeai:generative-ai:0.4.0")
     
-    // Kotlin Standard Library
-    implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("reflect"))
+    // Google Cloud Core
+    implementation("com.google.cloud:google-cloud-core:2.23.0")
+    implementation("com.google.api:gax:2.35.0")
+    implementation("com.google.api:gax-grpc:2.35.0")
     
     // Kotlin Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-    
-    // Dependency Injection
+
+    // Kotlin coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+    // Kotlin standard library
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("reflect"))
+    implementation(kotlin("stdlib-common"))
+
+    // Kotlin serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+    // Javax Inject for dependency injection
     implementation("javax.inject:javax.inject:1")
+
+    // Dagger for dependency injection
     implementation("com.google.dagger:dagger:2.48")
     ksp("com.google.dagger:dagger-compiler:2.48")
-    
-    // Vertex AI
-    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
-    implementation("com.google.cloud:google-cloud-vertexai")
-    implementation("com.google.cloud:google-cloud-vertexai-http-java")
-    implementation("com.google.cloud:google-cloud-aiplatform")
-    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
-    implementation("com.google.cloud:google-cloud-storage")
-    
-    // Google Generative AI (for Vertex AI)
-    implementation("com.google.ai.generativeai:generativeai:0.3.1") {
-        exclude(group = "com.google.guava", module = "guava")
-    }
-    
-    // Kotlin Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     // Google Auth and API Client
     implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
     implementation("com.google.auth:google-auth-library-credentials:1.19.0")
     implementation("com.google.api-client:google-api-client:2.2.0")
-    implementation("com.google.apis:google-api-services-aiplatform:v1-rev20240311-2.0.0")
 
     // gRPC and Protobuf
     implementation(platform("io.grpc:grpc-bom:1.62.2"))
