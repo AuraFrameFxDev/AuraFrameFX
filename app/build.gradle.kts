@@ -1,12 +1,13 @@
+// Apply core plugins
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
-    id("com.google.dagger.hilt.android") version "2.48.1"
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.devtools.ksp") version "1.9.22-1.0.16"
     kotlin("plugin.serialization") version "1.9.22"
+    // Hilt is applied via project's build.gradle.kts
 }
 
 // Read local.properties file
@@ -22,7 +23,7 @@ val localProperties = java.util.Properties().apply {
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 34
-    
+
     sourceSets {
         getByName("main") {
             java.srcDirs("src/main/java", "src/main/kotlin")
@@ -49,7 +50,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -153,7 +157,7 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.22"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    
+
     // Google Cloud Vertex AI
     implementation("com.google.cloud:google-cloud-vertexai:0.8.0")
     implementation("com.google.cloud:google-cloud-aiplatform:3.34.0")
@@ -161,7 +165,7 @@ dependencies {
     implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
     implementation("com.google.api-client:google-api-client:2.2.0")
     implementation("com.google.apis:google-api-services-aiplatform:v1-rev20230913-2.0.0")
-    
+
     // Core AndroidX
     implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -264,7 +268,7 @@ dependencies {
 
     // TensorFlow Lite
     implementation("org.tensorflow:tensorflow-lite:2.14.0")
-    
+
     // Dagger Hilt for dependency injection
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
@@ -380,11 +384,11 @@ dependencies {
 
     // Other UI components
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-    
+
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }

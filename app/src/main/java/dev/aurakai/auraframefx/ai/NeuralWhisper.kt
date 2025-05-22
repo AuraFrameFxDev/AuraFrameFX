@@ -549,7 +549,7 @@ class NeuralWhisper @Inject constructor(
     private suspend fun transcribeAudio(audioFile: File): String = withContext(Dispatchers.IO) {
         try {
             // Initialize Vertex AI client
-            val vertexAi = VertexAI.initialize(
+            VertexAI.initialize(
                 context = context,
                 projectId = BuildConfig.VERTEX_AI_PROJECT_ID,
                 location = "us-central1"
