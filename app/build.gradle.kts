@@ -102,6 +102,27 @@ dependencies {
     // Lifecycle components
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    
+    // TensorFlow Lite
+    implementation("org.tensorflow:tensorflow-lite:2.9.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.2")
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.2")
+    implementation("org.tensorflow:tensorflow-lite-task-audio:0.4.2")
+    
+    // Google Cloud Client Libraries
+    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
+    implementation("com.google.cloud:google-cloud-speech")
+    implementation("com.google.cloud:google-cloud-vertexai")
+    
+    // Kotlin coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    
+    // Protobuf
+    implementation("com.google.protobuf:protobuf-java:3.22.3")
+    implementation("com.google.protobuf:protobuf-kotlin:3.22.3")
+    
+    // Timber for logging
+    implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
