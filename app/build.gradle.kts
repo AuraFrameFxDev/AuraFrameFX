@@ -87,6 +87,21 @@ dependencies {
     implementation("com.google.crypto.tink:tink-android:1.9.0")
     implementation("com.google.guava:guava:32.1.3-android")
     implementation("org.bouncycastle:bcprov-jdk15to18:1.75")
+    
+    // Audio Processing
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    
+    // Logging
+    implementation("com.jakewharton.timber:timber:5.0.1")
+    
+    // Lifecycle components
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")

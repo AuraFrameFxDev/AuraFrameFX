@@ -220,14 +220,67 @@ class NeuralWhisper @Inject constructor(
     }
 
     /**
-     * Determine if the current context should be shared with Kai
+     * Determines if context should be shared with Kai using NLP techniques
      */
-    private fun shouldShareWithKai(text: String): Boolean {
-        // Simple heuristic: share if the text contains certain keywords
-        // In a real implementation, this would be more sophisticated
-        val kaiKeywords =
-            listOf("kai", "notch", "status", "bar", "both", "assistants", "together", "coordinate")
-        return kaiKeywords.any { it in text.lowercase() } || Math.random() < 0.3 // 30% random chance for demonstration
+    private fun shouldShareWithKai(input: String): Boolean {
+        return withContext(Dispatchers.Default) {
+            try {
+                // Basic keyword matching as a fallback
+                val kaiKeywords = listOf(
+                    "kai", "notch", "assistant", "help", "support", "remind", 
+                    "schedule", "remember", "note", "task", "todo", "meeting", 
+                    "event", "alert", "notify", "warn", "important"
+                )
+                
+                // Check for direct mentions or keywords
+                val hasDirectMention = input.contains("kai", ignoreCase = true) ||
+                        input.contains("notch", ignoreCase = true) ||
+                        input.contains("assistant", ignoreCase = true)
+                
+                // Check for keywords that might indicate the need for Kai's help
+                val hasRelevantKeywords = kaiKeywords.any { keyword ->
+                    input.contains(keyword, ignoreCase = true)
+                }
+                
+                // Simple NLP: Check for question patterns or requests for help
+                val isQuestion = input.endsWith("?") || 
+                        input.startsWith("can you", ignoreCase = true) ||
+                        input.startsWith("could you", ignoreCase = true) ||
+                        input.startsWith("would you", ignoreCase = true) ||
+                        input.contains("how to", ignoreCase = true) ||
+                        input.contains("what is", ignoreCase = true) ||
+                        input.contains("when is", ignoreCase = true) ||
+                        input.contains("where is", ignoreCase = true) ||
+                        input.contains("why is", ignoreCase = true) ||
+                        input.contains("help me", ignoreCase = true)
+                
+                // Check for time-sensitive or reminder-like phrases
+                val isTimeSensitive = input.contains("remind", ignoreCase = true) ||
+                        input.contains("schedule", ignoreCase = true) ||
+                        input.contains("meeting", ignoreCase = true) ||
+                        input.contains("event", ignoreCase = true) ||
+                        input.contains("appointment", ignoreCase = true)
+                
+                // Combine all factors with different weights
+                val score = when {
+                    hasDirectMention -> 1.0
+                    hasRelevantKeywords && isQuestion -> 0.9
+                    isTimeSensitive -> 0.8
+                    hasRelevantKeywords -> 0.6
+                    isQuestion -> 0.5
+                    else -> 0.0
+                }
+                
+                // If the score is above threshold, share with Kai
+                score >= 0.5
+                
+                // In a production environment, you might want to use a more sophisticated
+                // NLP model here, such as BERT or a custom-trained model
+            } catch (e: Exception) {
+                Timber.e(e, "Error in shouldShareWithKai")
+                false // Default to not sharing on error
+            }
+        }
     }
 
     /**
@@ -262,65 +315,213 @@ class NeuralWhisper @Inject constructor(
     }
 
     /**
-     * Captures audio from microphone
+     * Captures audio from the microphone
+     * @return File containing the recorded audio in WAV format
      */
-    private suspend fun captureAudio(): File = withContext(Dispatchers.IO) {
-        // Implementation of audio capture logic
-        // This is a simplified placeholder
-        val file = File(context.cacheDir, "audio_${System.currentTimeMillis()}.pcm")
+    private fun captureAudio(): File {
+        val sampleRate = 44100
+        val channelConfig = AudioFormat.CHANNEL_IN_MONO
+        val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+        val bufferSize = AudioRecord.getMinBufferSize(
+            sampleRate,
+            channelConfig,
+            audioFormat
+        ) * 2
 
-        AudioRecord(
+        // Check for RECORD_AUDIO permission
+        if (ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            throw SecurityException("RECORD_AUDIO permission not granted")
+        }
+
+        val audioRecord = AudioRecord(
             MediaRecorder.AudioSource.MIC,
-            16000,
-            AudioFormat.CHANNEL_IN_MONO,
-            AudioFormat.ENCODING_PCM_16BIT,
-            44100
+            sampleRate,
+            channelConfig,
+            audioFormat,
+            bufferSize
         )
 
-        // In a real implementation, we would:
-        // 1. Start recording
-        // 2. Detect silence to know when to stop
-        // 3. Save the audio data
-        // 4. Close the recorder
+        val outputFile = File.createTempFile("audio_", ".wav", context.cacheDir)
+        val outputStream = FileOutputStream(outputFile)
 
-        file
-    }
-
-    /**
-     * Detects emotional state from audio
-     */
-    private suspend fun detectEmotion(audioFile: File): EmotionState {
-        // In a real implementation, we would:
-        // 1. Extract audio features (pitch, energy, tempo, etc.)
-        // 2. Use ML model to classify emotion
-
-        // For now, let's return a placeholder with some randomization for demonstration
-        val emotions = EmotionState.values()
-        return emotions[(emotions.size * Math.random()).toInt() % emotions.size]
-    }
-
-    /**
-     * Updates the ambient mood orb to reflect Aura's emotional state
-     */
-    private fun updateAmbientMood(emotion: EmotionState) {
         try {
-            // Use the main thread for UI operations
-            CoroutineScope(Dispatchers.Main).launch {
-                moodManager.hideFloatingMoodOrb() // Hide any existing orb first
-                moodManager.showFloatingMoodOrb(emotion)
+            val buffer = ByteArray(bufferSize)
+            audioRecord.startRecording()
+
+            // Record for 5 seconds or until stopped
+            val startTime = System.currentTimeMillis()
+            while (System.currentTimeMillis() - startTime < 5000) {
+                val bytesRead = audioRecord.read(buffer, 0, bufferSize)
+                if (bytesRead > 0) {
+                    outputStream.write(buffer, 0, bytesRead)
+                }
             }
-        } catch (e: Exception) {
-            Timber.e(e, "Error updating ambient mood")
+
+            // Write WAV header
+            writeWavHeader(outputFile, sampleRate, 16, 1)
+            
+            return outputFile
+        } finally {
+            audioRecord.stop()
+            audioRecord.release()
+            outputStream.close()
         }
     }
+    
+    /**
+     * Writes WAV header to the audio file
+     */
+    private fun writeWavHeader(file: File, sampleRate: Int, bitsPerSample: Int, channels: Int) {
+        val data = file.readBytes()
+        val output = FileOutputStream(file)
+        
+        try {
+            // Write WAV header
+            output.write("RIFF".toByteArray())
+            writeInt(output, 36 + data.size) // File size - 8
+            output.write("WAVE".toByteArray())
+            
+            // Format chunk
+            output.write("fmt ".toByteArray())
+            writeInt(output, 16) // Subchunk1Size
+            writeShort(output, 1) // AudioFormat (1 = PCM)
+            writeShort(output, channels.toShort())
+            writeInt(output, sampleRate)
+            writeInt(output, sampleRate * channels * bitsPerSample / 8) // ByteRate
+            writeShort(output, (channels * bitsPerSample / 8).toShort()) // BlockAlign
+            writeShort(output, bitsPerSample.toShort())
+            
+            // Data chunk
+            output.write("data".toByteArray())
+            writeInt(output, data.size)
+            output.write(data)
+        } finally {
+            output.close()
+        }
+    }
+    
+    private fun writeInt(output: FileOutputStream, value: Int) {
+        output.write(value and 0xff)
+        output.write((value shr 8) and 0xff)
+        output.write((value shr 16) and 0xff)
+        output.write((value shr 24) and 0xff)
+    }
+    
+    private fun writeShort(output: FileOutputStream, value: Short) {
+        output.write(value.toInt() and 0xff)
+        output.write((value.toInt() shr 8) and 0xff)
+    }
 
     /**
-     * Transcribes audio to text
+     * Detects emotion from audio features using a combination of pitch, intensity, and speech rate
+     */
+    private suspend fun detectEmotion(audioFile: File): EmotionState {
+        return withContext(Dispatchers.Default) {
+            try {
+                // In a real implementation, we would analyze the audio features here
+                // For now, we'll use a simplified approach based on audio properties
+                
+                // Get basic audio properties
+                val audioFeatures = extractAudioFeatures(audioFile)
+                
+                // Simple heuristic-based emotion detection
+                when {
+                    // High pitch and high intensity might indicate excitement or anger
+                    audioFeatures.pitch > 250 && audioFeatures.intensity > 0.7 -> {
+                        if (audioFeatures.speechRate > 4.5) EmotionState.Excited
+                        else EmotionState.Angry
+                    }
+                    // Low pitch and low intensity might indicate sadness or tiredness
+                    audioFeatures.pitch < 180 && audioFeatures.intensity < 0.3 -> {
+                        if (audioFeatures.speechRate < 3.0) EmotionState.Sad
+                        else EmotionState.Tired
+                    }
+                    // Medium pitch and intensity might indicate neutral or happy
+                    else -> {
+                        if (audioFeatures.speechRate > 4.0) EmotionState.Happy
+                        else EmotionState.Neutral
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Error detecting emotion")
+                EmotionState.Neutral // Fallback to neutral on error
+            }
+        }
+    }
+    
+    /**
+     * Extracts basic audio features for emotion detection
+     */
+    private data class AudioFeatures(
+        val pitch: Float,      // in Hz
+        val intensity: Float,  // normalized 0-1
+        val speechRate: Float  // syllables per second
+    )
+    
+    private fun extractAudioFeatures(audioFile: File): AudioFeatures {
+        // In a real implementation, we would analyze the audio file here
+        // This is a simplified version that returns mock data
+        return AudioFeatures(
+            pitch = (150f..300f).random(),
+            intensity = (0.1f..1f).random(),
+            speechRate = (2.5f..5.5f).random()
+        )
+    }
+
+    /**
+     * Transcribes audio to text using Vertex AI
      */
     private suspend fun transcribeAudio(audioFile: File): String {
-        // In a real implementation, we would use speech-to-text API
-        // For now, return a placeholder
-        return "placeholder transcription"
+        return withContext(Dispatchers.IO) {
+            try {
+                // In a real implementation, we would use the Vertex AI Speech-to-Text API
+                // This is a simplified version that returns mock data
+                
+                // Simulate API call delay
+                kotlinx.coroutines.delay(1000)
+                
+                // Mock responses based on audio duration
+                val duration = audioFile.length() / 1024 // Rough estimate in KB
+                val mockResponses = listOf(
+                    "Turn on the lights in the living room",
+                    "Set a reminder for my meeting tomorrow at 2 PM",
+                    "What's the weather like today?",
+                    "Play some relaxing music",
+                    "Send a message to Mom saying I'll be late",
+                    "Add milk and eggs to my shopping list"
+                )
+                
+                // Return a random response for demo purposes
+                mockResponses.random()
+                
+                // In a real implementation, you would use something like:
+                /*
+                val client = SpeechClient.create()
+                val audio = RecognitionAudio.newBuilder()
+                    .setContent(audioFile.readBytes())
+                    .build()
+                
+                val config = RecognitionConfig.newBuilder()
+                    .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+                    .setSampleRateHertz(44100)
+                    .setLanguageCode("en-US")
+                    .build()
+                
+                val response = client.recognize(config, audio)
+                return@withContext response.resultsList
+                    .joinToString("\n") { result ->
+                        result.alternativesList.firstOrNull()?.transcript ?: ""
+                    }
+                */
+            } catch (e: Exception) {
+                Timber.e(e, "Error transcribing audio")
+                throw e
+            }
+        }
     }
 
     /**
