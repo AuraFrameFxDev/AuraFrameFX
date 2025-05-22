@@ -101,7 +101,9 @@ android {
 
 dependencies {
     // Kotlin Standard Library
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
+    implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib-common"))
+    implementation(kotlin("stdlib-jdk8"))
 
     // AndroidX Core and Material Design
     implementation("androidx.core:core-ktx:1.12.0")
@@ -152,14 +154,17 @@ dependencies {
     implementation("com.google.ai.generativeai:generativeai:0.3.1")
     
     // Vertex AI
-    implementation("com.google.cloud:google-cloud-vertexai:1.0.0")
-    implementation("com.google.cloud:libraries-bom:26.30.0")
+    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
+    implementation("com.google.cloud:google-cloud-vertexai")
+    implementation("com.google.cloud:google-cloud-vertexai-http-java")
+    implementation("com.google.cloud:google-cloud-aiplatform")
+    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
+    implementation("com.google.cloud:google-cloud-storage")
     
     // Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
     // Google Auth and API Client
     implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
@@ -168,11 +173,13 @@ dependencies {
     implementation("com.google.apis:google-api-services-aiplatform:v1-rev20240311-2.0.0")
 
     // gRPC and Protobuf
-    implementation("io.grpc:grpc-okhttp:1.62.2")
-    implementation("io.grpc:grpc-protobuf:1.62.2")
-    implementation("io.grpc:grpc-stub:1.62.2")
+    implementation(platform("io.grpc:grpc-bom:1.62.2"))
+    implementation("io.grpc:grpc-okhttp")
+    implementation("io.grpc:grpc-protobuf")
+    implementation("io.grpc:grpc-stub")
     implementation("com.google.protobuf:protobuf-java:3.25.1")
     implementation("com.google.protobuf:protobuf-kotlin:3.25.1")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
 
     // Kotlin Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
