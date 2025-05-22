@@ -1,0 +1,74 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      full:
+        description: 'Run full documentation generation'
+        required: false
+        default: 'false'
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Make Gradlew executable
+      run: chmod +x gradlew
+
+    # Generate API documentation with Dokka
+    - name: Generate API Documentation
+      run: |
+        ./gradlew dokkaHtml
+        mkdir -p docs/api
+        cp -r app/build/dokka/html/* docs/api/
+
+    # Generate CHANGELOG
+    - name: Generate CHANGELOG
+      uses: mikepenz/[email protected]
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        toTag: ${{ github.ref }}
+        output: CHANGELOG.md
+
+    # Generate Code Coverage Report
+    - name: Generate Code Coverage
+      if: ${{ github.event.inputs.full == 'true' || github.event_name == 'workflow_dispatch' }}
+      run: |
+        ./gradlew jacocoTestReport
+        mkdir -p docs/coverage
+        cp -r app/build/reports/jacoco/jacocoTestReport/html/* docs/coverage/
+
+    # Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: docs
+        branch: gh-pages
+        clean: true
+        clean-exclude: |
+          CNAME
+          .nojekyll
+
+    - name: Upload Documentation Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation
+        path: |
+          docs/
+          CHANGELOG.md
+        retention-days: 7
