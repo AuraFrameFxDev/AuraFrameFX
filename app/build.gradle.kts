@@ -13,12 +13,15 @@ plugins {
 
 android {
     namespace = "dev.aurakai.auraframefx"
-    compileSdk = libs.versions.compileSdk.get().toInt() // Use version catalog
+    compileSdk = 34
+    // Use version catalog
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
-        minSdk = libs.versions.minSdk.get().toInt() // Use version catalog
-        targetSdk = libs.versions.targetSdk.get().toInt() // Use version catalog
+        minSdkVersion(libs.versions.minSdk.get().toInt())
+        targetSdk = 34
+        // Use version catalog
+        // Use version catalog
         versionCode = 1
         versionName = "1.0"
 
@@ -49,6 +52,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get() // Use version catalog
     }
+    buildToolsVersion = rootProject.extra["buildToolsVersion"] as String
 }
 
 dependencies {
