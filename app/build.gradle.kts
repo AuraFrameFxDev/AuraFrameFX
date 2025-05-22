@@ -1,14 +1,12 @@
-// auraframe (3).zip/auraframe/app/build.gradle.kts
 plugins {
-    // Apply plugins using aliases from libs.versions.toml for consistency
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt) // Keep kapt for Hilt
-    alias(libs.plugins.dagger.hilt.android)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
-    alias(libs.plugins.firebase.performance)
-    alias(libs.plugins.ksp) // Keep ksp if used for other annotation processing
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+    id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
 }
 
 android {
