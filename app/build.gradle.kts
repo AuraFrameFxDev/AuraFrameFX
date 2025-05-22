@@ -61,6 +61,9 @@ android {
 }
 
 dependencies {
+    // Kotlin Standard Library
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
+    
     // AndroidX Core and Material Design
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -140,15 +143,31 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     // implementation("com.google.firebase:firebase-auth")
 
-    // Google Cloud Vertex AI
-    implementation("com.google.cloud:google-cloud-aiplatform:3.37.0")
-    implementation("com.google.cloud:google-cloud-storage:2.30.1")
-    implementation("com.google.ai.client.generativeai:generativeai:0.3.1")
-    implementation("com.google.cloud.vertexai:vertexai:1.34.0")
-    
-    // Ensure we have the required BOM for Google Cloud
+    // Google Cloud BOM for version management
     implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
-    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1:3.26.0")
+    
+    // Google Cloud AI Platform
+    implementation("com.google.cloud:google-cloud-aiplatform")
+    implementation("com.google.cloud:google-cloud-storage")
+    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
+    
+    // Google AI SDK (Generative AI)
+    implementation("com.google.ai.generativeai:generativeai:0.3.1")
+    
+    // TensorFlow Lite for on-device ML
+    implementation("org.tensorflow:tensorflow-lite:2.13.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+    
+    // Dependency Injection
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    
+    // Logging
+    implementation("com.jakewharton.timber:timber:5.0.1")
+    
+    // Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
