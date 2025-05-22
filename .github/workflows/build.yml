@@ -34,7 +34,7 @@ jobs:
 
     # Validate Gradle Wrapper
     - name: Validate Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v2
+      uses: gradle/wrapper-validation-action@v3
 
     # Setup Java
     - name: Set up JDK 17
