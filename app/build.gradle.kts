@@ -22,6 +22,16 @@ val localProperties = java.util.Properties().apply {
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 34
+    
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("src/main/java", "src/main/kotlin")
+            res.srcDirs("src/main/res")
+            assets.srcDirs("src/main/assets")
+            resources.srcDirs("src/main/resources")
+            manifest.srcFile "src/main/AndroidManifest.xml"
+        }
+    }
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
@@ -142,121 +152,116 @@ dependencies {
     // Kotlin Standard Library
     implementation(kotlin("stdlib"))
     implementation(kotlin("stdlib-common"))
-    implementation(kotlin("stdlib-jdk8"))
-    
     // Core AndroidX
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
-    
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
     // Compose
     implementation(platform("androidx.compose:compose-bom:2024.02.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
     debugImplementation("androidx.compose.ui:ui-tooling")
-    
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("androidx.activity:activity-compose:1.8.2")
+
     // Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
-    
+
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
-    
+
+    // Google Generative AI
+    implementation("com.google.generativeai:generative-ai:0.4.0")
+
     // Google Cloud Vertex AI
     implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
     implementation("com.google.cloud:google-cloud-vertexai")
     implementation("com.google.cloud:google-cloud-aiplatform")
     implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
-    implementation("com.google.generativeai:generative-ai:0.4.0")
     implementation("com.google.cloud:google-cloud-core:2.23.0")
     implementation("com.google.api:gax:2.35.0")
     implementation("com.google.api:gax-grpc:2.35.0")
-    
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-    
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // Accompanist for additional Compose utilities
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.32.0")
+    implementation("com.google.accompanist:accompanist-pager:0.32.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.32.0")
+
+    // Other utilities
+    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+    // Testing
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.02.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    // AndroidX Core and Material Design
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-
-    // Dagger Hilt for dependency injection
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-
-    // Retrofit for network calls
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
-
-    // Room for local database
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
-
-    // Coil for image loading
-    implementation(libs.coil.compose)
-
-    // Accompanist for additional Compose utilities
-    implementation(libs.accompanist.permissions)
-    implementation(libs.accompanist.systemuicontroller)
-
-    // Google ML Kit for on-device AI
-    implementation(libs.mlkit.barcode)
-    implementation(libs.mlkit.text.recognition)
+    // Google Play Services - ML Kit
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    implementation("com.google.mlkit:object-detection:17.0.0")
+    implementation("com.google.mlkit:image-labeling:17.0.7")
+    implementation("com.google.mlkit:face-detection:16.1.5")
+    implementation("com.google.mlkit:segmentation-selfie:16.0.0")
+    implementation("com.google.mlkit:language-id:17.0.4")
+    implementation("com.google.mlkit:entity-extraction:16.0.0")
+    implementation("com.google.mlkit:smart-reply:17.0.2")
+    implementation("com.google.mlkit:translate:17.0.1")
+    implementation("com.google.mlkit:language:16.1.1")
 
     // CameraX
-    implementation(libs.camera.core)
-    implementation(libs.camera.camera2)
-    implementation(libs.camera.lifecycle)
-    implementation(libs.camera.view)
-    implementation(libs.camera.extensions)
+    val camerax_version = "1.3.1"
+    implementation("androidx.camera:camera-core:${camerax_version}")
+    implementation("androidx.camera:camera-camera2:${camerax_version}")
+    implementation("androidx.camera:camera-lifecycle:${camerax_version}")
+    implementation("androidx.camera:camera-view:${camerax_version}")
 
-    // TensorFlow Lite for on-device machine learning
-    implementation(libs.tensorflow.lite)
-    implementation(libs.tensorflow.lite.support)
-    implementation(libs.tensorflow.lite.metadata)
-    implementation(libs.tensorflow.lite.gpu)
-    implementation(libs.tensorflow.lite.task.vision)
+    // TensorFlow Lite
+    implementation("org.tensorflow:tensorflow-lite:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
 
-    // Google Play Services
-    implementation(libs.play.services.mlkit.barcode)
-
-    // Google Generative AI
-    implementation(libs.google.generativeai)
-
-    // Google Cloud Vertex AI
-    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
-    implementation("com.google.cloud:google-cloud-vertexai")
-    implementation("com.google.cloud:google-cloud-aiplatform")
-    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
-    implementation("com.google.generativeai:generative-ai:0.4.0")
-    
     // Google Cloud Core
     implementation("com.google.cloud:google-cloud-core:2.23.0")
     implementation("com.google.api:gax:2.35.0")
     implementation("com.google.api:gax-grpc:2.35.0")
-    
     // Kotlin Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
