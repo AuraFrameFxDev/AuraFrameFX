@@ -1,89 +1,151 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
+    
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
-        classpath("com.google.gms:google-services:4.4.1")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48.1")
-        classpath("com.google.firebase:perf-plugin:1.4.2")  // Keep this for future use
+        // Make sure all plugins are available in the buildscript classpath
+        classpath(libs.plugins.agp.get())
+        classpath(libs.plugins.kotlin.gradle)
+        classpath(libs.plugins.google.services)
+        classpath(libs.plugins.firebase.crashlytics)
+        classpath(libs.plugins.firebase.perf)
+        classpath(libs.plugins.hilt.android.gradle)
+        classpath(libs.plugins.ksp)
     }
 }
 
 plugins {
-    id("com.android.application") version "8.10.0" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.22" apply false
-    id("com.diffplug.spotless") version "6.12.0"
-    id("io.gitlab.arturbosch.detekt") version "1.23.8"
-    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
-    id("com.google.devtools.ksp") version "1.9.22-1.0.16" apply false
-
+    // Core plugins
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    
+    // Code Quality Plugins (applied to all projects)
+    alias(libs.plugins.ktlint) apply false
+    alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.detekt) apply false
+    
+    // Other plugins
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.firebase.perf) apply false
+    alias(libs.plugins.hilt.android) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.navigation.safe.args) apply false
 }
 
-// Common configurations are now in settings.gradle.kts
+// Common configurations for all projects
 allprojects {
-
-    // Configure KtLint
+    // Apply ktlint plugin to all projects
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
-    ktlint {
+    // Configure ktlint
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         android.set(true)
-        ignoreFailures.set(true)  // Set to true to prevent build failures from KtLint
+        ignoreFailures.set(true)
         filter {
-            exclude { it.file.path.contains("build/") }
+            exclude { it.file.path.contains("build/") || it.file.path.contains("buildSrc/") }
+            // Include only Kotlin and Java files
+            include("**/*.kt")
+            include("**/*.java")
+        }
+    }
+
+    // Configure repositories for all projects
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+
+        // Configure exclusive content for Google's Maven repository
+        exclusiveContent {
+            forRepository {
+                google()
+            }
+            filter {
+                includeGroupByRegex("com\\.google\\..*")
+                includeGroupByRegex("androidx\\..*")
+            }
+        }
+
+        // Configure exclusive content for Maven Central
+        exclusiveContent {
+            forRepository {
+                mavenCentral()
+            }
+            filter {
+                includeGroupByRegex("org\\.jetbrains\\..*")
+                includeGroupByRegex("com\\.google\\.code\\.gson")
+            }
         }
     }
 }
 
+// Configure spotless for code formatting
+tasks.register("clean", Delete::class) {
+    delete(rootProject.buildDir)
+}
+
+// Configure detekt for static code analysis
 subprojects {
-    apply(plugin = "com.diffplug.spotless")
-
-    spotless {
-        kotlin {
-            target("**/*.kt")
-            ktlint()
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
-
-        kotlinGradle {
-            target("*.gradle.kts")
-            ktlint()
-            trimTrailingWhitespace()
-            endWithNewline()
-        }
-    }
-
-    // Configure Detekt
     apply(plugin = "io.gitlab.arturbosch.detekt")
-    detekt {
-        toolVersion = "1.23.0"
-        config.setFrom(files("${project.rootDir}/detekt-config.yml"))
+    
+    configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
+        toolVersion = libs.versions.detekt.get()
+        config = files("${project.rootDir}/config/detekt/detekt.yml")
         buildUponDefaultConfig = true
+        autoCorrect = true
+        parallel = true
+
+        reports {
+            html.required.set(true)
+            xml.required.set(true)
+            txt.required.set(false)
+            sarif.required.set(false)
+        }
     }
 }
 
-// Clean task is provided by the base plugin
+// Configure spotless for code formatting
+configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    kotlin {
+        target("**/*.kt")
+        ktlint()
+        trimTrailingWhitespace()
+        indentWithTabs()
+        endWithNewline()
+    }
 
-// Simple documentation task for basic project documentation
-tasks.register<DefaultTask>("docs") {
-    group = "documentation"
-    description = "Generate basic project documentation"
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint()
+    }
+    
+    format("misc") {
+        target("*.gradle", "*.md", ".gitignore")
+        trimTrailingWhitespace()
+        indentWithTabs()
+        endWithNewline()
+    }
+}
 
-    doLast {
-        val docsDir = file("${project.buildDir}/docs")
-        docsDir.mkdirs()
-
-        // Create a simple README if it doesn't exist
-        val readmeFile = file("${project.rootDir}/README.md")
-        if (!readmeFile.exists()) {
-            readmeFile.writeText("# ${project.name}\n\nProject documentation will be generated here.")
+// Configure docs task to generate documentation
+tasks.register("docs", org.jetbrains.dokka.gradle.DokkaTask::class) {
+    outputDirectory.set(file("${layout.buildDirectory.get()}/dokka"))
+    dokkaSourceSets {
+        named("main") {
+            displayName.set("AuraFrameFx")
+            sourceRoots.from("src/main/java")
+            sourceRoots.from("src/main/kotlin")
         }
-
-        println("Documentation generated at: ${docsDir.absolutePath}")
     }
 }
