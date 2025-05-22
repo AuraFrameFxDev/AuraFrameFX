@@ -49,6 +49,14 @@ android {
 
 }
 
+repositories {
+    google()
+    mavenCentral()
+    maven { url = uri("https://maven.google.com") }
+    maven { url = uri("https://dl.google.com/dl/android/maven2") }
+    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+}
+
 dependencies {
     // AndroidX Core and Material Design
     implementation("androidx.core:core-ktx:1.12.0")
@@ -81,13 +89,12 @@ dependencies {
     // Add firebase-auth if you use it in your code, it was in the prev app/build.gradle.kts
     // implementation("com.google.firebase:firebase-auth")
 
-    // Vertex AI (ensure versions are aligned with your libs.versions.toml)
-    implementation(libs.google.cloud.aiplatform)
-    // google-cloud-storage was hardcoded, adding it for now. Consider moving to version catalog.
+    // Vertex AI
+    implementation("com.google.cloud:google-cloud-aiplatform:${libs.versions.googleCloudAiplatform.get()}")
     implementation("com.google.cloud:google-cloud-storage:2.20.0")
-    implementation(libs.google.generative.ai)
-    implementation(libs.google.cloud.vertexai)
-    implementation(libs.google.api.grpc.protoGoogleCloudAiplatformV1)
+    implementation("com.google.ai.client.generativeai:generative-ai:${libs.versions.googleGenerativeAi.get()}")
+    implementation("com.google.cloud.vertexai:vertexai:${libs.versions.googleCloudVertexAi.get()}")
+    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1:${libs.versions.googleApiGrpcAiplatformV1.get()}")
 
 
     // Coroutines
