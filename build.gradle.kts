@@ -32,10 +32,10 @@ allprojects {
         maven { url = uri("https://dl.google.com/dl/android/maven2") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
-    
+
     // Configure KtLint
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
-    
+
     ktlint {
         android.set(true)
         ignoreFailures.set(true)  // Set to true to prevent build failures from KtLint
@@ -43,7 +43,27 @@ allprojects {
             exclude { it.file.path.contains("build/") }
         }
     }
+}
+
+subprojects {
+    apply(plugin = "com.diffplug.spotless")
     
+    spotless {
+        kotlin {
+            target("**/*.kt")
+            ktlint()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+        
+        kotlinGradle {
+            target("*.gradle.kts")
+            ktlint()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+    }
+
     // Configure Detekt
     apply(plugin = "io.gitlab.arturbosch.detekt")
     detekt {
@@ -53,23 +73,23 @@ allprojects {
     }
 }
 
-// Clean task is already provided by the base plugin
+// Clean task is provided by the base plugin
 
 // Simple documentation task for basic project documentation
 tasks.register<DefaultTask>("docs") {
     group = "documentation"
     description = "Generate basic project documentation"
-    
+
     doLast {
         val docsDir = file("${project.buildDir}/docs")
         docsDir.mkdirs()
-        
+
         // Create a simple README if it doesn't exist
         val readmeFile = file("${project.rootDir}/README.md")
         if (!readmeFile.exists()) {
             readmeFile.writeText("# ${project.name}\n\nProject documentation will be generated here.")
         }
-        
+
         println("Documentation generated at: ${docsDir.absolutePath}")
     }
 }

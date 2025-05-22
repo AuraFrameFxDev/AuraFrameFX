@@ -22,8 +22,8 @@ regex = '''[0-9]+-[0-9A-Za-z_]{32}\.apps\.googleusercontent\.com'''
 [allowlist]
 description = "Known non-secrets"
 files = [
-  "**/*.md",
-  "**/*.json",
-  "**/test/**",
-  "**/androidTest/**"
+    "**/*.md",
+    "**/*.json",
+    "**/test/**",
+    "**/androidTest/**"
 ]

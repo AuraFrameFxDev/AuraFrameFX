@@ -86,6 +86,13 @@ android {
         compose = true
         buildConfig = true
     }
+
+    // Include secure assets
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs("src/main/assets", "app/secure")
+        }
+    }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get() // Use version catalog
     }
@@ -129,35 +136,48 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
 
     // Genesis Protocol
-    implementation("com.google.crypto.tink:tink-android:1.9.0")
-    implementation("com.google.guava:guava:32.1.3-android")
-    implementation("org.bouncycastle:bcprov-jdk15to18:1.75")
-
-    // Audio Processing
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-perf")
-    implementation("com.google.firebase:firebase-storage")
-    // implementation("com.google.firebase:firebase-auth")
-
-    // Google Cloud AI
     implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
-    implementation("com.google.cloud:google-cloud-aiplatform")
-    implementation("com.google.cloud:google-cloud-storage")
-    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
-    implementation("com.google.ai.generativeai:generativeai:0.3.1")
 
     // Google Cloud Speech-to-Text
-    implementation("com.google.cloud:google-cloud-speech:4.32.0")
+    implementation("com.google.cloud:google-cloud-speech:4.32.0") {
+        exclude(group = "io.grpc", module = "grpc-netty-shaded")
+    }
 
-    // Google Auth
+    // Google Cloud AI Platform
+    implementation("com.google.cloud:google-cloud-aiplatform:3.37.0") {
+        exclude(group = "io.grpc", module = "grpc-netty-shaded")
+    }
+
+    // Google Generative AI
+    implementation("com.google.ai.generativeai:generativeai:0.3.1")
+    
+    // Vertex AI
+    implementation("com.google.cloud:google-cloud-vertexai:1.0.0")
+    implementation("com.google.cloud:libraries-bom:26.30.0")
+    
+    // Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
+    // Google Auth and API Client
     implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
     implementation("com.google.auth:google-auth-library-credentials:1.19.0")
+    implementation("com.google.api-client:google-api-client:2.2.0")
+    implementation("com.google.apis:google-api-services-aiplatform:v1-rev20240311-2.0.0")
+
+    // gRPC and Protobuf
+    implementation("io.grpc:grpc-okhttp:1.62.2")
+    implementation("io.grpc:grpc-protobuf:1.62.2")
+    implementation("io.grpc:grpc-stub:1.62.2")
+    implementation("com.google.protobuf:protobuf-java:3.25.1")
+    implementation("com.google.protobuf:protobuf-kotlin:3.25.1")
+
+    // Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     // TensorFlow Lite for on-device ML
     implementation("org.tensorflow:tensorflow-lite:2.13.0")

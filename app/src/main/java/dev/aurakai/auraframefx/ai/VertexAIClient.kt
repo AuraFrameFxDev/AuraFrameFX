@@ -1,57 +1,60 @@
 package dev.aurakai.auraframefx.ai
 
-import com.google.ai.generativeai.GenerativeModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
- * A client for interacting with Google's Generative AI models.
- * This class handles the initialization of the AI models and provides methods for generating content.
+ * Interface defining the contract for interacting with Google's Vertex AI services.
+ * Provides methods for generating content and managing chat sessions.
  */
-@Singleton
-class VertexAIClient @Inject constructor(
-    private val generativeModel: GenerativeModel,
-) {
+interface VertexAIClient {
+    
     /**
-     * Generates content based on the provided prompt using the configured AI model.
-     *
-     * @param prompt The input prompt for content generation.
-     * @return A [Result] containing either the generated content or an exception.
+     * Generates content based on the provided prompt.
+     * @param prompt The input prompt for content generation
+     * @return Generated content as a String, or null if generation fails
      */
-    suspend fun generateContent(prompt: String): String? {
-        return withContext(Dispatchers.IO) {
-            try {
-                generativeModel.generateContent(prompt).text
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-        }
-    }
-
+    suspend fun generateContent(prompt: String): String?
+    
     /**
-     * Observes the content generation process as a Flow.
-     *
-     * @param prompt The input prompt for content generation.
-     * @return A [Flow] emitting the generated content chunks.
+     * Generates a stream of content based on the provided prompt.
+     * @param prompt The input prompt for content generation
+     * @return Flow of generated content chunks
      */
-    fun observeContentGeneration(prompt: String): Flow<Result<String>> = flow {
-        try {
-            val response = generativeModel.generateContentStream(prompt)
-            response.collect { generateContentResponse ->
-                val text = generateContentResponse.text
-                if (text != null) {
-                    emit(Result.success(text))
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Result.failure(e))
-        }
-    }.flowOn(Dispatchers.IO)
+    fun generateContentStream(prompt: String): Flow<String>
+    
+    /**
+     * Starts a chat session with the AI model.
+     * @param systemPrompt Initial system prompt to set the chat context
+     * @return Response from the AI model
+     */
+    suspend fun chat(systemPrompt: String): String
+    
+    /**
+     * Starts a streaming chat session with the AI model.
+     * @param systemPrompt Initial system prompt to set the chat context
+     * @return Flow of response chunks from the AI model
+     */
+    fun chatStream(systemPrompt: String): Flow<String>
+    
+    /**
+     * Sends a message in an existing chat session.
+     * @param message The user's message
+     * @param sessionId Optional session ID for continuing a conversation
+     * @return The AI's response
+     */
+    suspend fun sendMessage(message: String, sessionId: String? = null): String
+    
+    /**
+     * Sends a message in an existing chat session with streaming response.
+     * @param message The user's message
+     * @param sessionId Optional session ID for continuing a conversation
+     * @return Flow of response chunks from the AI model
+     */
+    fun sendMessageStream(message: String, sessionId: String? = null): Flow<String>
 }
+
+/**
+ * Exception class for Vertex AI related errors.
+ */
+class VertexAIException(message: String, cause: Throwable? = null) : 
+    Exception(message, cause)

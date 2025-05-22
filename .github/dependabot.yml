@@ -18,7 +18,7 @@ updates:
       - "Wehtt"
     # Limit number of open pull requests for version updates
     open-pull-requests-limit: 10
-    
+
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     # Look for `.github/workflows` in the `root` directory
