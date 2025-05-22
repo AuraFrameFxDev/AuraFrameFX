@@ -1,7 +1,7 @@
 # libs.versions.toml
 
 [versions]
-androidGradlePlugin = "8.2.0"
+androidGradlePlugin = "8.10.0"
 kotlin = "1.9.22"
 compileSdk = "34"
 minSdk = "24"
@@ -24,8 +24,8 @@ navigation = "2.7.7"
 
 
 
-googleCloudAiplatform = "2.19.0"
-googleApiGrpcAiplatformV1 = "2.19.0"
+googleCloudAiplatform = "3.64.0"
+googleApiGrpcAiplatformV1 = "3.64.0"
 googleGenerativeAi = "0.4.0"
 googleCloudVertexAi = "0.5.0"
 
@@ -37,7 +37,7 @@ coil = "2.6.0"
 lottie = "6.6.0"
 
 androidxConstraintLayout = "2.1.4"
-androidxCoreKtx = "1.12.0"
+androidxCoreKtx = "1.16.0"
 androidxLifecycleRuntimeKtx = "2.7.0"
 androidxLifecycleViewmodelCompose = "2.7.0"
 androidxNavigationCompose = "2.7.6"
@@ -89,7 +89,7 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
 androidx-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltWork" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.6.3" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.8.1" }
 
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }

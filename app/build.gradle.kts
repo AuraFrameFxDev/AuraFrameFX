@@ -163,7 +163,7 @@ dependencies {
     implementation("com.google.apis:google-api-services-aiplatform:v1-rev20230913-2.0.0")
     
     // Core AndroidX
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -213,7 +213,7 @@ dependencies {
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     // Testing
@@ -231,7 +231,7 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
@@ -281,12 +281,12 @@ dependencies {
     implementation("com.google.api:gax-grpc:2.35.0")
     // Kotlin Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     // Kotlin coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     // Kotlin standard library
@@ -295,7 +295,7 @@ dependencies {
     implementation(kotlin("stdlib-common"))
 
     // Kotlin serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 
     // Javax Inject for dependency injection
     implementation("javax.inject:javax.inject:1")
@@ -319,7 +319,7 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 
     // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
@@ -339,7 +339,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 
     // AndroidX Core and UI
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
     // Audio
@@ -351,11 +351,11 @@ dependencies {
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-compiler:2.50")
-    implementation("androidx.hilt:hilt-work:1.1.0")
-    kapt("androidx.hilt:hilt-compiler:1.1.0")
+    implementation("androidx.hilt:hilt-work:1.2.0")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
 
     // Serialization & DateTime
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 
     // Networking
