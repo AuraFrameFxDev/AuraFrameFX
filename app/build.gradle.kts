@@ -107,79 +107,57 @@ dependencies {
     
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-perf")
+    implementation("com.google.firebase:firebase-storage")
+    // implementation("com.google.firebase:firebase-auth")
+
+    // Google Cloud AI
+    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
+    implementation("com.google.cloud:google-cloud-aiplatform")
+    implementation("com.google.cloud:google-cloud-storage")
+    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
+    implementation("com.google.ai.generativeai:generativeai:0.3.1")
+    
+    // Google Cloud Speech-to-Text
+    implementation("com.google.cloud:google-cloud-speech:4.32.0")
+    
+    // Google Auth
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
+    implementation("com.google.auth:google-auth-library-credentials:1.19.0")
+    
+    // TensorFlow Lite for on-device ML
+    implementation("org.tensorflow:tensorflow-lite:2.13.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-task-audio:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
     
     // Logging
     implementation("com.jakewharton.timber:timber:5.0.1")
     
     // Lifecycle components
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     
-    // TensorFlow Lite
-    implementation("org.tensorflow:tensorflow-lite:2.9.0")
-    implementation("org.tensorflow:tensorflow-lite-support:0.4.2")
-    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.2")
-    implementation("org.tensorflow:tensorflow-lite-task-audio:0.4.2")
+    // AndroidX Core and UI
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     
-    // Google Cloud Client Libraries
-    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
-    implementation("com.google.cloud:google-cloud-speech")
-    implementation("com.google.cloud:google-cloud-vertexai")
+    // Audio
+    implementation("androidx.media:media:1.6.0")
     
-    // Kotlin coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
     
-    // Protobuf
-    implementation("com.google.protobuf:protobuf-java:3.22.3")
-    implementation("com.google.protobuf:protobuf-kotlin:3.22.3")
-    
-    // Timber for logging
-    implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("com.google.firebase:firebase-messaging")
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-storage")
-    // implementation("com.google.firebase:firebase-auth")
-
-    // Google Cloud BOM for version management
-    implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
-    
-    // Google Cloud AI Platform
-    implementation("com.google.cloud:google-cloud-aiplatform")
-    implementation("com.google.cloud:google-cloud-storage")
-    implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
-    
-    // Google AI SDK (Generative AI)
-    implementation("com.google.ai.generativeai:generativeai:0.3.1")
-    
-    // TensorFlow Lite for on-device ML
-    implementation("org.tensorflow:tensorflow-lite:2.13.0")
-    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
-    
-    // Dependency Injection
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
-    
-    // Logging
-    implementation("com.jakewharton.timber:timber:5.0.1")
-    
-    // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    kapt("com.google.dagger:hilt-compiler:2.50")
     implementation("androidx.hilt:hilt-work:1.1.0")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
-
+    
     // Serialization & DateTime
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
