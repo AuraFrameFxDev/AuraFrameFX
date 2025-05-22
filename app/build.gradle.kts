@@ -109,7 +109,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
 
     // Security
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.security:security-crypto:1.1.0-alpha07")
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
     // Compose BOM for consistent Compose versions
