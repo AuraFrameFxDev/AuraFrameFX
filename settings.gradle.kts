@@ -9,6 +9,9 @@ pluginManagement {
             if (requested.id.namespace == "com.android") {
                 useModule("com.android.tools.build:gradle:${requested.version}")
             }
+            if (requested.id.id == "dagger.hilt.android.plugin") {
+                useModule("com.google.dagger:hilt-android-gradle-plugin:${requested.version}")
+            }
         }
     }
 }

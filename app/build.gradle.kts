@@ -5,21 +5,17 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("com.google.firebase.firebase-perf")
-    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
+    id("com.google.devtools.ksp") version "1.9.22-1.0.16"
 }
 
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 34
-    // Use version catalog
-
+    
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
-        minSdkVersion(libs.versions.minSdk.get().toInt())
+        minSdk = 24
         targetSdk = 34
-        // Use version catalog
-        // Use version catalog
         versionCode = 1
         versionName = "1.0"
 
@@ -50,38 +46,38 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get() // Use version catalog
     }
-    buildToolsVersion = rootProject.extra["buildToolsVersion"] as String
+
 }
 
 dependencies {
-    // AndroidX Core and Material Design (ensure Material Components are available for themes)
-    implementation(libs.androidx.core.ktx)
-    implementation("androidx.appcompat:appcompat:1.6.1") // This was hardcoded and not in version catalog, keeping for now if explicitly needed. Consider moving to version catalog.
-    implementation(libs.material) // Use Material Components from version catalog
+    // AndroidX Core and Material Design
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
 
     // Compose BOM for consistent Compose versions
-    implementation(platform(libs.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3) // Crucial for Material 3 themes and typography
+    implementation(platform("androidx.compose:compose-bom:2025.05.01"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
 
     // Lifecycle and Navigation Compose
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 
     // WorkManager
-    implementation(libs.androidx.work.runtime.ktx)
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
 
-    // Firebase (ensure you are using the firebase-bom platform for consistent versions)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.messaging) // Explicitly added as it was in AndroidManifest
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.storage)
+    // Firebase (using BOM for consistent versions)
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
     // Add firebase-auth if you use it in your code, it was in the prev app/build.gradle.kts
     // implementation("com.google.firebase:firebase-auth")
 
@@ -95,38 +91,38 @@ dependencies {
 
 
     // Coroutines
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.core)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
     // Dagger Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler) // Kapt for Hilt compiler
-    implementation(libs.androidx.hilt.work)
-    kapt(libs.androidx.hilt.compiler)
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.56.2")
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Serialization & DateTime
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.datetime)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
 
     // Networking
-    implementation(platform(libs.okhttp.bom)) // Use OkHttp BOM for consistent versions
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // Image Loading & Lottie
-    implementation(libs.coil.compose)
-    implementation(libs.lottie.compose)
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("com.airbnb.android:lottie-compose:6.1.0")
 
     // Testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.testManifest)
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.1"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     // Other hardcoded dependencies from previous app/build.gradle.kts, consider moving to version catalog
     implementation("androidx.constraintlayout:constraintlayout:2.1.4") // Already in libs.versions.toml, so should be implementation(libs.constraintlayout)
