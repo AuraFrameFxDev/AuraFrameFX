@@ -1,0 +1,24 @@
+class com.aide.ui.build.android.AaptService$b
+merged: com.aide.ui.build.android.AaptService$b@3f0df2a
+aapt2 call compile 43 ms
+aapt2 call link 210ms
+wf VH 错误信息: error: resource style/ShapeAppearance.Material3.LargeComponent (aka dev.aurakai.auraframefx:style/ShapeAppearance.Material3.LargeComponent) not found.
+error: resource style/ShapeAppearance.Material3.MediumComponent (aka dev.aurakai.auraframefx:style/ShapeAppearance.Material3.MediumComponent) not found.
+error: resource style/ShapeAppearance.Material3.SmallComponent (aka dev.aurakai.auraframefx:style/ShapeAppearance.Material3.SmallComponent) not found.
+error: resource style/TextAppearance.Material3.BodyLarge (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.BodyLarge) not found.
+error: resource style/TextAppearance.Material3.BodyMedium (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.BodyMedium) not found.
+error: resource style/TextAppearance.Material3.BodySmall (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.BodySmall) not found.
+error: resource style/TextAppearance.Material3.DisplayLarge (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.DisplayLarge) not found.
+error: resource style/TextAppearance.Material3.DisplayMedium (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.DisplayMedium) not found.
+error: resource style/TextAppearance.Material3.DisplaySmall (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.DisplaySmall) not found.
+error: resource style/TextAppearance.Material3.HeadlineLarge (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.HeadlineLarge) not found.
+error: resource style/TextAppearance.Material3.HeadlineMedium (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.HeadlineMedium) not found.
+error: resource style/TextAppearance.Material3.HeadlineSmall (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.HeadlineSmall) not found.
+error: resource style/TextAppearance.Material3.LabelLarge (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.LabelLarge) not found.
+error: resource style/TextAppearance.Material3.LabelMedium (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.LabelMedium) not found.
+error: resource style/TextAppearance.Material3.LabelSmall (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.LabelSmall) not found.
+error: resource style/TextAppearance.Material3.TitleLarge (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.TitleLarge) not found.
+error: resource style/TextAppearance.Material3.TitleMedium (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.TitleMedium) not found.
+error: resource style/TextAppearance.Material3.TitleSmall (aka dev.aurakai.auraframefx:style/TextAppearance.Material3.TitleSmall) not found.
+error: resource style/Theme.Material3.DayNight.NoActionBar (aka dev.aurakai.auraframefx:style/Theme.Material3.DayNight.NoActionBar) not found.
+/storage/emulated/0/Download/Send from my PC/Project/auraframe (3)/auraframe (3)/auraframe/app/src/main/res/values-night/theme.xml:8: error: style attribute 'attr/colorPrimaryContainer (aka dev.aurakai.auraframefx:attr/colorPrimaryContainer)' not found.

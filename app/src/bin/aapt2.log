@@ -1,0 +1,7 @@
+class com.aide.ui.build.android.AaptService$b
+merged: com.aide.ui.build.android.AaptService$b@116a5a
+aapt2 call link 133ms
+wf VH 错误信息: /storage/emulated/0/auraframe/app/src/AndroidManifest.xml:7: error: resource mipmap/ic_launcher (aka dev.aurakai.auraframefx:mipmap/ic_launcher) not found.
+/storage/emulated/0/auraframe/app/src/AndroidManifest.xml:7: error: resource mipmap/ic_launcher_round (aka dev.aurakai.auraframefx:mipmap/ic_launcher_round) not found.
+/storage/emulated/0/auraframe/app/src/AndroidManifest.xml:7: error: resource style/Theme.AuraFrameFX (aka dev.aurakai.auraframefx:style/Theme.AuraFrameFX) not found.
+error: failed processing manifest.

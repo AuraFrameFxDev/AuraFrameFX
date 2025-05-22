@@ -1,0 +1,45 @@
+{
+  "project_info": {
+    "project_number": "35417750637",
+    "project_id": "auraframefx",
+    "storage_bucket": "auraframefx.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35417750637:android:82e1498ac7e0b2da2a1364",
+        "android_client_info": {
+          "package_name": "dev.aurakai.auraframefx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905643639467-dlseaflf0pm0s6c9v16p5nm9si2r0u66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk38ZNZRRrOpXxyEUX_ol1RVdJ8vE6ibQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        },
+        "fcm_service": {
+          "api_key": [
+            {
+              "current_key": "AIzaSyBk38ZNZRRrOpXxyEUX_ol1RVdJ8vE6ibQ"
+            }
+          ],
+          "sender_id": "35417750637"
+        },
+        "analytics_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
