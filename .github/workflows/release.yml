@@ -33,7 +33,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Validate Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v2
+      uses: gradle/wrapper-validation-action@v3
 
     - name: Set version
       if: github.event_name == 'workflow_dispatch'
