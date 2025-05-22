@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ui
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dev.aurakai.auraframefx.ui.models.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

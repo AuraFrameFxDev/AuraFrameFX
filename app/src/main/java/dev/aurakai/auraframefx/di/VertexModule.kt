@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.di
 
 import com.google.generativeai.GenerativeModel
-import com.google.generativeai.GenerativeModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +31,6 @@ object VertexModule {
     @Provides
     @Singleton
     fun provideVertexAIClient(
-        generativeModel: GenerativeModel
+        generativeModel: GenerativeModel,
     ): VertexAIClient = VertexAIClient(generativeModel)
 }

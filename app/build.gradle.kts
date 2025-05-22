@@ -11,7 +11,7 @@ plugins {
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 34
-    
+
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
         minSdk = 24

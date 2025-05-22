@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.AuraFrameFX" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/neon_teal</item>
         <item name="colorPrimaryVariant">@color/neon_blue</item>

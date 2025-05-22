@@ -1,11 +1,11 @@
 package dev.aurakai.auraframefx.ai
 
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.Dispatchers
 
 private const val TAG = "VertexAIUtils"
 
@@ -16,14 +16,14 @@ private const val TAG = "VertexAIUtils"
  * @return A new Flow that emits the original values or the fallback value in case of an error.
  */
 fun <T> Flow<Result<T>>.handleErrors(
-    onError: (Throwable) -> T
+    onError: (Throwable) -> T,
 ): Flow<T> = this
     .map { result ->
         result.fold(
             onSuccess = { Result.success(it) },
-            onFailure = { 
+            onFailure = {
                 Log.e(TAG, "Error in flow", it)
-                Result.success(onError(it)) 
+                Result.success(onError(it))
             }
         )
     }
@@ -67,7 +67,7 @@ fun createVertexAIConfig(
     temperature: Float = 0.7f,
     topK: Int = 40,
     topP: Float = 0.95f,
-    maxOutputTokens: Int = 2048
+    maxOutputTokens: Int = 2048,
 ): VertexAIConfig {
     return VertexAIConfig(
         projectId = projectId,
@@ -95,7 +95,7 @@ fun VertexAIConfig.validate(): Result<VertexAIConfig> {
         require(topK > 0) { "topK must be greater than 0" }
         require(topP in 0f..1f) { "topP must be between 0 and 1" }
         require(maxOutputTokens > 0) { "maxOutputTokens must be greater than 0" }
-        
+
         Result.success(this)
     } catch (e: Exception) {
         Log.e(TAG, "Invalid Vertex AI configuration", e)
@@ -118,7 +118,7 @@ suspend fun VertexAIClient.safeGenerateContent(
     temperature: Float = this.getConfig().temperature,
     maxOutputTokens: Int = this.getConfig().maxOutputTokens,
     topK: Int = this.getConfig().topK,
-    topP: Float = this.getConfig().topP
+    topP: Float = this.getConfig().topP,
 ): Result<String> {
     return try {
         if (!isInitialized()) {

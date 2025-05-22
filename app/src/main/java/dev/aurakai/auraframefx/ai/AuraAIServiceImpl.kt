@@ -15,13 +15,13 @@ import javax.inject.Singleton
 @Singleton
 class AuraAIServiceImpl @Inject constructor(
     private val vertexAIClient: VertexAIClient,
-    private val securePrefs: SecurePreferences
+    private val securePrefs: SecurePreferences,
 ) : AuraAIService {
-    
+
     companion object {
         private const val TAG = "AuraAIService"
     }
-    
+
     override suspend fun generateText(prompt: String): String? {
         return try {
             vertexAIClient.generateContent(prompt)
@@ -30,7 +30,7 @@ class AuraAIServiceImpl @Inject constructor(
             null
         }
     }
-    
+
     override suspend fun saveMemory(key: String, data: JSONObject): Boolean {
         return try {
             securePrefs.putString("memory_$key", data.toString())
@@ -40,7 +40,7 @@ class AuraAIServiceImpl @Inject constructor(
             false
         }
     }
-    
+
     override suspend fun getMemory(key: String): String? {
         return try {
             securePrefs.getString("memory_$key")
@@ -49,7 +49,7 @@ class AuraAIServiceImpl @Inject constructor(
             null
         }
     }
-    
+
     override suspend fun uploadFile(file: File): Boolean {
         return try {
             // In a real implementation, upload the file to your server or cloud storage
@@ -60,7 +60,7 @@ class AuraAIServiceImpl @Inject constructor(
             false
         }
     }
-    
+
     override suspend fun downloadFile(filename: String): ByteArray? {
         return try {
             // In a real implementation, download the file from your server or cloud storage
@@ -71,7 +71,7 @@ class AuraAIServiceImpl @Inject constructor(
             null
         }
     }
-    
+
     override suspend fun analyticsQuery(query: String): String? {
         return try {
             // In a real implementation, execute the analytics query
@@ -82,7 +82,7 @@ class AuraAIServiceImpl @Inject constructor(
             null
         }
     }
-    
+
     override suspend fun publishPubSub(topic: String, message: String): Boolean {
         return try {
             // In a real implementation, publish the message to a Pub/Sub topic
@@ -93,12 +93,12 @@ class AuraAIServiceImpl @Inject constructor(
             false
         }
     }
-    
+
     override fun isConnected(): Boolean {
         // In a real implementation, check network connectivity
         return true
     }
-    
+
     override fun getAIResponse(prompt: String): Flow<AIResponseState> = flow {
         emit(AIResponseState.Loading)
         try {
@@ -108,7 +108,7 @@ class AuraAIServiceImpl @Inject constructor(
             emit(AIResponseState.Error("Error: ${e.message}"))
         }
     }.flowOn(Dispatchers.IO)
-    
+
     override fun generateImage(prompt: String): Flow<AIImageState> = flow {
         emit(AIImageState.Loading)
         try {

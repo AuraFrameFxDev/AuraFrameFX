@@ -4,10 +4,10 @@
 
 import android.content.Context
 import de.robv.android.xposed.IXposedHookLoadPackage
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import de.robv.android.xposed.XC_MethodHook
 
 /**
  * LSposed entry point for AuraFrameFX
@@ -27,7 +27,8 @@ class AuraXposedEntry : IXposedHookLoadPackage {
                         "currentApplication"
                     ) as Context
 
-                val prefs = context.getSharedPreferences("xposed_status_prefs", Context.MODE_PRIVATE)
+                val prefs =
+                    context.getSharedPreferences("xposed_status_prefs", Context.MODE_PRIVATE)
                 prefs.edit().putBoolean("module_active", true).apply()
                 XposedBridge.log("AuraXposedEntry: Set module active flag")
 

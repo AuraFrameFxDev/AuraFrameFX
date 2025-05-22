@@ -45,7 +45,7 @@ object VertexAIModule {
     @Singleton
     fun provideVertexAIClient(
         @ApplicationContext context: Context,
-        config: VertexAIConfig
+        config: VertexAIConfig,
     ): VertexAIClient {
         return VertexAIClient(context, config).apply {
             // Initialize the client when it's provided
@@ -73,7 +73,7 @@ object VertexAIModule {
             }
         )
     }
-    
+
     /**
      * Provides the VertexAIManager as a singleton.
      */
@@ -81,7 +81,7 @@ object VertexAIModule {
     @Singleton
     fun provideVertexAIManager(
         @ApplicationContext context: Context,
-        vertexAIClient: VertexAIClient
+        vertexAIClient: VertexAIClient,
     ): VertexAIManager {
         return VertexAIManager(context, vertexAIClient)
     }

@@ -1,8 +1,6 @@
 package dev.aurakai.auraframefx.ai
 
-import android.content.Context
 import com.google.ai.generativeai.GenerativeModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,7 +15,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class VertexAIClient @Inject constructor(
-    private val generativeModel: GenerativeModel
+    private val generativeModel: GenerativeModel,
 ) {
     /**
      * Generates content based on the provided prompt using the configured AI model.

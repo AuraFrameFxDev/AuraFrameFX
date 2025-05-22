@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.AuraFrameFX.Material3" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/neon_teal</item>
         <item name="colorOnPrimary">@color/on_primary</item>
@@ -70,12 +71,9 @@
         <item name="textAppearanceLabelSmall">@style/TextAppearance.AuraFrameFX.LabelSmall</item>
     </style>
 
-    <style name="ShapeAppearance.AuraFrameFX.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
-    </style>
+    <style name="ShapeAppearance.AuraFrameFX.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent"></style>
 
-    <style name="ShapeAppearance.AuraFrameFX.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
-    </style>
+    <style name="ShapeAppearance.AuraFrameFX.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent"></style>
 
-    <style name="ShapeAppearance.AuraFrameFX.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
-    </style>
+    <style name="ShapeAppearance.AuraFrameFX.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent"></style>
 </resources>

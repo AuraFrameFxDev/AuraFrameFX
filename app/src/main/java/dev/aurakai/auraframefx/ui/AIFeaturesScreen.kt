@@ -6,8 +6,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -18,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,7 +27,6 @@ import dev.aurakai.auraframefx.ui.viewmodel.AIFeaturesViewModel.AIFeaturesUiStat
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.io.File
 import java.util.UUID
 import javax.inject.Inject
 
@@ -40,19 +36,21 @@ import javax.inject.Inject
 data class AIConfig(
     val apiUrl: String,
     val apiKey: String,
-    val isSecure: Boolean = true
+    val isSecure: Boolean = true,
 )
 
 /**
  * Factory class to create AI configuration
  */
 class AIConfigFactory @Inject constructor(
-    @ApplicationContext private val context: Context) {
-    @Inject lateinit var securePreferences: SecurePreferences
-    
+    @ApplicationContext private val context: Context,
+) {
+    @Inject
+    lateinit var securePreferences: SecurePreferences
+
     fun createConfig(): AIConfig {
         return AIConfig(
-            apiUrl = BuildConfig.AI_API_URL.ifEmpty { 
+            apiUrl = BuildConfig.AI_API_URL.ifEmpty {
                 // Fallback to secure preferences if BuildConfig is not set
                 securePreferences.getString("ai_api_url", "") ?: ""
             },
@@ -86,7 +84,7 @@ private fun StatusCard(uiState: AIFeaturesUiState) {
                     modifier = Modifier
                         .size(12.dp)
                         .background(
-                            color = if (uiState.isConnected) 
+                            color = if (uiState.isConnected)
                                 Color.Green else Color.Red,
                             shape = MaterialTheme.shapes.small
                         )
@@ -96,7 +94,7 @@ private fun StatusCard(uiState: AIFeaturesUiState) {
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            
+
             uiState.statusMessage?.let { message ->
                 Text(
                     text = message,
@@ -117,7 +115,7 @@ private fun StatusCard(uiState: AIFeaturesUiState) {
 private fun FeatureCard(
     title: String,
     icon: ImageVector,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Card(
         onClick = { /* Handle card click if needed */ },
@@ -147,7 +145,7 @@ private fun FeatureCard(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-            
+
             content()
         }
     }
@@ -156,13 +154,13 @@ private fun FeatureCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AIFeaturesScreen(
-    viewModel: AIFeaturesViewModel = hiltViewModel()
+    viewModel: AIFeaturesViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     remember { SnackbarHostState() }
-    
+
     // State for text inputs
     var promptText by rememberSaveable { mutableStateOf("") }
     var memoryKey by rememberSaveable { mutableStateOf("") }
@@ -170,11 +168,11 @@ fun AIFeaturesScreen(
     var topicName by rememberSaveable { mutableStateOf("") }
     var messageText by rememberSaveable { mutableStateOf("") }
     var queryText by rememberSaveable { mutableStateOf("") }
-    
+
     // Snackbar state
     val snackbarHostState = remember { SnackbarHostState() }
     var showAdvanced by remember { mutableStateOf(false) }
-    
+
     // File picker launcher
     val filePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -188,7 +186,7 @@ fun AIFeaturesScreen(
             }
         }
     }
-    
+
     // Handle side effects and events
     LaunchedEffect(Unit) {
         viewModel.events.collectLatest { event ->
@@ -199,6 +197,7 @@ fun AIFeaturesScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
+
                 is AIFeaturesViewModel.Event.NavigateTo -> {
                     // Handle navigation if needed
                 }
@@ -219,7 +218,7 @@ fun AIFeaturesScreen(
             }
         )
     }
-    
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
@@ -252,7 +251,7 @@ fun AIFeaturesScreen(
                 item {
                     StatusCard(uiState)
                 }
-                
+
                 // Text Generation Section
                 item {
                     FeatureCard(
@@ -282,7 +281,7 @@ fun AIFeaturesScreen(
                         }
                     }
                 }
-                
+
                 // Memory Operations Section
                 item {
                     FeatureCard(
@@ -318,7 +317,7 @@ fun AIFeaturesScreen(
                                         }
                                     }
                                 },
-                                enabled = uiState.isConnected && !uiState.isLoading && 
+                                enabled = uiState.isConnected && !uiState.isLoading &&
                                         memoryKey.isNotBlank() && memoryValue.isNotBlank(),
                                 modifier = Modifier.weight(1f)
                             ) {
@@ -340,7 +339,7 @@ fun AIFeaturesScreen(
                         }
                     }
                 }
-                
+
                 // File Operations Section
                 item {
                     FeatureCard(
@@ -394,7 +393,7 @@ fun AIFeaturesScreen(
                         }
                     }
                 }
-                
+
                 // Advanced Features Section (conditionally shown)
                 if (showAdvanced) {
                     // Analytics Query Section
@@ -424,7 +423,7 @@ fun AIFeaturesScreen(
                             }
                         }
                     }
-                    
+
                     // Pub/Sub Section
                     item {
                         FeatureCard(
@@ -452,12 +451,12 @@ fun AIFeaturesScreen(
                                         viewModel.publishToPubSub(topicName, messageText)
                                     }
                                 },
-                                enabled = uiState.isConnected && !uiState.isLoading && 
+                                enabled = uiState.isConnected && !uiState.isLoading &&
                                         topicName.isNotBlank() && messageText.isNotBlank(),
                                 modifier = Modifier.fillMaxWidth()
                             ) {
-                )
-            }
-        }
-    }
-}
+                                )
+                            }
+                        }
+                    }
+                }

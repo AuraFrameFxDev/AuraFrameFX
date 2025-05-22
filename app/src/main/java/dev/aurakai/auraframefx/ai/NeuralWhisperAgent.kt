@@ -8,18 +8,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.aurakai.auraframefx.ai.models.ContextChain
+import dev.aurakai.auraframefx.ai.models.ContextNode
+import dev.aurakai.auraframefx.ai.models.LearningEvent
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
-import dev.aurakai.auraframefx.ai.models.ContextNode
-import dev.aurakai.auraframefx.ai.models.ContextChain
-import dev.aurakai.auraframefx.ai.models.LearningEvent
 
 // TODO: REVIEW - Ensure kotlinx.serialization Gradle plugin is applied in your build.gradle.kts
 // TODO: REVIEW - For Map<String, Any> in data classes:

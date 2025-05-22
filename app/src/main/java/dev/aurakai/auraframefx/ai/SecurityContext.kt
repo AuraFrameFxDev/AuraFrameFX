@@ -167,7 +167,7 @@ class SecurityContext @Inject constructor(
     private fun isDeviceSecure(): Boolean {
         val keyguardManager =
             ContextCompat.getSystemService(context, android.app.KeyguardManager::class.java)
-        return keyguardManager?.isDeviceSecure ?: false
+        return keyguardManager?.isDeviceSecure == true
     }
 
     private fun isBatteryCharging(): Boolean {

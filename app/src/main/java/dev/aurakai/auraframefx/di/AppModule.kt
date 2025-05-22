@@ -36,17 +36,17 @@ object AppModule {
     fun provideAppInitializer(
         @ApplicationContext context: Context,
     ): AppInitializer = AppInitializer(context)
-    
+
     @Provides
     @Singleton
     fun provideSecurePreferences(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): SecurePreferences = SecurePreferences(context)
-    
+
     @Provides
     @Singleton
     fun provideGenerativeModel(
-        securePrefs: SecurePreferences
+        securePrefs: SecurePreferences,
     ): GenerativeModel {
         val apiKey = securePrefs.getString(SecurePreferences.KEY_AI_API_KEY, "")
         return GenerativeModel(
@@ -54,21 +54,21 @@ object AppModule {
             apiKey = apiKey
         )
     }
-    
+
     @Provides
     @Singleton
     fun provideAuraAIService(
         generativeModel: GenerativeModel,
-        securePrefs: SecurePreferences
+        securePrefs: SecurePreferences,
     ): AuraAIService {
         return AuraAIServiceImpl(generativeModel, securePrefs)
     }
-    
+
     @Provides
     @Singleton
     fun provideAIConfigFactory(
         @ApplicationContext context: Context,
-        securePrefs: SecurePreferences
+        securePrefs: SecurePreferences,
     ): AIFeaturesViewModel.AIConfigFactory {
         return AIFeaturesViewModel.AIConfigFactory(context, securePrefs)
     }

@@ -28,12 +28,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.ui.models.AuraMood
-import dev.aurakai.auraframefx.ui.models.GlowConfig
-import dev.aurakai.auraframefx.ui.models.moodGlowConfigs
 import dev.aurakai.auraframefx.ui.models.moodFragmentColors
+import dev.aurakai.auraframefx.ui.models.moodGlowConfigs
 import kotlinx.coroutines.launch
 
 // --- Orb Animation Constants ---
