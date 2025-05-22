@@ -23,15 +23,8 @@ plugins {
     id("com.google.devtools.ksp") version "1.9.22-1.0.16" apply false
 }
 
-// Apply common configurations to all projects
+// Common configurations are now in settings.gradle.kts
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://maven.google.com") }
-        maven { url = uri("https://dl.google.com/dl/android/maven2") }
-        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
-    }
 
     // Configure KtLint
     apply(plugin = "org.jlleitschuh.gradle.ktlint")

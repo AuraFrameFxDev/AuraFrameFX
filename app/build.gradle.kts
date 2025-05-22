@@ -153,6 +153,20 @@ dependencies {
     // Google Generative AI
     implementation("com.google.ai.generativeai:generativeai:0.3.1")
     
+    // Kotlin Standard Library
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("reflect"))
+    
+    // Kotlin Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    
+    // Dependency Injection
+    implementation("javax.inject:javax.inject:1")
+    implementation("com.google.dagger:dagger:2.48")
+    ksp("com.google.dagger:dagger-compiler:2.48")
+    
     // Vertex AI
     implementation(platform("com.google.cloud:libraries-bom:26.30.0"))
     implementation("com.google.cloud:google-cloud-vertexai")
@@ -161,10 +175,13 @@ dependencies {
     implementation("com.google.api.grpc:proto-google-cloud-aiplatform-v1")
     implementation("com.google.cloud:google-cloud-storage")
     
-    // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    // Google Generative AI (for Vertex AI)
+    implementation("com.google.ai.generativeai:generativeai:0.3.1") {
+        exclude(group = "com.google.guava", module = "guava")
+    }
+    
+    // Kotlin Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     // Google Auth and API Client
     implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
