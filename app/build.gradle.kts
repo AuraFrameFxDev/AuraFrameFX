@@ -15,15 +15,27 @@ val localProperties = Properties().apply {
 
 // Apply core plugins
 plugins {
+    // Core Android and Kotlin plugins
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
+    
+    // Firebase plugins for analytics and crash reporting
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.performance)
+    
+    // Dependency injection and code generation
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
+    
+    // Serialization support
     alias(libs.plugins.kotlin.serialization)
+    
+    // Kotlin standard library plugins
+    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin.get()
+    id("org.jetbrains.kotlin.plugin.noarg") version libs.versions.kotlin.get()
+    id("org.jetbrains.kotlin.plugin.allopen") version libs.versions.kotlin.get()
 }
 
 android {
@@ -181,9 +193,16 @@ android {
 
 dependencies {
     // Kotlin Standard Library
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.1.21"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation(platform(libs.kotlinStdlib))
+    implementation(libs.kotlinStdlib)
+    implementation(libs.kotlinStdlibJdk8)
+    implementation(libs.kotlinReflect)
+    
+    // Explicit Kotlin standard library dependencies
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${libs.versions.kotlin.get()}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${libs.versions.kotlin.get()}")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${libs.versions.kotlin.get()}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:${libs.versions.kotlin.get()}")
 
     // Google Cloud Vertex AI
     implementation("com.google.cloud:google-cloud-vertexai:1.23.0")

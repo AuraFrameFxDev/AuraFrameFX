@@ -47,6 +47,33 @@ plugins {
 allprojects {
     // Apply ktlint plugin to all projects
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    
+    // Configure Kotlin standard library
+    configurations.all {
+        resolutionStrategy {
+            force("org.jetbrains.kotlin:kotlin-stdlib:${libs.versions.kotlin.get()}")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${libs.versions.kotlin.get()}")
+            force("org.jetbrains.kotlin:kotlin-reflect:${libs.versions.kotlin.get()}")
+        }
+    }
+    configurations.all {
+        resolutionStrategy {
+            force("org.jetbrains.kotlin:kotlin-stdlib:${libs.versions.kotlin.get()}")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${libs.versions.kotlin.get()}")
+            force("org.jetbrains.kotlin:kotlin-reflect:${libs.versions.kotlin.get()}")
+        }
+    }
+
+    // Configure Kotlin compiler options
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "17"
+            freeCompilerArgs = listOf(
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
+            )
+        }
+    }
 
     // Configure ktlint
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {

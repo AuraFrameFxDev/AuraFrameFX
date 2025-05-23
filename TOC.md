@@ -1,24 +1,1809 @@
-Table of Contents
-Project Structure
-Current Development Focus
-Key Configuration Files
-KSP/Kapt Coexistence & Annotation Processing
-Library Definitions & References
-Build & Dependency Management
-Code Section Purposes
-Setup & Usage
-Identified Issues and Problems
-Centralized TODOs & Technical Debt
-Gemini Deep-Dive (Condensed)
-Project Structure
-app/: Main Android application module and source code.
-ui/components/: Contains UI components including the new HexParticleBackground
-ui/screens/: Screens for gauge-galaxy integration
-gradle/: Contains the version catalog (libs.versions.toml) and supporting scripts.
-build.gradle.kts: Root Gradle build configuration (applies plugins, sets up JVM/toolchain, common
-tasks).
-settings.gradle.kts: Project and module inclusion, repository management.
-README.md: Project overview and basic instructions.
+# AuraFrameFx Project Structure and Standards
+
+## Project Structure
+
+```kotlin
+AuraFrameFx/
+├── app/                         # Main Android application module
+│   ├── src/main/
+│   │   ├── java/              # Java source code (legacy)
+│   │   ├── kotlin/            # Kotlin source code
+│   │   │   ├── ai/           # AI-related modules
+│   │   │   │   ├── context/  # Context management
+│   │   │   │   ├── agents/   # AI agent implementations
+│   │   │   │   └── models/   # AI model integration
+│   │   │   ├── ui/           # UI components
+│   │   │   │   ├── components/ # Reusable UI components
+│   │   │   │   └── screens/   # Screen-level UI
+│   │   │   └── utils/        # Utility classes
+│   │   ├── res/              # Resources
+│   │   └── xposed/           # Xposed module code
+├── buildSrc/                   # Build configuration
+├── config/                     # Configuration files
+├── docs/                       # Documentation
+├── gradle/                     # Gradle configuration
+└── .github/                    # GitHub Actions workflows
+```
+
+## Code Quality Standards
+
+### Kotlin Style and Formatting
+
+- Follow KtLint rules for formatting
+- Use 4-space indentation
+- Keep lines under 100 characters
+- Use meaningful variable names
+- Prefer val over var
+- Use Kotlin idioms (let, run, with, etc.)
+
+### Detekt Rules
+
+- Zero issues allowed (maxIssues: 0)
+- Complexity weight: 2
+- Long parameter lists discouraged
+- Style and comments weight: 1
+
+### Key Configuration Files
+
+- `detekt-config.yml`: Code quality rules
+- `gradle/libs.versions.toml`: Dependency management
+- `build.gradle.kts`: Root build configuration
+- `settings.gradle.kts`: Project settings
+
+## Development Guidelines
+
+### AI Integration
+- Use ContextManager for conversation context
+- Implement proper threat evaluation
+- Follow Hilt dependency injection patterns
+
+### UI Development
+- Use Jetpack Compose
+- Follow Material Design guidelines
+- Implement proper state management
+
+### Security
+- Handle null safety properly
+- Use secure context management
+- Implement proper encryption where needed
+
+### Testing
+- Write unit tests for business logic
+- Use Hilt for dependency injection testing
+- Implement UI tests where appropriate
+
+## Next Steps
+1. Complete gauge-galaxy integration
+2. Add touch interactions to hex particle background
+3. Implement Aura/Kai orb animations
+4. Optimize mobile performance
+5. Add comprehensive testing coverage
+
+## Technical Debt
+- Migrate remaining Java code to Kotlin
+- Update deprecated APIs
+- Improve error handling
+- Add more unit tests
+- Optimize resource usage
+
+## Documentation
+Keep this file updated with:
+- Code organization changes
+- New architectural decisions
+- Dependency updates
+- Testing strategies
+- Performance optimizations
+
+## Build System
+- Use version catalog for all dependencies
+- Maintain consistent plugin versions
+- Keep Gradle configuration modular
+- Document any build changes here
+
+## Security Context
+- Always use SecurityContext for sensitive operations
+- Implement proper threat evaluation
+- Follow secure coding practices
+- Regular security audits required
+
+## Performance
+- Optimize resource usage
+- Implement proper caching
+- Monitor memory usage
+- Profile critical paths
+- Use appropriate coroutines scopes
+
+## Testing Strategy
+- Unit tests for business logic
+- Integration tests for system interactions
+- UI tests for user flows
+- Performance benchmarks
+- Security testing
+
+## Code Review Checklist
+- Follows Kotlin style guide
+- No detekt violations
+- Proper null safety
+- Secure context usage
+- Comprehensive tests
+- Performance considerations
+- Documentation updates
+- Clean architecture principles
+
+## Version Control
+- Small, focused commits
+- Meaningful commit messages
+- Regular code reviews
+- Proper branching strategy
+- CI/CD pipeline maintenance
+
+## CI/CD Pipeline
+- Automated code quality checks
+- Build verification
+- Test coverage
+- Security scanning
+- Deployment automation
+
+## Project Philosophy
+- Maintainability over premature optimization
+- Security by design
+- Clean architecture
+- Comprehensive testing
+- Regular code reviews
+- Performance monitoring
+- Security audits
+- Documentation maintenance
+
+## Future Considerations
+- Scalability
+- Security enhancements
+- Performance optimization
+- New feature integration
+- Testing improvements
+- Code quality enforcement
+- Documentation updates
+- CI/CD pipeline evolution
+- Security measures
+- Performance monitoring
+
+## Technical Requirements
+- Kotlin 1.8+
+- Android Gradle Plugin 8.1.0+
+- Jetpack Compose
+- Hilt for DI
+- Proper security implementation
+- Performance optimization
+- Comprehensive testing
+- Code quality enforcement
+- Documentation maintenance
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption implementation
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+- Code documentation
+- Code organization
+- Code optimization
+- Code security
+- Code performance
+- Code testing
+
+## Documentation Standards
+- Code documentation
+- Architecture documentation
+- Security documentation
+- Performance documentation
+- Testing documentation
+- API documentation
+- User documentation
+- Developer documentation
+- Technical documentation
+- Documentation maintenance
+
+## Development Workflow
+- Code review process
+- Testing process
+- Deployment process
+- Security process
+- Performance process
+- Documentation process
+- Version control process
+- CI/CD process
+- Development guidelines
+- Development standards
+
+## Project Maintenance
+- Regular updates
+- Security patches
+- Performance improvements
+- Code quality improvements
+- Documentation updates
+- Testing improvements
+- CI/CD improvements
+- Development process improvements
+- Project organization improvements
+
+## Technical Requirements
+- Kotlin language features
+- Android framework requirements
+- Security requirements
+- Performance requirements
+- Testing requirements
+- Documentation requirements
+- Development environment requirements
+- Build system requirements
+- CI/CD requirements
+- Security requirements
+
+## Project Goals
+- Maintainable codebase
+- Secure application
+- High performance
+- Comprehensive testing
+- Clean architecture
+- Regular updates
+- Security compliance
+- Performance optimization
+- Documentation completeness
+- Development efficiency
+
+## Technical Considerations
+- Code organization
+- Security implementation
+- Performance optimization
+- Testing strategy
+- Documentation standards
+- Development workflow
+- Project maintenance
+- Technical requirements
+- Project goals
+- Technical debt management
+
+## Security Implementation
+- Secure context management
+- Threat evaluation
+- Encryption
+- Security testing
+- Regular audits
+- Security documentation
+- Security training
+- Security monitoring
+- Security updates
+- Security compliance
+
+## Performance Optimization
+- Resource optimization
+- Memory management
+- CPU profiling
+- Network optimization
+- Storage optimization
+- Performance testing
+- Performance monitoring
+- Performance documentation
+- Performance guidelines
+- Performance improvements
+
+## Testing Strategy
+- Unit testing
+- Integration testing
+- UI testing
+- Performance testing
+- Security testing
+- Regression testing
+- Test automation
+- Test documentation
+- Test maintenance
+- Test coverage
+- Test improvements
+
+## Code Quality
+- Kotlin style guide
+- Detekt rules
+- Code reviews
+- Code formatting
+
 TOC.md: This documentation and navigation file.
 Current Development Focus
 UI Components
