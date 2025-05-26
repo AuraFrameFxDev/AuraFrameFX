@@ -39,7 +39,7 @@ hilt = "2.48.1"
 hiltNavigation = "1.1.0"
 
 # Firebase
-firebaseBom = "32.7.0"
+firebaseBom = "33.14.0"
 firebaseCrashlytics = "2.9.9"
 firebasePerformance = "1.4.2"
 googleServices = "4.4.1"
