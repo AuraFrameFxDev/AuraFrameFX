@@ -55,7 +55,7 @@ lottie = "6.6.0"
 # Testing
 junit = "4.13.2"
 extJunit = "1.2.1"
-espressoCore = "3.5.1"
+espressoCore = "3.6.1"
 
 # Code Quality
 spotless = "6.12.0"
