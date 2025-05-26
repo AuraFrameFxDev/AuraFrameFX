@@ -9,7 +9,7 @@ jvmTarget = "17"
 
 # Plugin versions
 agp = "8.1.0"
-kotlin = "1.9.22"
+kotlin = "2.1.21"
 ksp = "1.9.22-1.0.17"
 
 # Kotlin standard library versions
