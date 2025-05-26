@@ -210,7 +210,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-storage:2.28.1")
     implementation("com.google.auth:google-auth-library-oauth2-http:1.35.0")
     implementation("com.google.api-client:google-api-client:2.8.0")
-    implementation("com.google.apis:google-api-services-aiplatform:v1-rev20230913-2.0.0")
+    implementation("com.google.apis:google-api-services-aiplatform:v1-rev20250519-2.0.0")
 
     // Core AndroidX
     implementation(libs.androidx.core.ktx)
