@@ -28,26 +28,26 @@ pluginManagement {
     // These are kept here for compatibility
     plugins {
         // Android and Kotlin
-        alias(libs.plugins.android.application) apply false
-        alias(libs.plugins.android.library) apply false
-        alias(libs.plugins.kotlin.android) apply false
-        alias(libs.plugins.kotlin.kapt) apply false
-        alias(libs.plugins.kotlin.serialization) apply false
+        id(libs.plugins.android.application.get().pluginId) version libs.versions.agp.get() apply false
+        id(libs.plugins.android.library.get().pluginId) version libs.versions.agp.get() apply false
+        id(libs.plugins.kotlin.android.get().pluginId) version libs.versions.kotlin.get() apply false
+        id(libs.plugins.kotlin.kapt.get().pluginId) version libs.versions.kotlin.get() apply false
+        id(libs.plugins.kotlin.serialization.get().pluginId) version libs.versions.kotlin.get() apply false
 
         // Google Services and Firebase
-        alias(libs.plugins.google.services) apply false
-        alias(libs.plugins.firebase.crashlytics) apply false
-        alias(libs.plugins.firebase.perf) apply false
+        id(libs.plugins.google.services.get().pluginId) version libs.versions.googleServices.get() apply false
+        id(libs.plugins.firebase.crashlytics.get().pluginId) version libs.versions.firebaseCrashlytics.get() apply false
+        id(libs.plugins.firebase.perf.get().pluginId) version libs.versions.firebasePerformance.get() apply false
 
         // Hilt
-        alias(libs.plugins.hilt.android) apply false
+        id(libs.plugins.hilt.android.get().pluginId) version libs.versions.hilt.get() apply false
 
         // KSP
-        alias(libs.plugins.ksp) apply false
+        id(libs.plugins.ksp.get().pluginId) version libs.versions.ksp.get() apply false
 
         // Code quality
-        alias(libs.plugins.spotless) apply false
-        alias(libs.plugins.detekt) apply false
+        id(libs.plugins.spotless.get().pluginId) version libs.versions.spotless.get() apply false
+        id(libs.plugins.detekt.get().pluginId) version libs.versions.detekt.get() apply false
     }
 }
 
