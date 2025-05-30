@@ -28,26 +28,26 @@ pluginManagement {
     // These are kept here for compatibility
     plugins {
         // Android and Kotlin
-        id("com.android.application") version "8.1.0" apply false
-        id("com.android.library") version "8.1.0" apply false
-        id("org.jetbrains.kotlin.android") version "2.1.21" apply false
-        id("org.jetbrains.kotlin.kapt") version "2.1.21" apply false
-        id("org.jetbrains.kotlin.plugin.serialization") version "2.1.21" apply false
+        alias(libs.plugins.android.application) apply false
+        alias(libs.plugins.android.library) apply false
+        alias(libs.plugins.kotlin.android) apply false
+        alias(libs.plugins.kotlin.kapt) apply false
+        alias(libs.plugins.kotlin.serialization) apply false
 
         // Google Services and Firebase
-        id("com.google.gms.google-services") version "4.4.1" apply false
-        id("com.google.firebase.crashlytics") version "2.9.9" apply false
-        id("com.google.firebase.firebase-perf") version "1.4.2" apply false
+        alias(libs.plugins.google.services) apply false
+        alias(libs.plugins.firebase.crashlytics) apply false
+        alias(libs.plugins.firebase.perf) apply false
 
         // Hilt
-        id("com.google.dagger.hilt.android") version "2.56.2" apply false
+        alias(libs.plugins.hilt.android) apply false
 
         // KSP
-        id("com.google.devtools.ksp") version "1.9.22-1.0.16" apply false
+        alias(libs.plugins.ksp) apply false
 
         // Code quality
-        id("com.diffplug.spotless") version "6.12.0" apply false
-        id("io.gitlab.arturbosch.detekt") version "1.23.8" apply false
+        alias(libs.plugins.spotless) apply false
+        alias(libs.plugins.detekt) apply false
     }
 }
 

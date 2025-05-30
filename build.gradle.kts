@@ -56,13 +56,6 @@ allprojects {
             force("org.jetbrains.kotlin:kotlin-reflect:${libs.versions.kotlin.get()}")
         }
     }
-    configurations.all {
-        resolutionStrategy {
-            force("org.jetbrains.kotlin:kotlin-stdlib:${libs.versions.kotlin.get()}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${libs.versions.kotlin.get()}")
-            force("org.jetbrains.kotlin:kotlin-reflect:${libs.versions.kotlin.get()}")
-        }
-    }
 
     // Configure Kotlin compiler options
     tasks.withType<KotlinCompile> {
