@@ -11,13 +11,13 @@ buildscript {
     
     dependencies {
         // Make sure all plugins are available in the buildscript classpath
-        classpath(libs.plugins.agp.get())
-        classpath(libs.plugins.kotlin.gradle)
-        classpath(libs.plugins.google.services)
-        classpath(libs.plugins.firebase.crashlytics)
-        classpath(libs.plugins.firebase.perf)
-        classpath(libs.plugins.hilt.android.gradle)
-        classpath(libs.plugins.ksp)
+        classpath("com.android.tools.build:gradle:${libs.versions.agp.get()}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
+        classpath("com.google.gms:google-services:${libs.versions.googleServices.get()}")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:${libs.versions.firebaseCrashlytics.get()}")
+        classpath("com.google.firebase:firebase-perf-gradle-plugin:${libs.versions.firebasePerformance.get()}")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.hilt.get()}")
+        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${libs.versions.ksp.get()}")
     }
 }
 
