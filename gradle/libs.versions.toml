@@ -51,7 +51,7 @@ hilt = "2.56.2"
 firebaseBom = "33.14.0"
 firebaseCrashlytics = "2.9.9"
 firebasePerformance = "1.4.2"
-googleServices = "4.4.1"
+googleServices = "4.4.2"
 
 # Google Cloud
 googleCloudLibrariesBom = "26.61.0" # BOM for various google-cloud-java libraries
