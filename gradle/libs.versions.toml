@@ -33,7 +33,7 @@ hiltCompiler = "1.2.0" # Added for androidx.hilt:hilt-compiler
 
 # Compose
 composeBom = "2025.05.01" # Updated to a recent stable BOM.
-composeCompiler = "1.5.12" # Aligned with Kotlin 1.9.22.
+composeCompiler = "1.5.14" # Aligned with Kotlin 1.9.22.
 
 # Google Core / Play Services
 material = "1.12.0" # The core Material Components library for Android
