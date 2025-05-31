@@ -137,6 +137,8 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 # Dokka plugin added
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+# Compose Compiler plugin
+kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
 # Kotlin Standard Library
