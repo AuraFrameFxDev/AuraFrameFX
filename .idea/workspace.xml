@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="643506cd-6222-40fc-ac39-8954339e34ab" name="Changes" comment="Refactor: Update Gradle configuration and dependencies&#10;&#10;- Standardize plugin versioning in `settings.gradle.kts` using `libs.versions.kotlin.get()`.&#10;- Update plugin declarations in `app/build.gradle.kts` to use ID strings and explicit versions for Firebase plugins.&#10;- Set explicit SDK versions in `app/build.gradle.kts`.&#10;- Add build config field for `ENCRYPTION_KEY`.&#10;- Enable multidex, vector drawable support, and Proguard.&#10;- Add test instrumentation arguments.&#10;- Replace `kapt` with `ksp` for Hilt.&#10;- Add dependencies for Kotlin Serialization, Coroutines, Lifecycle, DataStore, Coil, Accompanist, Firebase (config, ktx versions), Security, Biometric, and LeakCanary.&#10;- Update `gradle.properties`:&#10;    - Enable caching.&#10;    - Set JVM arguments and Java home.&#10;    - Enable parallel builds.">
+      <change afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/md5-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.13/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/configuration-cache/configuration-cache.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/configuration-cache/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/reports/configuration-cache/7j3l7v03h3ckb7pi1fe2edqme/5ecqikc5ttmb0vntjuvmmmdfq/configuration-cache-report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/reports/configuration-cache/7j3l7v03h3ckb7pi1fe2edqme/6t33issh9gp1s4irkw74y5dl3/configuration-cache-report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/reports/configuration-cache/7j3l7v03h3ckb7pi1fe2edqme/8l47flkg5cmfg6xe62i3c2ho8/configuration-cache-report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/reports/configuration-cache/7j3l7v03h3ckb7pi1fe2edqme/bh26ipvdh9zmickgiq43nrkpb/configuration-cache-report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/reports/configuration-cache/7j3l7v03h3ckb7pi1fe2edqme/d5uj684uuitsd7uvtqld0iy2a/configuration-cache-report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/reports/configuration-cache/7j3l7v03h3ckb7pi1fe2edqme/dohcy449ru5hsqvcvk4ao262n/configuration-cache-report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TOC.md" beforeDir="false" afterPath="$PROJECT_DIR$/TOC.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/AgentConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/AgentConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/AgentType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/AgentType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/ContextManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/ContextManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/KaiController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/KaiController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/NeuralWhisper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/NeuralWhisper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/SecurityContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/ai/SecurityContext.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/di/AppModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/di/AppModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/di/VertexAIModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/dev/aurakai/auraframefx/di/VertexAIModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "Merging Master"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refactor: Update Gradle configuration and dependencies&#10;&#10;- Standardize plugin versioning in `settings.gradle.kts` using `libs.versions.kotlin.get()`.&#10;- Update plugin declarations in `app/build.gradle.kts` to use ID strings and explicit versions for Firebase plugins.&#10;- Set explicit SDK versions in `app/build.gradle.kts`.&#10;- Add build config field for `ENCRYPTION_KEY`.&#10;- Enable multidex, vector drawable support, and Proguard.&#10;- Add test instrumentation arguments.&#10;- Replace `kapt` with `ksp` for Hilt.&#10;- Add dependencies for Kotlin Serialization, Coroutines, Lifecycle, DataStore, Coil, Accompanist, Firebase (config, ktx versions), Security, Biometric, and LeakCanary.&#10;- Update `gradle.properties`:&#10;    - Enable caching.&#10;    - Set JVM arguments and Java home.&#10;    - Enable parallel builds." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor: Update Gradle configuration and dependencies&#10;&#10;- Standardize plugin versioning in `settings.gradle.kts` using `libs.versions.kotlin.get()`.&#10;- Update plugin declarations in `app/build.gradle.kts` to use ID strings and explicit versions for Firebase plugins.&#10;- Set explicit SDK versions in `app/build.gradle.kts`.&#10;- Add build config field for `ENCRYPTION_KEY`.&#10;- Enable multidex, vector drawable support, and Proguard.&#10;- Add test instrumentation arguments.&#10;- Replace `kapt` with `ksp` for Hilt.&#10;- Add dependencies for Kotlin Serialization, Coroutines, Lifecycle, DataStore, Coil, Accompanist, Firebase (config, ktx versions), Security, Biometric, and LeakCanary.&#10;- Update `gradle.properties`:&#10;    - Enable caching.&#10;    - Set JVM arguments and Java home.&#10;    - Enable parallel builds." />
+  </component>
+</project>
