@@ -156,7 +156,8 @@ class KaiController @Inject constructor(
     fun receiveFromAura(
         message: String,
         emotion: EmotionState,
-        securityContext: SecurityContext? = null,
+        hasSecurityConcerns: Boolean, // Changed parameter
+        concernsDescription: String?  // Changed parameter
     ) {
         // Update Kai's state based on information from Aura
         updateEmotion(emotion)
@@ -169,7 +170,7 @@ class KaiController @Inject constructor(
             delay(1000)
 
             // Handle security concerns if present
-            if (securityContext != null && securityContext.hasSecurityConcerns()) {
+            if (hasSecurityConcerns) { // Updated condition
                 // First, speak about receiving context
                 speak("Aura has shared context with me. One moment...")
 
@@ -177,7 +178,8 @@ class KaiController @Inject constructor(
 
                 // Then alert about security concerns
                 updateState(KaiState.ALERT)
-                speak(securityContext.getSecurityConcernsDescription(), onComplete = {
+                // Use concernsDescription with a fallback
+                speak(concernsDescription ?: "Some security concerns were noted.", onComplete = {
                     updateState(KaiState.IDLE)
                 })
             } else {
@@ -186,7 +188,7 @@ class KaiController @Inject constructor(
             }
 
             // Log detailed context for debugging
-            Timber.d("Received from Aura: $message with security context: $securityContext")
+            Timber.d("Received from Aura: $message, HasConcerns: $hasSecurityConcerns, Description: $concernsDescription")
         }
     }
 

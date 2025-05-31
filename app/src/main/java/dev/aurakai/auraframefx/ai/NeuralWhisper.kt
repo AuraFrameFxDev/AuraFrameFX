@@ -17,6 +17,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow // Added import
 import kotlinx.coroutines.flow.map // Added import
 import kotlinx.coroutines.flow.catch // Added import
+import kotlinx.serialization.Serializable // Ensure this import is present
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import timber.log.Timber
 import java.io.File
@@ -103,7 +104,7 @@ class NeuralWhisper @Inject constructor(
      * Share context with Kai
      * Enhanced with conversation history and security context awareness
      */
-    fun shareContextWithKai(message: String) {
+    suspend fun shareContextWithKai(message: String) { // Made suspend
         kaiController?.let {
             val currentEmotion = _emotionState.value ?: EmotionState.Neutral
 
@@ -119,11 +120,13 @@ class NeuralWhisper @Inject constructor(
             }
 
             // Pass security context if available
-            val securityContext = getSecurityContext()
+            val securityMetrics = this.securityContext.getCurrentMetrics() // Use injected securityContext service
+            val hasConcerns = this.securityContext.hasSecurityConcerns(securityMetrics)
+            val concernsDescription = if (hasConcerns) this.securityContext.getSecurityConcernsDescription(securityMetrics) else null
 
             // Pass to Kai
-            it.receiveFromAura(enhancedMessage, currentEmotion, securityContext)
-            Timber.d("Shared context with Kai: $message with security context: $securityContext")
+            it.receiveFromAura(enhancedMessage, currentEmotion, hasConcerns, concernsDescription) // Pass new security details
+            Timber.d("Shared context with Kai: $message, HasConcerns: $hasConcerns, Description: $concernsDescription")
 
             // Update UI state - related components might need to know context was shared
             _contextSharedWithKai.postValue(true)
@@ -134,21 +137,6 @@ class NeuralWhisper @Inject constructor(
                 _contextSharedWithKai.postValue(false)
             }
         }
-    }
-
-    /**
-     * Get current security context for Kai
-     */
-    private fun getSecurityContext(): SecurityContext {
-        // In a real implementation, we would gather real security data
-        // For now, return simulated security context
-        return SecurityContext(
-            adBlockingActive = true,
-            ramUsage = (60..85).random().toDouble(),
-            cpuUsage = (30..90).random().toDouble(),
-            batteryTemp = (25..45).random().toDouble(),
-            recentErrors = (0..3).random()
-        )
     }
 
     /**
@@ -663,10 +651,11 @@ class NeuralWhisper @Inject constructor(
     /**
      * Represents a single conversation turn
      */
+    @Serializable // Added annotation
     data class ConversationEntry(
         val userInput: String,
         val systemResponse: String,
-        val emotionState: EmotionState,
+        val emotionState: EmotionState, // Assumes EmotionState will be made @Serializable
     )
 
     /**
