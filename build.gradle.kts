@@ -24,7 +24,7 @@ buildscript {
         // These are the plugins/dependencies that Gradle needs to run *this build script*.
         // Their versions are hardcoded here because 'libs' is not yet available.
         // Ensure these match the versions defined in your libs.versions.toml.
-        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("com.android.tools.build:gradle:8.10.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22") // Use 1.9.22, not 2.0.0 for now for stability.
         classpath("com.google.gms:google-services:4.4.1")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")

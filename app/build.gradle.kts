@@ -10,7 +10,7 @@ buildscript {
         // These are the plugins/dependencies *for the buildscript itself*.
         // Their versions are hardcoded here. It's crucial they match your libs.versions.toml for consistency,
         // but for initial build stability, ensure these specific versions are correct and compatible.
-        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("com.android.tools.build:gradle:8.10.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22") // Keep 1.9.22 for buildscript
         classpath("com.google.gms:google-services:4.4.1")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
