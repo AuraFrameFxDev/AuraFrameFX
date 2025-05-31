@@ -27,7 +27,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:8.10.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22") // Use 1.9.22, not 2.0.0 for now for stability.
         classpath("com.google.gms:google-services:4.4.2")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.3")
         classpath("com.google.firebase:perf-plugin:1.4.2")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.56.2")
         classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.22-1.0.16") // Match Kotlin 1.9.22
