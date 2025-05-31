@@ -12,7 +12,7 @@ buildscript {
         // but for initial build stability, ensure these specific versions are correct and compatible.
         classpath("com.android.tools.build:gradle:8.10.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22") // Keep 1.9.22 for buildscript
-        classpath("com.google.gms:google-services:4.4.1")
+        classpath("com.google.gms:google-services:4.4.2")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
         classpath("com.google.firebase:perf-plugin:1.4.2")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.56.2")

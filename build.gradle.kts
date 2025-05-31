@@ -26,7 +26,7 @@ buildscript {
         // Ensure these match the versions defined in your libs.versions.toml.
         classpath("com.android.tools.build:gradle:8.10.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22") // Use 1.9.22, not 2.0.0 for now for stability.
-        classpath("com.google.gms:google-services:4.4.1")
+        classpath("com.google.gms:google-services:4.4.2")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
         classpath("com.google.firebase:perf-plugin:1.4.2")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.56.2")
