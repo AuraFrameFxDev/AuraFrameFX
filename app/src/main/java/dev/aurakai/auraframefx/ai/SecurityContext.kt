@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable // Moved import
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -38,6 +39,7 @@ class SecurityContext @Inject constructor(
     private var lastCpuTime: Long = 0
     private var lastAppCpuTime: Long = 0
 
+    @kotlinx.serialization.Serializable // Added annotation
     data class SecurityMetrics(
         val adBlockingActive: Boolean = false,
         val ramUsage: Double = 0.0,
@@ -262,6 +264,49 @@ class SecurityContext @Inject constructor(
             "No security concerns detected"
         } else {
             "Security concerns: ${concerns.joinToString(", ")}"
+        }
+    }
+
+    /**
+     * Determine if there are any active security concerns based on provided metrics.
+     */
+    fun hasSecurityConcerns(metrics: SecurityMetrics): Boolean {
+        return metrics.ramUsage > 80.0 || metrics.cpuUsage > 85.0 || metrics.batteryTemp > 40.0 || metrics.recentErrors > 0 || metrics.isRooted || metrics.isLowMemory
+    }
+
+    /**
+     * Get a human-readable description of security concerns from provided metrics.
+     */
+    fun getSecurityConcernsDescription(metrics: SecurityMetrics): String {
+        val concerns = mutableListOf<String>()
+
+        if (metrics.ramUsage > 80.0) {
+            concerns.add("High RAM usage (${metrics.ramUsage.toInt()}%)")
+        }
+        if (metrics.cpuUsage > 85.0) { // Assuming 85% is the threshold for high CPU
+            concerns.add("High CPU usage (${metrics.cpuUsage.toInt()}%)")
+        }
+        if (metrics.batteryTemp > 40.0) {
+            concerns.add("Elevated battery temperature (${metrics.batteryTemp.toInt()}°C)")
+        }
+        if (metrics.recentErrors > 0) {
+            concerns.add("${metrics.recentErrors} recent error events")
+        }
+        if (metrics.isRooted) {
+            concerns.add("Device is identified as rooted")
+        }
+        if (metrics.isLowMemory) {
+            concerns.add("Device is low on memory")
+        }
+        if (!metrics.isDeviceSecure) {
+            concerns.add("Device lock screen is not secure")
+        }
+
+
+        return if (concerns.isEmpty()) {
+            "No specific security or stability concerns detected based on current metrics."
+        } else {
+            "Security/Stability Concerns: ${concerns.joinToString(", ")}."
         }
     }
 }

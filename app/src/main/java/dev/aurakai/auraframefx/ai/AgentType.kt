@@ -1,5 +1,8 @@
 package dev.aurakai.auraframefx.ai
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class AgentType {
     GENESIS,
     KAI,
