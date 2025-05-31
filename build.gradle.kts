@@ -1,11 +1,6 @@
 // AuraFrameFxBeta/build.gradle.kts
 // This section MUST be at the very top of your build.gradle.kts file.
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.dokka.gradle.DokkaTask // Import DokkaTask explicitly
-import io.gitlab.arturbosch.detekt.Detekt // Import Detekt task type
-import java.io.File // Import File for File.separator
-
 // Top-level val definitions (accessible everywhere AFTER they are defined, but not in buildscript)
 val kotlinVersion = libs.versions.kotlin.get()
 val agpVersion = libs.versions.agp.get()

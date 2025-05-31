@@ -14,7 +14,8 @@ pluginManagement {
         eachPlugin {
             if (requested.id.id == "org.jetbrains.kotlin.android" ||
                 requested.id.id == "org.jetbrains.kotlin.kapt" ||
-                requested.id.id == "org.jetbrains.kotlin.plugin.serialization") {
+                requested.id.id == "org.jetbrains.kotlin.plugin.serialization"
+            ) {
                 // Configuration if needed
             }
         }
@@ -24,7 +25,8 @@ pluginManagement {
 dependencyResolutionManagement {
 
     versionCatalogs {
-        create("libs") { (files("gradle/libs.versions.toml"))
+        create("libs") {
+            (files("gradle/libs.versions.toml"))
         }
     }
 }
