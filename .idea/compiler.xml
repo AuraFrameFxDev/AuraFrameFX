@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="auraframefx.app.main" target="17" />
+      <module name="auraframefx.app.test" target="17" />
+      <module name="auraframefx.main" target="17" />
+      <module name="auraframefx.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

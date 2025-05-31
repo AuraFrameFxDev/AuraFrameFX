@@ -21,18 +21,16 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        // These are the plugins/dependencies that Gradle needs to run *this build script*.
-        // Their versions are hardcoded here because 'libs' is not yet available.
-        // Ensure these match the versions defined in your libs.versions.toml.
-        classpath("com.android.tools.build:gradle:8.10.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22") // Use 1.9.22, not 2.0.0 for now for stability.
-        classpath("com.google.gms:google-services:4.4.2")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
-        classpath("com.google.firebase:perf-plugin:1.4.2")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.56.2")
-        classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.22-1.0.16") // Match Kotlin 1.9.22
-        classpath("androidx.navigation.safeargs:androidx.navigation.safeargs.gradle.plugin:2.9.0")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.9.20")
+        // These versions must match those in libs.versions.toml
+        classpath("com.android.tools.build:gradle:${libs.versions.agp.get()}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
+        classpath("com.google.gms:google-services:${libs.versions.googleServices.get()}")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:${libs.versions.firebaseCrashlytics.get()}")
+        classpath("com.google.firebase:perf-plugin:${libs.versions.firebasePerformance.get()}")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.hilt.get()}")
+        classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:${libs.versions.ksp.get()}")
+        classpath("androidx.navigation.safeargs:androidx.navigation.safeargs.gradle.plugin:${libs.versions.navigation.get()}")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:${libs.versions.dokka.get()}")
     }
 }
 // --- END OF CRITICAL CORRECTION ---
