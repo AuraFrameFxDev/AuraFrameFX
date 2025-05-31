@@ -9,7 +9,7 @@ jvmTarget = "17"
 # Plugin versions
 agp = "8.10.1" # Updated AGP version for Kotlin 2.0 compatibility
 kotlin = "2.0.0" # Updated to Kotlin 2.0.0
-ksp = "2.0.0-1.0.21" # Updated KSP for Kotlin 2.0
+ksp = "2.1.21-2.0.1" # Updated KSP for Kotlin 2.0
 dokka = "2.0.0" # Updated Dokka for Kotlin 2.0
 # Kotlin standard library versions
 kotlinStdlib = "2.0.0"
