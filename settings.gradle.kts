@@ -12,16 +12,14 @@ pluginManagement {
 
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.id == "org.jetbrains.kotlin.android" ||
-                requested.id.id == "org.jetbrains.kotlin.kapt" ||
-                requested.id.id == "org.jetbrains.kotlin.plugin.serialization"
-            ) {
-                // Configuration if needed
+            when (requested.id.id) {
+                "org.jetbrains.kotlin.android",
+                "org.jetbrains.kotlin.kapt",
+                "org.jetbrains.kotlin.plugin.serialization" -> {
+                    useVersion(libs.versions.kotlin.get())
+                }
             }
         }
-    }
-    plugins {
-        kotlin("jvm") version "2.0.21"
     }
 }
 
