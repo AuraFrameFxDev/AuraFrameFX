@@ -16,7 +16,7 @@ buildscript {
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
         classpath("com.google.firebase:perf-plugin:1.4.2")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.56.2")
-        classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.22-1.0.16") // KSP must match Kotlin version
+        classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:2.1.21-2.0.1") // KSP must match Kotlin version
         classpath("androidx.navigation.safeargs:androidx.navigation.safeargs.gradle.plugin:2.9.0")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.9.20")
     }
