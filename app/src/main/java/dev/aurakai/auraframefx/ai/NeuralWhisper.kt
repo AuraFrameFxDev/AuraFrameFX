@@ -10,8 +10,13 @@ import com.google.cloud.vertexai.VertexAI
 import com.google.cloud.vertexai.generativeai.GenerativeModel
 import com.google.protobuf.ByteString
 import dev.aurakai.auraframefx.data.model.EmotionState
+import com.google.ai.client.generativeai.type.Content // Moved import
+import com.google.ai.client.generativeai.type.content // Moved import
 import dev.aurakai.auraframefx.ui.components.AuraMoodManager
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow // Added import
+import kotlinx.coroutines.flow.map // Added import
+import kotlinx.coroutines.flow.catch // Added import
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import timber.log.Timber
 import java.io.File
@@ -174,16 +179,8 @@ class NeuralWhisper @Inject constructor(
                 val involvesKai = shouldShareWithKai(transcription)
 
                 // 3. Process with context
+                // generateContextualResponse now handles adding to conversationHistory
                 val response = generateContextualResponse(transcription, emotionSignature)
-
-                // 4. Store in conversation history
-                conversationHistory.add(
-                    ConversationEntry(
-                        transcription,
-                        response,
-                        emotionSignature
-                    )
-                )
 
                 // 5. Update user preference model
                 userPreferences.update(transcription, emotionSignature)
@@ -299,10 +296,15 @@ class NeuralWhisper @Inject constructor(
      * Generate spelhook code from natural language description
      */
     fun generateSpelhook(description: String): Flow<String> {
-        buildSpelhookPrompt(description)
-        // Implementation using generativeModel to convert the description to code
-        // Returns a flow of generated code
-        return MutableStateFlow("// Generated spelhook code placeholder")
+        val prompt = buildSpelhookPrompt(description)
+        return generativeModel.generateContentStream(prompt)
+            .map { response ->
+                response.text ?: ""
+            }
+            .catch { e ->
+                Timber.e(e, "Error generating spelhook from Vertex AI: ${e.message}")
+                emit("// Error generating spelhook: ${e.message}") // Emit an error message string within the flow
+            }
     }
 
     /**
@@ -603,33 +605,41 @@ class NeuralWhisper @Inject constructor(
      * Generates contextual response based on transcription and emotion
      */
     private suspend fun generateContextualResponse(text: String, emotion: EmotionState): String {
-        val promptBuilder = StringBuilder()
+        val mappedHistory = conversationHistory.flatMap { entry ->
+            listOf(
+                content(role = "user") { this.text(entry.userInput) },
+                content(role = "model") { this.text(entry.systemResponse) }
+            )
+        }
 
-        // Add conversation history for context
-        if (conversationHistory.isNotEmpty()) {
-            promptBuilder.append("Previous conversation:\n")
-            // Take last 3 entries for context
-            conversationHistory.takeLast(3).forEach { entry ->
-                promptBuilder.append("User: ${entry.userInput}\n")
-                promptBuilder.append("Assistant: ${entry.systemResponse}\n")
+        val currentPromptText = buildString {
+            append("User's current input: $text\n")
+            append("User's emotional state: ${emotion.name}\n")
+            userPreferences.getTopPreferences().forEach { (key, value) ->
+                append("User preference - $key: $value\n")
             }
+        }.toString()
+
+        try {
+            val chat = generativeModel.startChat(history = mappedHistory)
+            val response = chat.sendMessage(currentPromptText) // This is a suspend function
+
+            val modelResponseText = response.text ?: "Sorry, I couldn't process that at the moment."
+
+            // Add the current turn to history
+            // Note: 'text' is the original user input for this specific turn.
+            // currentPromptText is the fully constructed prompt including emotion/preferences.
+            // We should store the raw 'text' as the user's input part of the history.
+            conversationHistory.add(ConversationEntry(userInput = text, systemResponse = modelResponseText, emotionState = emotion))
+
+            return modelResponseText
+        } catch (e: com.google.ai.client.generativeai.type.GoogleGenerativeAIException) {
+            Timber.e(e, "Vertex AI API Error in generateContextualResponse: ${e.message}")
+            return "I'm having trouble connecting to my thinking process. Please try again later."
+        } catch (e: Exception) {
+            Timber.e(e, "Generic error in generateContextualResponse: ${e.message}")
+            return "Something went unexpectedly wrong while I was thinking. Could you try rephrasing?"
         }
-
-        // Add user's current input
-        promptBuilder.append("\nUser's current input: $text\n")
-
-        // Add detected emotion for emotional intelligence
-        promptBuilder.append("User's emotional state: ${emotion.name}\n")
-
-        // Add user preferences for personalization
-        userPreferences.getTopPreferences().forEach { (key, value) ->
-            promptBuilder.append("User preference - $key: $value\n")
-        }
-
-        // Generate response using generative model
-        // In a real implementation, we would call the model here
-
-        return "Contextual response placeholder"
     }
 
     /**
@@ -717,8 +727,6 @@ class NeuralWhisper @Inject constructor(
 
                 val bufferSize = AudioRecord.getMinBufferSize(
                     sampleRate, channelConfig, audioFormat
-                )
-                sampleRate, channelConfig, audioFormat
                 )
 
                 if (bufferSize == AudioRecord.ERROR || bufferSize == AudioRecord.ERROR_BAD_VALUE) {
