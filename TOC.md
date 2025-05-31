@@ -25,6 +25,26 @@ AuraFrameFx/
 └── .github/                    # GitHub Actions workflows
 ```
 
+## Recent Architectural Updates (Late 2024 / Early 2025)
+
+To enhance security, data integrity, and core AI functionality, several key refactorings have been implemented:
+
+### 1. Data Serialization with `kotlinx.serialization`
+- Core AI data models (including `AIContext`, `AgentConfig`, `SecurityContext.SecurityMetrics`, `VisionAnalysis` models, and `ConversationEntry`) are being progressively annotated with `@Serializable` for use with the `kotlinx.serialization` library.
+- **`ContextManager.kt` Refactoring:** This manager has been updated to leverage `kotlinx.serialization.json.Json` for persisting the entire `AIContext` object. It now stores `AIContext` as a single JSON string in DataStore, replacing the previous method of storing each field individually. This simplifies persistence logic and improves maintainability.
+- **Note:** Full adoption is pending definitions for `LearningEvent`, `EmotionState`, and `VisionAnalysis` models. `Map<String, Any>` fields in `AgentConfig` are temporarily marked `@Transient`.
+
+### 2. Secure API Key Management for Vertex AI
+- The method for handling the Vertex AI API key has been significantly refactored for improved security.
+- The API key is now retrieved from `SecurePreferences` (which utilizes Android's `EncryptedSharedPreferences`).
+- Loading the API key from `BuildConfig` (for release builds) or `assets/local.properties` has been removed to prevent key exposure.
+- **Action Required:** A strategy for initially provisioning the API key into `SecurePreferences` must be implemented (e.g., via user input in a secure setting or fetched from a secure backend).
+
+### 3. Activation of Core AI Logic in `NeuralWhisper`
+- Placeholder implementations in `NeuralWhisper.kt` for `generateContextualResponse` (contextual chat) and `generateSpelhook` (code generation) have been replaced with live calls to the Vertex AI SDK (`GenerativeModel`).
+- `generateContextualResponse` now handles conversation history mapping and updates.
+- `generateSpelhook` uses `generateContentStream` for streaming responses.
+
 ## Code Quality Standards
 
 ### Kotlin Style and Formatting

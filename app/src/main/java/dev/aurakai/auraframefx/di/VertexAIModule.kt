@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.BuildConfig
+import dev.aurakai.auraframefx.data.SecurePreferences // Added import
 import dev.aurakai.auraframefx.ai.VertexAIClient
 import dev.aurakai.auraframefx.ai.VertexAIConfig
 import dev.aurakai.auraframefx.ai.VertexAIManager
@@ -53,6 +54,7 @@ object VertexAIModule {
     @Singleton
     fun provideVertexAIConfig(
         @ApplicationContext context: Context,
+        securePreferences: SecurePreferences, // Added parameter
     ): VertexAIConfig {
         return runBlocking {
             withContext(Dispatchers.IO) {
@@ -60,31 +62,36 @@ object VertexAIModule {
                     loadLocalProperties(context)
                 } else {
                     Properties().apply {
-                        // In release builds, use BuildConfig
+                        // In release builds, use BuildConfig for projectId
                         setProperty(PROPERTY_PROJECT_ID, BuildConfig.GOOGLE_CLOUD_PROJECT_ID)
-                        setProperty(PROPERTY_API_KEY, BuildConfig.GOOGLE_CLOUD_API_KEY)
+                        // API Key will now come from SecurePreferences
                     }
                 }
 
                 val projectId = properties.getProperty(PROPERTY_PROJECT_ID, "")
-                val apiKey = properties.getProperty(PROPERTY_API_KEY, null)
+                // API Key retrieval from SecurePreferences
+                val apiKey = securePreferences.getApiToken()
 
                 if (projectId.isBlank()) {
                     Log.w(
                         TAG,
-                        "Google Cloud Project ID is not set. Please configure it in $LOCAL_PROPERTIES_FILE"
+                        "Google Cloud Project ID is not set. Please configure it in $LOCAL_PROPERTIES_FILE or BuildConfig"
                     )
                 }
 
+                if (apiKey == null || apiKey.isBlank()) {
+                    Log.e(TAG, "Vertex AI API Key is NOT configured in SecurePreferences. AI features may fail.")
+                }
+
                 VertexAIConfig(
-                    projectId = projectId.ifBlank { "default-project-id" },
+                    projectId = projectId.ifBlank { "default-project-id" }, // projectId is loaded as before
                     location = "us-central1",
-                    modelName = "gemini-pro",
-                    apiKey = apiKey,
-                    temperature = 0.7f,
-                    topK = 40,
-                    topP = 0.95f,
-                    maxOutputTokens = 2048
+                    modelName = "gemini-pro", // This can be kept or also made configurable if needed
+                    apiKey = apiKey ?: "", // Use the fetched API key
+                    temperature = 0.7f, // Placeholder or from future config
+                    topK = 40,          // Placeholder or from future config
+                    topP = 0.95f,       // Placeholder or from future config
+                    maxOutputTokens = 2048 // Placeholder or from future config
                 )
             }
         }
@@ -106,24 +113,6 @@ object VertexAIModule {
             // For now, we'll just return the uninitialized client
             // The app should call initialize() before using the client
         }
-    }
-
-    /**
-     * Provides the GenerativeModel directly if needed elsewhere in the app.
-     */
-    @Provides
-    @Singleton
-    fun provideGenerativeModel(config: VertexAIConfig): GenerativeModel {
-        return GenerativeModel(
-            modelName = config.modelName,
-            apiKey = config.apiKey,
-            generationConfig = com.google.ai.generativeai.type.schema.generationConfig {
-                temperature = config.temperature
-                topK = config.topK
-                topP = config.topP
-                maxOutputTokens = config.maxOutputTokens
-            }
-        )
     }
 
     /**
