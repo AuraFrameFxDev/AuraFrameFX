@@ -182,7 +182,7 @@ if "$cygwin" || "$msys" ; then
         if
             case $arg in                                #(
               -*)   false ;;                            # don't mess with options
-s #(
+ #(
               /?*)  t=${arg#/} t=/${t%%/*}              # looks like a POSIX fil
 epath
                     [ -e "$t" ] ;;                      #(
