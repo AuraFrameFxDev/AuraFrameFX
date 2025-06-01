@@ -29,7 +29,7 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         create("libs") {
-            (files("gradle/libs.versions.toml"))
+            from(files("gradle/libs.versions.toml"))
         }
     }
 }

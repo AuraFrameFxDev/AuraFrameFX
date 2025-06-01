@@ -3,15 +3,37 @@
 
     <style name="Theme.AuraFrameFX" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/neon_teal</item>
-        <item name="colorPrimaryVariant">@color/neon_blue</item>
         <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/neon_blue</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary</item>
+
         <item name="colorSecondary">@color/neon_purple</item>
-        <item name="colorSecondaryVariant">@color/neon_purple</item>
         <item name="colorOnSecondary">@color/on_surface</item>
+        <item name="colorSecondaryContainer">@color/neon_purple</item>
+        <item name="colorOnSecondaryContainer">@color/on_surface</item>
+
+        <item name="colorTertiary">@color/neon_blue</item>
+        <item name="colorOnTertiary">@color/on_surface</item>
+        <item name="colorTertiaryContainer">@color/neon_blue</item>
+        <item name="colorOnTertiaryContainer">@color/on_surface</item>
+
+        <item name="android:colorBackground">@color/dark_background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_surface</item>
+        <item name="colorErrorContainer">@color/error</item>
+        <item name="colorOnErrorContainer">@color/on_surface</item>
+
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!-- You can also copy shapeAppearance and textAppearance items from Theme.AuraFrameFX.Material3 if needed -->
     </style>
 
     <style name="Theme.AuraFrameFX.SplashScreen" parent="Theme.SplashScreen">
@@ -33,4 +55,3 @@
         <item name="cardCornerRadius">12dp</item>
     </style>
 </resources>
-
