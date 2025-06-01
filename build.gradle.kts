@@ -2,15 +2,15 @@
 // This section MUST be at the very top of your build.gradle.kts file.
 
 // Top-level val definitions (accessible everywhere AFTER they are defined, but not in buildscript)
-val kotlinVersion = libs.versions.kotlin.get()
-val agpVersion = libs.versions.agp.get()
-val googleServicesVersion = libs.versions.googleServices.get()
-val firebaseCrashlyticsVersion = libs.versions.firebaseCrashlytics.get()
-val firebasePerformanceVersion = libs.versions.firebasePerformance.get()
-val hiltVersion = libs.versions.hilt.get()
-val kspVersion = libs.versions.ksp.get()
-val navigationVersion = libs.versions.navigation.get()
-val dokkaVersion = libs.versions.dokka.get()
+// val kotlinVersion = libs.versions.kotlin.get()
+// val agpVersion = libs.versions.agp.get()
+// val googleServicesVersion = libs.versions.googleServices.get()
+// val firebaseCrashlyticsVersion = libs.versions.firebaseCrashlytics.get()
+// val firebasePerformanceVersion = libs.versions.firebasePerformance.get()
+// val hiltVersion = libs.versions.hilt.get()
+// val kspVersion = libs.versions.ksp.get()
+// val navigationVersion = libs.versions.navigation.get()
+// val dokkaVersion = libs.versions.dokka.get()
 
 // --- START OF CRITICAL CORRECTION ---
 // This 'buildscript' block MUST appear before the root 'plugins { ... }' block.
@@ -22,15 +22,15 @@ buildscript {
     }
     dependencies {
         // These versions must match those in libs.versions.toml
-        classpath("com.android.tools.build:gradle:${libs.versions.agp.get()}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
-        classpath("com.google.gms:google-services:${libs.versions.googleServices.get()}")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:${libs.versions.firebaseCrashlytics.get()}")
-        classpath("com.google.firebase:perf-plugin:${libs.versions.firebasePerformance.get()}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.hilt.get()}")
-        classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:${libs.versions.ksp.get()}")
-        classpath("androidx.navigation.safeargs:androidx.navigation.safeargs.gradle.plugin:${libs.versions.navigation.get()}")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:${libs.versions.dokka.get()}")
+        classpath("com.android.tools.build:gradle:8.10.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.21")
+        classpath("com.google.gms:google-services:4.4.2")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath("com.google.firebase:perf-plugin:1.4.2")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.56.2")
+        classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:2.1.21-2.0.1")
+        classpath("androidx.navigation.safeargs:androidx.navigation.safeargs.gradle.plugin:2.9.0")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:2.0.0")
     }
 }
 // --- END OF CRITICAL CORRECTION ---
