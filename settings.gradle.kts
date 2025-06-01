@@ -1,4 +1,5 @@
 enableFeaturePreview("VERSION_CATALOGS")
+val kotlinPluginVersionForSettings = settings.providers.gradleProperty("kotlinPluginVersion").get()
 dependencyResolutionManagement {
 
     versionCatalogs {
@@ -25,7 +26,7 @@ pluginManagement {
                 "org.jetbrains.kotlin.android",
                 "org.jetbrains.kotlin.kapt",
                 "org.jetbrains.kotlin.plugin.serialization" -> {
-                    useVersion(libs.versions.kotlin.get())
+                    useVersion(kotlinPluginVersionForSettings)
                 }
             }
         }
