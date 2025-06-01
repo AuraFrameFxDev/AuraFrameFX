@@ -1,5 +1,5 @@
 enableFeaturePreview("VERSION_CATALOGS")
-val kotlinPluginVersionForSettings: String = settings.providers.gradleProperty("kotlinPluginVersion").get()
+val kotlinPluginVersionForSettings = "2.1.21" // Hardcoded version
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
