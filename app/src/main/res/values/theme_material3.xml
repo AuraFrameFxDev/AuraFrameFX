@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AuraFrameFX.Material3" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/neon_teal</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/neon_blue</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary</item>
+
+        <item name="colorSecondary">@color/neon_purple</item>
+        <item name="colorOnSecondary">@color/on_surface</item>
+        <item name="colorSecondaryContainer">@color/neon_purple</item>
+        <item name="colorOnSecondaryContainer">@color/on_surface</item>
+
+        <item name="colorTertiary">@color/neon_blue</item>
+        <item name="colorOnTertiary">@color/on_surface</item>
+        <item name="colorTertiaryContainer">@color/neon_blue</item>
+        <item name="colorOnTertiaryContainer">@color/on_surface</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <item name="android:colorBackground">@color/dark_background</item>
+        <item name="android:windowBackground">@color/dark_background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_surface</item>
+        <item name="colorErrorContainer">@color/error</item>
+        <item name="colorOnErrorContainer">@color/on_surface</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:enforceStatusBarContrast">false</item>
+
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.AuraFrameFX.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.AuraFrameFX.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">
+            @style/ShapeAppearance.AuraFrameFX.LargeComponent
+        </item>
+
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.AuraFrameFX.DisplayLarge
+        </item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.AuraFrameFX.DisplayMedium
+        </item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.AuraFrameFX.DisplaySmall
+        </item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.AuraFrameFX.HeadlineLarge
+        </item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.AuraFrameFX.HeadlineMedium
+        </item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.AuraFrameFX.HeadlineSmall
+        </item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.AuraFrameFX.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.AuraFrameFX.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.AuraFrameFX.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.AuraFrameFX.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.AuraFrameFX.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.AuraFrameFX.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.AuraFrameFX.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.AuraFrameFX.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.AuraFrameFX.LabelSmall</item>
+    </style>
+
+    <style name="ShapeAppearance.AuraFrameFX.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent"></style>
+
+    <style name="ShapeAppearance.AuraFrameFX.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent"></style>
+
+    <style name="ShapeAppearance.AuraFrameFX.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent"></style>
+</resources>

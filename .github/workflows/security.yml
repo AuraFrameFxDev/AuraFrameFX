@@ -1,0 +1,55 @@
+name: Security
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * 0' # Weekly
+  workflow_dispatch:
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # CodeQL Analysis
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java, kotlin
+          queries: security-extended,security-and-quality
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:java,/language:kotlin"
+
+      # Secret Scanning
+      - name: Run Gitleaks
+        uses: zricethezav/gitleaks-action@v2
+        with:
+          config-path: .github/gitleaks.toml
+
+      # Dependency License Check
+      - name: Check Licenses
+        uses: s4u/[email protected]
+        with:
+          outputDirectory: build/reports/license
+          failOnBlacklisted: true
+
+      - name: Upload License Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: license-report
+          path: build/reports/license/
+          retention-days: 7

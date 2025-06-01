@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AuraFrameFX" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/neon_teal</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/neon_blue</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary</item>
+
+        <item name="colorSecondary">@color/neon_purple</item>
+        <item name="colorOnSecondary">@color/on_surface</item>
+        <item name="colorSecondaryContainer">@color/neon_purple</item>
+        <item name="colorOnSecondaryContainer">@color/on_surface</item>
+
+        <item name="colorTertiary">@color/neon_blue</item>
+        <item name="colorOnTertiary">@color/on_surface</item>
+        <item name="colorTertiaryContainer">@color/neon_blue</item>
+        <item name="colorOnTertiaryContainer">@color/on_surface</item>
+
+        <item name="android:colorBackground">@color/dark_background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_surface</item>
+        <item name="colorErrorContainer">@color/error</item>
+        <item name="colorOnErrorContainer">@color/on_surface</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!-- You can also copy shapeAppearance and textAppearance items from Theme.AuraFrameFX.Material3 if needed -->
+    </style>
+
+    <style name="Theme.AuraFrameFX.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/dark_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
+        <item name="postSplashScreenTheme">@style/Theme.AuraFrameFX</item>
+    </style>
+
+    <style name="Widget.AuraFrameFX.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/neon_teal</item>
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="Widget.AuraFrameFX.CardView" parent="Widget.Material3.CardView">
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">12dp</item>
+    </style>
+</resources>

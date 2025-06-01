@@ -1,0 +1,48 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Make Gradlew executable
+        run: chmod +x gradlew
+
+      # Detekt
+      - name: Run Detekt
+        run: ./gradlew detekt
+
+      # ktlint
+      - name: Run ktlint
+        run: ./gradlew ktlintCheck
+
+      # OWASP Dependency Check
+      - name: OWASP Dependency Check
+        uses: s4u/[email protected]
+        with:
+          project: 'AuraFrameFx'
+          scanpath: '.'
+          format: 'HTML'
+          outputdirectory: 'build/reports/dependency-check'
+
+      - name: Upload OWASP Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-check-report
+          path: build/reports/dependency-check/
+          retention-days: 7

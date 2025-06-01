@@ -1,0 +1,15 @@
+{
+  "description": "AuraFrameFX LSposed Module",
+  "minApiLevel": 24,
+  "minXposedApi": 82,
+  "moduleScope": {
+    "system": true,
+    "user": true
+  },
+  "supportXposed": true,
+  "updateUrl": "https://github.com/AuraFrameFxDev/AuraFrameFX-Beta/releases/latest/download/module.json",
+  "version": "1.0",
+  "versionCode": 1,
+  "author": "AuraFrameFxDev",
+  "website": "https://github.com/AuraFrameFxDev/AuraFrameFX-Beta"
+}
