@@ -1,7 +1,6 @@
 enableFeaturePreview("VERSION_CATALOGS")
-val kotlinPluginVersionForSettings = settings.providers.gradleProperty("kotlinPluginVersion").get()
+val kotlinPluginVersionForSettings: String = settings.providers.gradleProperty("kotlinPluginVersion").get()
 dependencyResolutionManagement {
-
     versionCatalogs {
         create("libs") {
             from(files("gradle/libs.versions.toml"))
