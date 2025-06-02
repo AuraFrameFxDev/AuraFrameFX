@@ -14,7 +14,7 @@ dokka = "2.0.0" # Updated Dokka for Kotlin 2.0
 # Kotlin standard library versions
 kotlinStdlib = "2.0.0"
 kotlinStdlibJdk8 = "2.1.21"
-kotlinReflect = "2.0.0"
+kotlinReflect = "2.1.21"
 kotlinxCoroutines = "1.8.1" # Updated for Kotlin 2.0 compatibility
 kotlinxDatetime = "0.6.1" # Updated for Kotlin 2.0 compatibility
 kotlinxSerializationJson = "1.7.3" # Updated for Kotlin 2.0 compatibility
