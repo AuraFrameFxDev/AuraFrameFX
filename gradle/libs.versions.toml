@@ -12,7 +12,7 @@ kotlin = "2.1.21" # Updated to Kotlin 2.0.0
 ksp = "2.1.21-2.0.1" # Updated KSP for Kotlin 2.0
 dokka = "2.0.0" # Updated Dokka for Kotlin 2.0
 # Kotlin standard library versions
-kotlinStdlib = "2.0.0"
+kotlinStdlib = "2.1.21"
 kotlinStdlibJdk8 = "2.1.21"
 kotlinReflect = "2.0.0"
 kotlinxCoroutines = "1.8.1" # Updated for Kotlin 2.0 compatibility
