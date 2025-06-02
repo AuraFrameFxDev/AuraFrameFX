@@ -49,7 +49,7 @@ hilt = "2.56.2"
 
 # Firebase
 firebaseBom = "33.14.0"
-firebaseCrashlytics = "2.9.9"
+firebaseCrashlytics = "3.0.3"
 firebasePerformance = "1.4.2"
 googleServices = "4.4.2"
 
