@@ -140,5 +140,5 @@ dependencies {
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
     
     // LeakCanary for memory leak detection (debug only)
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.12")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
 }
