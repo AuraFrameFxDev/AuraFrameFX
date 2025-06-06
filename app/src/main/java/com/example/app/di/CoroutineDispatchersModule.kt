@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
 import javax.inject.Qualifier
 
 /**
@@ -16,11 +18,11 @@ import javax.inject.Qualifier
 @InstallIn(SingletonComponent::class)
 object CoroutineDispatchersModule {
 
-    @Retention(AnnotationRetention.RUNTIME)
+    @Retention(RetentionPolicy.RUNTIME)
     @Qualifier
     annotation class IoDispatcher
 
-    @Retention(AnnotationRetention.RUNTIME)
+    @Retention(RetentionPolicy.RUNTIME)
     @Qualifier
     annotation class DefaultDispatcher
 
