@@ -7,8 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Qualifier
-import kotlin.annotation.AnnotationRetention
-import kotlin.annotation.Retention
+import javax.inject.Named
 
 /**
  * Hilt Module for providing Coroutine Dispatchers.
@@ -17,28 +16,22 @@ import kotlin.annotation.Retention
 @InstallIn(SingletonComponent::class)
 object CoroutineDispatchersModule {
 
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class IoDispatcher
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class DefaultDispatcher
+    // Using Named qualifier instead of custom qualifiers to avoid annotation processing issues
+    private const val IO_DISPATCHER = "io_dispatcher"
+    private const val DEFAULT_DISPATCHER = "default_dispatcher"
 
     /**
      * Provides the IO Coroutine Dispatcher.
-     * TODO: Reported as unused. Ensure this is injected where IO operations are performed.
      */
     @Provides
-    @IoDispatcher
+    @Named(IO_DISPATCHER)
     fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     /**
      * Provides the Default Coroutine Dispatcher.
-     * TODO: Reported as unused. Ensure this is injected for CPU-intensive tasks.
      */
     @Provides
-    @DefaultDispatcher
+    @Named(DEFAULT_DISPATCHER)
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 
     // You could also provide Dispatchers.Main if needed, though it's often accessed directly.
