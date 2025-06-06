@@ -12,6 +12,7 @@ import com.example.app.model.agent_states.VisionState
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
+import androidx.compose.ui.tooling.preview.Preview
 
 @Singleton
 class CascadeDebugViewModel @Inject constructor(
@@ -65,8 +66,9 @@ fun CascadeZOrderPlayground(
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
+                val visionState by viewModel.visionState.collectAsState()
                 Text(
-                    text = "Current State: ${viewModel.visionState.value}",
+                    text = "Current State: $visionState",
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
@@ -105,8 +107,9 @@ fun CascadeZOrderPlayground(
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
+                val processingState by viewModel.processingState.collectAsState()
                 Text(
-                    text = "Current State: ${viewModel.processingState.value}",
+                    text = "Current State: $processingState",
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
@@ -154,7 +157,8 @@ fun CascadeZOrderPlayground(
                             text = "Vision History",
                             style = MaterialTheme.typography.titleSmall
                         )
-                        viewModel.visionState.value.history?.forEach { entry ->
+                        val visionState by viewModel.visionState.collectAsState()
+                        visionState.history?.forEach { entry ->
                             Text(text = "- $entry")
                         }
                     }
@@ -163,7 +167,8 @@ fun CascadeZOrderPlayground(
                             text = "Processing History",
                             style = MaterialTheme.typography.titleSmall
                         )
-                        viewModel.processingState.value.history?.forEach { entry ->
+                        val processingState by viewModel.processingState.collectAsState()
+                        processingState.history?.forEach { entry ->
                             Text(text = "- $entry")
                         }
                     }

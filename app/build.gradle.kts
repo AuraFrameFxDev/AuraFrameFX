@@ -48,13 +48,19 @@ android {
     productFlavors {
         create("xposed") {
             dimension = "xposed"
-            // Skip this flavor during CI builds to avoid LSPosed dependency issues
-            if (System.getenv("CI") == "true") {
-                setIgnore(true)
-            }
         }
         create("vanilla") {
             dimension = "xposed"
+        }
+    }
+    
+    // Skip xposed flavor in CI environment to avoid LSPosed dependency issues using the new API
+    androidComponents {
+        beforeVariants { variantBuilder ->
+            if (System.getenv("CI") == "true" && 
+                variantBuilder.flavorName?.contains("xposed", ignoreCase = true) == true) {
+                variantBuilder.enable = false
+            }
         }
     }
 
@@ -101,6 +107,10 @@ android {
         getByName("main") {
             java.srcDirs("build/generated/src/main/kotlin")
         }
+    }
+
+    sourceSets.all {
+        languageSettings.optIn("kotlinx.serialization.InternalSerializationApi")
     }
 }
 
