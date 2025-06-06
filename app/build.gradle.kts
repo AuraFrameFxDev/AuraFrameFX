@@ -14,13 +14,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.app"
-    compileSdk = 34
+    namespace = "dev.aurakai.auraframefx"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.app"
-        minSdk = 26
-        targetSdk = 34
+        applicationId = "dev.aurakai.auraframefx"
+        minSdk = 31
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -54,11 +54,10 @@ android {
         }
     }
     
-    // Skip xposed flavor in CI environment to avoid LSPosed dependency issues using the new API
+    // Skip xposed flavor to avoid LSPosed dependency issues using the new API
     androidComponents {
         beforeVariants { variantBuilder ->
-            if (System.getenv("CI") == "true" && 
-                variantBuilder.flavorName?.contains("xposed", ignoreCase = true) == true) {
+            if (variantBuilder.flavorName?.contains("xposed", ignoreCase = true) == true) {
                 variantBuilder.enable = false
             }
         }
@@ -68,12 +67,12 @@ android {
     // This prevents the 'Build was configured to prefer settings repositories' error
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
         // Add compiler flags for annotation processing
         freeCompilerArgs += listOf(
             "-Xskip-prerelease-check",
@@ -109,10 +108,14 @@ android {
         }
     }
 
-    sourceSets.all {
-        languageSettings.optIn("kotlinx.serialization.InternalSerializationApi")
+    kotlin {
+        sourceSets.all { // Or sourceSets.getByName("main") { ... } etc.
+            languageSettings {
+                optIn("kotlinx.serialization.InternalSerializationApi") // Replace with your actual API
+                optIn("kotlin.RequiresOptIn")
+            }
+        }
     }
-}
 
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
@@ -133,8 +136,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-compiler:2.48")
-    // Temporarily disabled KSP for Hilt due to compatibility issues
-    // ksp("com.google.dagger:hilt-compiler:2.48")
+    ksp("com.google.dagger:hilt-compiler:2.48")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
@@ -160,19 +162,12 @@ dependencies {
     testImplementation("io.mockk:mockk-android:1.13.10")
     androidTestImplementation("io.mockk:mockk-android:1.13.10")
 
-    // Only include LSPosed dependencies if not in CI environment
-    if (System.getenv("CI") != "true") {
-        "xposedCompileOnly"("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
-        // For local development, still try to use the actual dependencies
-        "xposedCompileOnly"("io.github.libxposed:api:100-1.0.0")
-        "xposedCompileOnly"("io.github.libxposed:service:100-1.0.0")
-    } else {
-        // In CI, use empty file lists to avoid dependency resolution failures
-        "xposedCompileOnly"(files())
-    }
+    "xposedCompileOnly"(files())
+    "xposedCompileOnly"("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
+    "xposedCompileOnly"("io.github.libxposed:api:100-1.0.0")
+    "xposedCompileOnly"("io.github.libxposed:service:100-1.0.0")
 }
 
-// Create a specific task for generating the OpenAPI code
 tasks.register(
     "generateOpenApiCode",
     org.openapitools.generator.gradle.plugin.tasks.GenerateTask::class
@@ -180,8 +175,8 @@ tasks.register(
     inputSpec.set(layout.projectDirectory.file("src/main/resources/auraframefx_ai_api.yaml").asFile.absolutePath)
     generatorName.set("kotlin")
     outputDir.set(layout.buildDirectory.dir("generated").get().asFile.absolutePath)
-    apiPackage.set("com.example.app.generated.api.auraframefxai")
-    modelPackage.set("com.example.app.generated.model.auraframefxai")
+    apiPackage.set("dev.aurakai.auraframefx.generated.api.auraframefxai")
+    modelPackage.set("dev.aurakai.auraframefx.generated.model.auraframefxai")
     configOptions.set(
         mapOf(
             "library" to "jvm-retrofit2",
@@ -205,4 +200,4 @@ tasks.named("clean").configure {
     doLast {
         delete(layout.buildDirectory.dir("generated").get())
     }
-}
+}}
