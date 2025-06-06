@@ -17,6 +17,11 @@ import com.example.app.ui.navigation.AppNavGraph
 import com.example.app.ui.theme.AuraFrameFXTheme
 
 class MainActivity : ComponentActivity() {
+    /**
+     * Initializes the activity and sets the Compose UI content to the main screen within the app's theme.
+     *
+     * @param savedInstanceState The saved state of the activity, or null if none exists.
+     */
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,12 +32,22 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Called when the activity is about to be destroyed.
+     *
+     * Override this method to perform cleanup operations before the activity is removed from memory.
+     */
     override fun onDestroy() {
         super.onDestroy()
         // Perform any cleanup here if needed
     }
 }
 
+/**
+ * Displays the main screen layout with a bottom navigation bar and navigation graph.
+ *
+ * Sets up the app's primary UI structure using a Scaffold, integrating navigation and content padding.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
@@ -50,6 +65,9 @@ fun MainScreen() {
     }
 }
 
+/**
+ * Displays a preview of the main screen composable within the app's theme for design-time visualization.
+ */
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {

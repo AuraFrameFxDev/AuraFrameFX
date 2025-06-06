@@ -15,6 +15,15 @@ import com.example.app.ui.navigation.NavDestination
 /**
  * Bottom navigation bar for the AuraFrameFX app
  */
+/**
+ * Displays a bottom navigation bar with navigation items for the main app destinations.
+ *
+ * The navigation bar highlights the currently selected destination and allows users to switch between destinations.
+ * Navigation actions preserve and restore state, avoid duplicate destinations in the back stack, and pop up to the home route as needed.
+ *
+ * @param modifier Modifier to be applied to the navigation bar.
+ * @param navController Controller used to manage app navigation and determine the current route.
+ */
 @Composable
 fun BottomNavigationBar(
     modifier: Modifier = Modifier,

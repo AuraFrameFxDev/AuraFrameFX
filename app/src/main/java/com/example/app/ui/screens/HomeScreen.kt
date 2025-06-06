@@ -20,6 +20,11 @@ import com.example.app.ui.theme.AppDimensions
 /**
  * Home screen for the AuraFrameFX app
  */
+/**
+ * Displays the home screen UI for the AuraFrameFX app with a welcome message and navigation to the AI chat screen.
+ *
+ * Presents a centered layout featuring a headline, subtitle, and a button that navigates to the AI chat screen when clicked.
+ */
 @Composable
 fun HomeScreen(navController: NavController) {
     Box(
