@@ -22,7 +22,7 @@ plugins {
     id("com.google.firebase.crashlytics") apply false
     id("com.google.firebase.firebase-perf") apply false
     id("com.google.dagger.hilt.android") apply false
-    id("com.google.devtools.ksp") apply false
+    id("com.google.devtools.ksp") version "2.1.21-1.0.18" apply false
     id("androidx.navigation.safeargs.kotlin") version "2.7.7" apply false
     id("org.jetbrains.dokka") apply false
     id("org.openapi.generator") apply false
