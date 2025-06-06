@@ -6,24 +6,23 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 import javax.inject.Qualifier
+import kotlin.annotation.AnnotationRetention
+import kotlin.annotation.Retention
 
 /**
  * Hilt Module for providing Coroutine Dispatchers.
- * TODO: Reported as unused declaration. Ensure Hilt is set up and this module is processed.
  */
 @Module
 @InstallIn(SingletonComponent::class)
 object CoroutineDispatchersModule {
 
-    @Retention(RetentionPolicy.RUNTIME)
     @Qualifier
+    @Retention(AnnotationRetention.BINARY)
     annotation class IoDispatcher
 
-    @Retention(RetentionPolicy.RUNTIME)
     @Qualifier
+    @Retention(AnnotationRetention.BINARY)
     annotation class DefaultDispatcher
 
     /**
