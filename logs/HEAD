@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 b9ede39693e76db6c3347b82907aa5e79be3205a https://github.com/AuraFrameFX-Dev <wehttam1989@gmail.com> 1748818194 -0600	commit (initial): Initial commit: Project setup with Android 14, Kotlin 2.0.0, and Java 21
+b9ede39693e76db6c3347b82907aa5e79be3205a 0000000000000000000000000000000000000000 https://github.com/AuraFrameFX-Dev <wehttam1989@gmail.com> 1748818198 -0600	Branch: renamed refs/heads/Master to refs/heads/main
+0000000000000000000000000000000000000000 b9ede39693e76db6c3347b82907aa5e79be3205a https://github.com/AuraFrameFX-Dev <wehttam1989@gmail.com> 1748818198 -0600	Branch: renamed refs/heads/Master to refs/heads/main
+b9ede39693e76db6c3347b82907aa5e79be3205a b9ede39693e76db6c3347b82907aa5e79be3205a https://github.com/AuraFrameFX-Dev <wehttam1989@gmail.com> 1748827107 -0600	reset: moving to HEAD
+b9ede39693e76db6c3347b82907aa5e79be3205a fb7597e205b26e6c5a02305cb560f60ea5c38a50 https://github.com/AuraFrameFX-Dev <wehttam1989@gmail.com> 1748827110 -0600	checkout: moving from main to Update
+fb7597e205b26e6c5a02305cb560f60ea5c38a50 055d7baa8cd7ce496d4014c6477a01d8b92a8e96 https://github.com/AuraFrameFX-Dev <wehttam1989@gmail.com> 1748827837 -0600	commit: Bump Android Gradle Plugin version to 8.5.0

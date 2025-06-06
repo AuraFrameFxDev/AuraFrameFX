@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Night theme for AuraFrameFX, inheriting from Material 3 DayNight -->
+    <style name="Theme.AuraFrameFX.Material3" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Material 3 Color Palette Overrides for Night -->
+        <!-- Primary, Secondary, Tertiary colors (e.g., neon_teal, neon_purple, neon_blue)
+             are inherited from the main values/colors.xml by default.
+             If specific night variants are needed for these, they should be defined in
+             values-night/colors.xml and overridden here. -->
+
+        <!-- Example: If neon_teal needed a night variant, you'd define it in values-night/colors.xml
+             and then uncomment and set it here:
+        <item name="colorPrimary">@color/neon_teal_night</item>
+        -->
+
+        <item name="android:colorBackground">@color/dark_background</item>
+        <item name="colorOnBackground">@color/on_surface</item>
+
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+
+        <item name="colorError">@color/error</item>
+        <!-- colorOnError will use the day theme's colorOnPrimary or on_surface if not overridden.
+             Ensure contrast. For example, if day colorOnError is on_primary (black),
+             and night error color is dark, this might need adjustment.
+             The day theme (themes.xml) has colorOnError as @color/on_surface (white)
+             which should generally work well on a night error color like #CF6679. -->
+        <item name="colorOnError">@color/on_surface
+        </item> <!-- Explicitly setting for clarity for night -->
+
+
+        <!-- System UI: Ensure light text/icons on dark system bars -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <!-- Ensure other attributes from the main Theme.AuraFrameFX.Material3 are consistent
+             or intentionally overridden for night. TextAppearances, ShapeAppearances, etc.,
+             will be inherited from the main theme if not specified here. -->
+    </style>
+</resources>
