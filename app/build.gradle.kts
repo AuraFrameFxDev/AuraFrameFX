@@ -51,6 +51,15 @@ android {
         }
     }
 
+    repositories {
+        google()
+        mavenCentral()
+        jitpack()
+        jetbrainsComposeKotlinDev()
+        // Use LSPosed API repository instead of traditional Xposed
+        maven { url = uri("https://api.lsposed.org/repository/maven-public/") }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -121,9 +130,10 @@ dependencies {
     testImplementation("io.mockk:mockk-android:1.13.10")
     androidTestImplementation("io.mockk:mockk-android:1.13.10")
     
-    // Xposed dependencies for the xposed flavor only
-    "xposedCompileOnly"("de.robv.android.xposed:api:82")
-    "xposedCompileOnly"("de.robv.android.xposed:api-base:82")
+    // LSPosed dependencies for the xposed flavor only
+    "xposedCompileOnly"("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
+    "xposedCompileOnly"("io.github.libxposed:api:100-1.0.0")
+    "xposedCompileOnly"("io.github.libxposed:service:100-1.0.0")
 }
 
 // Create a specific task for generating the OpenAPI code
