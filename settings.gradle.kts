@@ -33,6 +33,12 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        // LSPosed API repositories - with fallbacks
+        maven { url = uri("https://api.lsposed.org/repository/maven-public/") }
+        // Fallback JitPack mirror for LSPosed
+        maven { url = uri("https://jitpack.io") }
+        // Fallback Maven Central
+        maven { url = uri("https://repo1.maven.org/maven2/") }
     }
     versionCatalogs {
         create("libs")

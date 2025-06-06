@@ -51,14 +51,8 @@ android {
         }
     }
 
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
-        // Use LSPosed API repository instead of traditional Xposed
-        maven { url = uri("https://api.lsposed.org/repository/maven-public/") }
-    }
+    // Repositories are now defined in settings.gradle.kts instead of here
+    // This prevents the 'Build was configured to prefer settings repositories' error
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -71,6 +65,10 @@ android {
 
     buildFeatures {
         compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
 
     packaging {
@@ -91,14 +89,13 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     // Removed appcompat since we're using pure Compose
     
-    // Jetpack Navigation 3 with built-in animation support
-    implementation("androidx.navigation:navigation-compose:3.0.0")
-    implementation("androidx.navigation:navigation-runtime-ktx:3.0.0")
+    // Jetpack Navigation with built-in animation support
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation(platform("androidx.compose:compose-bom:2024.02.02"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -153,6 +150,7 @@ tasks.register("generateOpenApiCode", org.openapitools.generator.gradle.plugin.t
         "useCoroutines" to "true"
     ))
 }
+// Repositories are defined in settings.gradle.kts
 
 // Run OpenAPI generation before build
 tasks.named("preBuild").configure {
