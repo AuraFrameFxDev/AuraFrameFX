@@ -129,7 +129,7 @@ fun AuraFrameFXTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = AppTypography,
         content = {
             Box(
                 modifier = Modifier
@@ -140,11 +140,4 @@ fun AuraFrameFXTheme(
             }
         }
     )
-}
-MaterialTheme(
-colorScheme = colorScheme,
-typography = AppTypography, // From Typography.kt
-// shapes = AppShapes, // TODO: Define AppShapes in Shapes.kt if custom shapes are needed
-content = content
-)
 }
