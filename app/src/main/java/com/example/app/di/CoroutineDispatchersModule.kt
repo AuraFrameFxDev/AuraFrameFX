@@ -16,11 +16,11 @@ import javax.inject.Qualifier
 @InstallIn(SingletonComponent::class)
 object CoroutineDispatchersModule {
 
-    @Retention(AnnotationRetention.BINARY)
+    @Retention(AnnotationRetention.RUNTIME)
     @Qualifier
     annotation class IoDispatcher
 
-    @Retention(AnnotationRetention.BINARY)
+    @Retention(AnnotationRetention.RUNTIME)
     @Qualifier
     annotation class DefaultDispatcher
 
