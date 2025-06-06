@@ -33,6 +33,8 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        // LSPosed API repository
+        maven { url = uri("https://api.lsposed.org/repository/maven-public/") }
     }
     versionCatalogs {
         create("libs")
