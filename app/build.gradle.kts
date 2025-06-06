@@ -14,11 +14,11 @@ plugins {
 }
 
 android {
-    namespace = "dev.aurakai.auraframefx"
+    namespace = "com.example.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "dev.aurakai.auraframefx"
+        applicationId = "com.example.app"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -128,8 +128,8 @@ tasks.register("generateOpenApiCode", org.openapitools.generator.gradle.plugin.t
     inputSpec.set(layout.projectDirectory.file("src/main/resources/auraframefx_ai_api.yaml").asFile.absolutePath)
     generatorName.set("kotlin")
     outputDir.set(layout.buildDirectory.dir("generated").get().asFile.absolutePath)
-    apiPackage.set("dev.aurakai.auraframefx.generated.api.auraframefxai")
-    modelPackage.set("dev.aurakai.auraframefx.generated.model.auraframefxai")
+    apiPackage.set("com.example.app.generated.api.auraframefxai")
+    modelPackage.set("com.example.app.generated.model.auraframefxai")
     configOptions.set(mapOf(
         "library" to "jvm-retrofit2",
         "serializationLibrary" to "kotlinx_serialization",
