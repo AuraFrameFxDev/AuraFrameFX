@@ -54,8 +54,8 @@ android {
     repositories {
         google()
         mavenCentral()
-        jitpack()
-        jetbrainsComposeKotlinDev()
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
         // Use LSPosed API repository instead of traditional Xposed
         maven { url = uri("https://api.lsposed.org/repository/maven-public/") }
     }
