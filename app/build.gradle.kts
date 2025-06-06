@@ -48,13 +48,16 @@ android {
     productFlavors {
         create("xposed") {
             dimension = "xposed"
-            // Skip this flavor during CI builds to avoid LSPosed dependency issues
-            if (System.getenv("CI") == "true") {
-                setIgnore(true)
-            }
         }
         create("vanilla") {
             dimension = "xposed"
+        }
+    }
+    
+    // Skip xposed flavor in CI environment to avoid LSPosed dependency issues
+    variantFilter {
+        if (System.getenv("CI") == "true" && flavors.any { it.name.contains("xposed", ignoreCase = true) }) {
+            ignore = true
         }
     }
 
