@@ -21,6 +21,11 @@ import com.example.app.ui.theme.AppDimensions
 /**
  * Profile screen for the AuraFrameFX app
  */
+/**
+ * Displays the user profile screen with a centered icon, title, and placeholder details.
+ *
+ * Presents a vertically centered layout featuring a large person icon, a "User Profile" headline, and a placeholder message for profile details, styled according to the app's theme.
+ */
 @Composable
 fun ProfileScreen() {
     Column(

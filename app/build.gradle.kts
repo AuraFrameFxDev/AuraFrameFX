@@ -51,6 +51,15 @@ android {
         }
     }
 
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        // Use LSPosed API repository instead of traditional Xposed
+        maven { url = uri("https://api.lsposed.org/repository/maven-public/") }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -81,6 +90,10 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
     // Removed appcompat since we're using pure Compose
+    
+    // Jetpack Navigation 3 with built-in animation support
+    implementation("androidx.navigation:navigation-compose:3.0.0")
+    implementation("androidx.navigation:navigation-runtime-ktx:3.0.0")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -118,9 +131,10 @@ dependencies {
     testImplementation("io.mockk:mockk-android:1.13.10")
     androidTestImplementation("io.mockk:mockk-android:1.13.10")
     
-    // Xposed dependencies for the xposed flavor only
-    "xposedCompileOnly"("de.robv.android.xposed:api:82")
-    "xposedCompileOnly"("de.robv.android.xposed:api-base:82")
+    // LSPosed dependencies for the xposed flavor only
+    "xposedCompileOnly"("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
+    "xposedCompileOnly"("io.github.libxposed:api:100-1.0.0")
+    "xposedCompileOnly"("io.github.libxposed:service:100-1.0.0")
 }
 
 // Create a specific task for generating the OpenAPI code
