@@ -5,46 +5,55 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-// import androidx.compose.material3.MaterialTheme // No longer directly used here
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.app.ui.theme.AuraFrameFXTheme // Added import
+import androidx.navigation.compose.rememberNavController
+import com.example.app.ui.components.BottomNavigationBar
+import com.example.app.ui.navigation.AppNavGraph
+import com.example.app.ui.theme.AuraFrameFXTheme
 
-class MainActivity : ComponentActivity() { // Changed parent
+class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Removed TODO about unused entry point, as it's now used for Compose content.
         setContent {
-            AuraFrameFXTheme { // Using the new custom theme
-                Greeting("Welcome to AuraFrameFX!")
+            AuraFrameFXTheme {
+                MainScreen()
             }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // TODO: Reported as unused entry point by static analysis, but it's a valid lifecycle method.
-        // TODO: Perform any cleanup here if needed.
+        // Perform any cleanup here if needed
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Hello $name!")
+fun MainScreen() {
+    val navController = rememberNavController()
+    
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController = navController) }
+    ) { paddingValues ->
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+        ) {
+            AppNavGraph(navController = navController)
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    AuraFrameFXTheme { // Using the new custom theme for preview
-        Greeting("AuraFrameFX Preview")
+fun MainScreenPreview() {
+    AuraFrameFXTheme {
+        MainScreen()
     }
 }

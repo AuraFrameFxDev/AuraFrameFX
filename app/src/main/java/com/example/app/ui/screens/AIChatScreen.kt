@@ -1,84 +1,143 @@
 package com.example.app.ui.screens
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.example.app.ui.theme.*
 
+/**
+ * Data class representing a chat message
+ */
+data class ChatMessage(
+    val content: String,
+    val isFromUser: Boolean,
+    val timestamp: Long = System.currentTimeMillis()
+)
+
+/**
+ * AI Chat screen using Compose best practices
+ */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AiChatScreen() {
-    Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
-        // Message list area
+    // State handling with rememberSaveable to persist through configuration changes
+    var messageText by rememberSaveable { mutableStateOf("") }
+    var chatMessages by rememberSaveable { 
+        mutableStateOf(listOf(
+            ChatMessage("Hello! How can I help you today?", false),
+            ChatMessage("Tell me about AI image generation", true),
+            ChatMessage("AI image generation uses techniques like diffusion models to create images from text descriptions. Popular systems include DALL-E, Midjourney, and Stable Diffusion.", false)
+        )) 
+    }
+    
+    Column(modifier = Modifier.fillMaxSize().padding(AppDimensions.spacing_medium)) {
+        // Messages area with proper list handling
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .padding(bottom = 8.dp)
+                .padding(bottom = AppDimensions.spacing_medium),
+            verticalArrangement = Arrangement.spacedBy(AppDimensions.spacing_small)
         ) {
-            // Example messages - replace with actual data handling
-            item { Text("User: Hello AI!", style = MaterialTheme.typography.bodyMedium) }
-            item { Spacer(modifier = Modifier.height(4.dp)) }
-            item {
-                Text(
-                    "AI: Hi there, User! How can I help you today?",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
-            item { Spacer(modifier = Modifier.height(4.dp)) }
-            item { Text("User: Tell me a fun fact.", style = MaterialTheme.typography.bodyMedium) }
-            item { Spacer(modifier = Modifier.height(4.dp)) }
-            item {
-                Text(
-                    "AI: Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible!",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(start = 8.dp)
-                )
+            items(chatMessages) { message ->
+                ChatMessageItem(message)
             }
         }
 
-        // Input area
-        var textState by remember { mutableStateOf("") }
+        // Input area with modern Material3 components
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp),
+                .padding(top = AppDimensions.spacing_small),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(AppDimensions.spacing_small)
         ) {
-            TextField(
-                value = textState,
-                onValueChange = { textState = it },
-                modifier = Modifier
-                    .weight(1f)
-                    .border(1.dp, Color.Gray, MaterialTheme.shapes.small),
-                placeholder = { Text("Type your message...") }
+            OutlinedTextField(
+                value = messageText,
+                onValueChange = { messageText = it },
+                modifier = Modifier.weight(1f),
+                placeholder = { Text(AppStrings.AI_CHAT_PLACEHOLDER) },
+                shape = InputFieldShape,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
+                )
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = { /* TODO: Handle send action */ }) {
-                Text("Send")
+            
+            FloatingActionButton(
+                onClick = { 
+                    if (messageText.isNotBlank()) {
+                        // Add user message
+                        val userMessage = ChatMessage(messageText.trim(), true)
+                        chatMessages = chatMessages + userMessage
+                        
+                        // Simulate AI response
+                        val aiResponse = ChatMessage("I received your message: '${messageText.trim()}'. This is a simulated response.", false)
+                        chatMessages = chatMessages + aiResponse
+                        
+                        // Clear input
+                        messageText = ""
+                    }
+                },
+                shape = FloatingActionButtonShape,
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Send,
+                    contentDescription = AppStrings.AI_CHAT_SEND,
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
             }
+        }
+    }
+}
+
+/**
+ * Individual chat message item
+ */
+@Composable
+fun ChatMessageItem(message: ChatMessage) {
+    val alignment = if (message.isFromUser) Alignment.End else Alignment.Start
+    val background = if (message.isFromUser) 
+        MaterialTheme.colorScheme.primaryContainer
+    else 
+        MaterialTheme.colorScheme.surfaceVariant
+    
+    val textColor = if (message.isFromUser)
+        MaterialTheme.colorScheme.onPrimaryContainer
+    else
+        MaterialTheme.colorScheme.onSurfaceVariant
+        
+    val bubbleShape = if (message.isFromUser) 
+        ChatBubbleOutgoingShape 
+    else 
+        ChatBubbleIncomingShape
+    
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .align(alignment)
+                .widthIn(max = 280.dp) // Maximum width for message bubbles
+                .clip(bubbleShape)
+                .background(background)
+                .padding(AppDimensions.spacing_medium),
+        ) {
+            Text(
+                text = message.content,
+                color = textColor,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }
@@ -86,7 +145,7 @@ fun AiChatScreen() {
 @Preview(showBackground = true)
 @Composable
 fun AiChatScreenPreview() {
-    MaterialTheme { // Using MaterialTheme for preview
+    AuraFrameFXTheme { // Using our custom theme for preview
         AiChatScreen()
     }
 }
