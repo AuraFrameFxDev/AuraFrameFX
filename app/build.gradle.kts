@@ -64,14 +64,27 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+        // Add compiler flags for annotation processing
+        freeCompilerArgs += listOf(
+            "-Xskip-prerelease-check",
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+        )
     }
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.10"
+    }
+    
+    // Configure kapt for Hilt
+    kapt {
+        correctErrorTypes = true
+        useBuildCache = true
     }
 
     packaging {
@@ -105,7 +118,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("com.google.dagger:hilt-android:2.48")
-    ksp("com.google.dagger:hilt-compiler:2.48")
+    kapt("com.google.dagger:hilt-compiler:2.48")
+    // Temporarily disabled KSP for Hilt due to compatibility issues
+    // ksp("com.google.dagger:hilt-compiler:2.48")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
