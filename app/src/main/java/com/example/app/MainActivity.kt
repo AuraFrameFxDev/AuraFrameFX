@@ -3,7 +3,7 @@ package com.example.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,7 +20,7 @@ import com.example.app.ui.animation.DigitalTransitions
 import com.example.app.ui.components.BottomNavigationBar
 import com.example.app.ui.navigation.AppNavGraph
 import com.example.app.ui.theme.AuraFrameFXTheme
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+// Using Jetpack Navigation 3 with built-in animation support
 
 class MainActivity : ComponentActivity() {
     /**
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
      *
      * @param savedInstanceState The saved state of the activity, or null if none exists.
      */
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -56,11 +56,11 @@ class MainActivity : ComponentActivity() {
  * Sets up the app's primary UI structure using a Scaffold, integrating navigation and content padding.
  * Applies cyberpunk-style digital transition effects between screens.
  */
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
-    // Use animated nav controller for digital transitions
-    val navController = rememberAnimatedNavController()
+    // Use Jetpack Navigation 3's nav controller for digital transitions
+    val navController = rememberNavController()
     
     // State to control digital effects
     var showDigitalEffects by remember { mutableStateOf(true) }
