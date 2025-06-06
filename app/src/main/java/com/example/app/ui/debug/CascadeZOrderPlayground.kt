@@ -29,6 +29,11 @@ class CascadeDebugViewModel @Inject constructor(
     }
 }
 
+/**
+ * Displays a debug UI for inspecting and updating the CascadeAgent's vision and processing states.
+ *
+ * Provides interactive controls to view and modify the current vision and processing states, as well as to review their respective histories. Intended for use in development or debugging environments to facilitate real-time state inspection and manipulation.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CascadeZOrderPlayground(
