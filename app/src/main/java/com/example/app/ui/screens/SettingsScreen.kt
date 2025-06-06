@@ -26,6 +26,12 @@ import com.example.app.ui.theme.AppStrings
 /**
  * Settings screen for the AuraFrameFX app
  */
+/**
+ * Displays the settings screen with options for theme, notifications, and privacy.
+ *
+ * Presents a vertically arranged list of settings, each in a card with a title, description, and toggle switch.
+ * Each setting maintains its own toggle state locally within the screen.
+ */
 @Composable
 fun SettingsScreen() {
     Column(
@@ -80,6 +86,15 @@ fun SettingsScreen() {
     }
 }
 
+/**
+ * Displays a card containing a title, description, and a customizable content slot.
+ *
+ * Typically used to present a settings option with descriptive text and an interactive element such as a toggle switch.
+ *
+ * @param title The heading text displayed at the top of the card.
+ * @param description Additional information shown below the title.
+ * @param content A composable slot for custom UI, usually an interactive control.
+ */
 @Composable
 private fun SettingsCard(
     title: String,

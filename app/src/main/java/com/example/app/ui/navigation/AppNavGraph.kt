@@ -12,6 +12,13 @@ import com.example.app.ui.screens.SettingsScreen
 /**
  * Main navigation graph for the AuraFrameFX app
  */
+/**
+ * Sets up the main navigation graph for the AuraFrameFX app using Jetpack Compose.
+ *
+ * Registers composable destinations for Home, AI Chat, Profile, and Settings screens, enabling navigation between them.
+ *
+ * @param navController The navigation controller used to manage app navigation.
+ */
 @Composable
 fun AppNavGraph(navController: NavHostController) {
     NavHost(

@@ -103,6 +103,16 @@ private val AuraLightColorScheme = lightColorScheme(
     inverseSurface = LightSurface
 )
 
+/**
+ * Applies the AuraFrameFX cyberpunk neon noir theme to the provided composable content.
+ *
+ * Selects a color scheme based on the dark theme setting and dynamic color support, and applies custom typography and shapes.
+ * The content is wrapped in a Box with a vertical gradient background for a distinctive visual effect.
+ *
+ * @param darkTheme Whether to use the dark color scheme. Defaults to the system setting.
+ * @param dynamicColor Whether to use dynamic color on supported Android versions.
+ * @param content The composable content to which the theme will be applied.
+ */
 @Composable
 fun AuraFrameFXTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
