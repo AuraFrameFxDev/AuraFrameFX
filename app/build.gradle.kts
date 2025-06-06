@@ -54,10 +54,13 @@ android {
         }
     }
     
-    // Skip xposed flavor in CI environment to avoid LSPosed dependency issues
-    variantFilter {
-        if (System.getenv("CI") == "true" && flavors.any { it.name.contains("xposed", ignoreCase = true) }) {
-            ignore = true
+    // Skip xposed flavor in CI environment to avoid LSPosed dependency issues using the new API
+    androidComponents {
+        beforeVariants { variantBuilder ->
+            if (System.getenv("CI") == "true" && 
+                variantBuilder.flavorName?.contains("xposed", ignoreCase = true) == true) {
+                variantBuilder.enable = false
+            }
         }
     }
 
@@ -104,6 +107,10 @@ android {
         getByName("main") {
             java.srcDirs("build/generated/src/main/kotlin")
         }
+    }
+
+    sourceSets.all {
+        languageSettings.optIn("kotlinx.serialization.InternalSerializationApi")
     }
 }
 
