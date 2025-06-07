@@ -8,7 +8,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
-    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("org.openapi.generator")
 }
@@ -67,18 +67,34 @@ android {
     // This prevents the 'Build was configured to prefer settings repositories' error
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlin {
         kotlinOptions {
-            jvmTarget = "21"
+            jvmTarget = "17"
             // Add compiler flags for annotation processing
             freeCompilerArgs += listOf(
                 "-Xskip-prerelease-check",
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+                "-opt-in=kotlin.RequiresOptIn",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
+                // Add flag to skip metadata version checks
+                "-Xskip-metadata-version-check"
+            )
+            // Add JVM arguments for KAPT compatibility with JDK modules
+            kotlinDaemonJvmArgs = listOf(
+                "--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+                "--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
             )
         }
 
@@ -93,6 +109,28 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
+    }
+
+    // Configure kapt for Hilt
+    kapt {
+        correctErrorTypes = true
+        // Add JVM arguments directly to kapt for JDK 17+ compatibility
+        javacOptions {
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED")
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED")
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED")
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED")
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED")
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED")
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED")
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED")
+            option("--add-exports", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED")
+        }
+        useBuildCache = true
     }
 
     packaging {
@@ -136,8 +174,8 @@ android {
         implementation("androidx.compose.ui:ui-graphics")
         implementation("androidx.compose.ui:ui-tooling-preview")
         implementation("androidx.compose.material3:material3")
-        implementation("com.google.dagger:hilt-android:2.56.2")
-        ksp("com.google.dagger:hilt-compiler:2.56.2")
+        implementation("com.google.dagger:hilt-android:2.47")
+        kapt("com.google.dagger:hilt-compiler:2.47") // Use kapt instead of ksp for Hilt
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
@@ -149,8 +187,9 @@ android {
         implementation("com.google.android.material:material:1.12.0")
         implementation("com.squareup.okhttp3:okhttp:4.12.0")
         implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-        implementation("com.squareup.retrofit2:retrofit:3.0.0")
-        implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+        // Retrofit + OkHttp: Networking
+        implementation("com.squareup.retrofit2:retrofit:2.9.0") // Downgraded to 2.9.0 for Kotlin 1.9.0 compatibility
+        implementation("com.squareup.retrofit2:converter-gson:2.9.0")
         implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 
         testImplementation("junit:junit:4.13.2")

@@ -12,15 +12,16 @@ pluginManagement {
             val pluginId = requested.id.id
             when {
                 pluginId.startsWith("com.android.") -> useVersion("8.10.1")
-                pluginId.startsWith("org.jetbrains.kotlin.") -> useVersion("2.1.21")
-                pluginId == "com.google.devtools.ksp" -> useVersion("2.1.21-2.0.1")
-                pluginId == "com.google.dagger.hilt.android" -> useVersion("2.50")
+                pluginId.startsWith("org.jetbrains.kotlin.") -> useVersion("1.9.0")
+                pluginId == "com.google.devtools.ksp" -> useVersion("1.9.0-1.0.11")
+                pluginId == "com.google.dagger.hilt.android" -> useVersion("2.47")
                 pluginId == "com.google.gms.google-services" -> useVersion("4.4.1")
                 pluginId == "com.google.firebase.crashlytics" -> useVersion("2.9.9")
                 pluginId == "com.google.firebase.firebase-perf" -> useVersion("1.4.2")
                 pluginId == "androidx.navigation.safeargs.kotlin" -> useVersion("2.7.7")
                 pluginId == "org.jetbrains.dokka" -> useVersion("1.9.20")
                 pluginId == "org.openapi.generator" -> useVersion("7.4.0")
+                pluginId == "org.jetbrains.compose" -> useVersion("1.5.3")
             }
         }
     }
