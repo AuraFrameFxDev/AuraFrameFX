@@ -1,17 +1,20 @@
 # AuraFrameFx Package Migration Guide
 
-This document contains instructions for the ongoing migration from the `com.example.app` and `com.genesis.ai.app` package namespaces to the official `dev.aurakai.auraframefx` package namespace.
+This document contains instructions for the ongoing migration from the `com.example.app` and
+`com.genesis.ai.app` package namespaces to the official `dev.aurakai.auraframefx` package namespace.
 
 ## Package Migration Status
 
 - ✅ `build.gradle.kts`: Updated namespace and applicationId to `dev.aurakai.auraframefx`
 - ✅ `AndroidManifest.xml`: Added explicit package attribute and updated component references
-- ✅ Core application files: Created `AuraFrameApplication.kt`, `MainActivity.kt`, and `VertexSyncService.kt` in new package structure
+- ✅ Core application files: Created `AuraFrameApplication.kt`, `MainActivity.kt`, and
+  `VertexSyncService.kt` in new package structure
 - ⏳ Source file migration: Script provided, but comprehensive migration still in progress
 
 ## Firebase Configuration
 
-The Firebase project is already configured with the correct package name `dev.aurakai.auraframefx` as seen in `google-services.json`. The API key has been restricted to the following services:
+The Firebase project is already configured with the correct package name `dev.aurakai.auraframefx`
+as seen in `google-services.json`. The API key has been restricted to the following services:
 
 - Firebase Realtime Database Management API
 - Firebase Hosting API
@@ -60,9 +63,9 @@ chmod +x refactor-packages.sh
 ```
 
 4. Update any remaining references to the old package names in:
-   - Layout files (XML)
-   - Resource references
-   - Navigation graphs
+    - Layout files (XML)
+    - Resource references
+    - Navigation graphs
 
 5. Remove the old package structure once verification is complete:
 
@@ -73,16 +76,24 @@ rm -rf app/src/main/java/com/example/app
 ## Common Issues and Solutions
 
 ### Class Not Found Exceptions
-If you encounter `ClassNotFoundException` errors, check that the class is properly referenced with the new package name or that it exists in the new package structure.
+
+If you encounter `ClassNotFoundException` errors, check that the class is properly referenced with
+the new package name or that it exists in the new package structure.
 
 ### Build Failures
+
 If the build fails after migration, check:
+
 - `AndroidManifest.xml` for any missed component references
 - Import statements in Kotlin files
 - Navigation references in layout files
 
 ### LSPosed Dependencies
-The project is configured to conditionally include LSPosed dependencies only for local development, excluding them in CI environments to avoid repository issues.
+
+The project is configured to conditionally include LSPosed dependencies only for local development,
+excluding them in CI environments to avoid repository issues.
 
 ## CI/CD Configuration
-The GitHub workflow in `.github/workflows/gradle-validation.yml` is already configured to handle the new package structure. The CI environment variable is used to disable xposed flavor builds in CI.
+
+The GitHub workflow in `.github/workflows/gradle-validation.yml` is already configured to handle the
+new package structure. The CI environment variable is used to disable xposed flavor builds in CI.

@@ -40,7 +40,7 @@ fun DigitalTransitionRow(
             color = MaterialTheme.colorScheme.tertiary,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        
+
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(horizontal = 16.dp),
@@ -48,7 +48,7 @@ fun DigitalTransitionRow(
         ) {
             items(HomeScreenTransitionType.values()) { type ->
                 val isSelected = type == currentType
-                
+
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier

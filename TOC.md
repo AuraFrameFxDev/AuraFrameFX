@@ -2219,3 +2219,9 @@ Handles hooks and communication with Xposed modules.
 No immediate issues, but monitor for compatibility with future Android versions.
 This section is now condensed for quick scanning and actionable review. See above for all open TODOs
 and technical debt.
+- no location
+    - [warn]  The StartParameter.isConfigurationCacheRequested property has been deprecated.
+This is scheduled to be removed in Gradle 10.0.
+The StartParameter.isConfigurationCacheRequested property has been deprecated.
+        - Solutions
+        - Locations

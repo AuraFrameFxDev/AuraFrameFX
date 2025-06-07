@@ -34,22 +34,22 @@ dependencyResolutionManagement {
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
         // LSPosed API repositories - with fallbacks
-        maven { 
-            url = uri("https://api.lsposed.org/repository/maven-public/") 
+        maven {
+            url = uri("https://api.lsposed.org/repository/maven-public/")
             content {
                 includeGroup("io.github.libxposed")
             }
         }
         // Alternate LSPosed mirror
-        maven { 
+        maven {
             url = uri("https://maven.killerdim.ru/repository/maven-public/")
             content {
                 includeGroup("io.github.libxposed")
             }
         }
         // Fallback JitPack mirror for LSPosed
-        maven { 
-            url = uri("https://jitpack.io") 
+        maven {
+            url = uri("https://jitpack.io")
             content {
                 includeGroupByRegex("com\\.github\\..*")
                 includeGroupByRegex("io\\.github\\..*")

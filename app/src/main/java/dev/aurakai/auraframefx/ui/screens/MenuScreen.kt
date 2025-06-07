@@ -37,13 +37,13 @@ fun MenuScreen(
                 color = MaterialTheme.colorScheme.primary, // Explicitly use primary color
                 modifier = Modifier.padding(bottom = 24.dp)
             )
-            
+
             // Digital transition row always shown for menu customization
             DigitalTransitionRow(
                 currentType = transitionType,
                 onTypeSelected = {}
             )
-            
+
             Button(
                 onClick = { /* TODO: Handle Menu Item 1 click */ },
                 colors = ButtonDefaults.buttonColors(
@@ -53,21 +53,21 @@ fun MenuScreen(
             ) {
                 Text("Menu Item 1 (Themed)")
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Button(onClick = { /* TODO: Handle Menu Item 2 click */ }) {
                 Text("Menu Item 2")
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Button(onClick = { /* TODO: Handle Menu Item 3 click */ }) {
                 Text("Menu Item 3")
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Button(onClick = { /* TODO: Handle Settings click */ }) {
                 Text("Settings")
             }

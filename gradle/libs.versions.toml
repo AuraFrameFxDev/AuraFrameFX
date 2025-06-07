@@ -10,7 +10,7 @@ targetSdk = "36"
 jvmTarget = "21"
 
 hilt = "2.56.2"
-
+dagger = "2.56.2"
 androidxCore = "1.16.0"
 androidxLifecycle = "2.9.1"
 androidxNavigation = "2.9.0"

@@ -2,12 +2,13 @@ name: Gradle Validation
 
 on:
   push:
-    branches: [ main, gradle-fixes ]
+    branches: [ main, develop, package-migration-fix ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 jobs:
-  validate-gradle:
+  validation:
+    name: Validate Gradle Wrapper
     runs-on: ubuntu-latest
 
     permissions:
@@ -16,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '21'
@@ -30,14 +31,10 @@ jobs:
         
       # Removed wrapper validation step due to network connectivity issues
         
-      - name: Submit Gradle dependencies
-        uses: gradle/actions/dependency-submission@v3
-        continue-on-error: true # Don't fail the build if this step fails
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2.4.2
         with:
-          gradle-version: wrapper
-          arguments: --no-daemon # Use --no-daemon to avoid network connectivity issues
-          build-scan-publish: true
-          build-scan-terms-of-use-agreed: true
+          arguments: assembleVanillaDebug --no-daemon
           
       # Add a fallback step in case the above fails
       - name: Fallback - Basic Gradle check

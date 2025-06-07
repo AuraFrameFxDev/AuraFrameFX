@@ -15,7 +15,7 @@ enum class Emotion {
     EXCITED,
     THOUGHTFUL,
     CONFUSED;
-    
+
     companion object {
         fun fromString(value: String, default: Emotion = NEUTRAL): Emotion {
             return try {

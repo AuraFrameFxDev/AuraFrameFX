@@ -9,7 +9,7 @@ enum class HomeScreenTransitionType {
     CIRCUIT_PULSE,
     NEURAL_WIPE,
     NEON_SLIDE;
-    
+
     companion object {
         fun getDefault(): HomeScreenTransitionType = DIGITAL_DECONSTRUCT
     }

@@ -6,11 +6,11 @@ import dev.aurakai.auraframefx.model.AgentType
 import javax.inject.Inject
 
 /**
- * ViewModel for managing Genesis Agent operations and state 
+ * ViewModel for managing Genesis Agent operations and state
  */
 @HiltViewModel
 class GenesisAgentViewModel @Inject constructor() : ViewModel() {
-    
+
     /**
      * Returns a list of available agents sorted by priority
      */
@@ -24,7 +24,7 @@ class GenesisAgentViewModel @Inject constructor() : ViewModel() {
             AgentType.GENKIT_MASTER
         )
     }
-    
+
     /**
      * Returns active task assignments by agent
      */

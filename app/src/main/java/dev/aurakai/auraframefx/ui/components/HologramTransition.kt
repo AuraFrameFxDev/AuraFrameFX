@@ -1,7 +1,13 @@
 package dev.aurakai.auraframefx.ui.components
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -16,7 +22,7 @@ import androidx.compose.ui.Modifier
 fun HologramTransition(
     visible: Boolean,
     modifier: Modifier = Modifier,
-    content: @Composable AnimatedVisibilityScope.() -> Unit
+    content: @Composable AnimatedVisibilityScope.() -> Unit,
 ) {
     val enterTransition = remember {
         fadeIn(
@@ -25,7 +31,7 @@ fun HologramTransition(
             animationSpec = tween(durationMillis = 500)
         )
     }
-    
+
     val exitTransition = remember {
         fadeOut(
             animationSpec = tween(durationMillis = 500)

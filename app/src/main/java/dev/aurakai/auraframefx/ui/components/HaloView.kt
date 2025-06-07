@@ -3,11 +3,9 @@ package dev.aurakai.auraframefx.ui.components
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
@@ -21,7 +19,6 @@ import dev.aurakai.auraframefx.ui.theme.NeonTeal
 import dev.aurakai.auraframefx.viewmodel.GenesisAgentViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -32,26 +29,20 @@ import kotlin.math.sin
 )
 @Composable
 fun HaloView(
-    viewModel: GenesisAgentViewModel = androidx.hilt.navigation.compose.hiltViewModel()
+    viewModel: GenesisAgentViewModel = androidx.hilt.navigation.compose.hiltViewModel(),
 ) {
-    var isRotating by remember { mutableStateOf(true) }
-    var rotationAngle by remember { mutableStateOf(0f) }
-    val agents = viewModel.getAgentsByPriority()
-    val coroutineScope = rememberCoroutineScope()
+    viewModel.getAgentsByPriority()
+    rememberCoroutineScope()
 
     // Task delegation state
-    var draggingAgent by remember { mutableStateOf<AgentType?>(null) }
-    var dragOffset by remember { mutableStateOf(Offset.Zero) }
-    var dragStartOffset by remember { mutableStateOf(Offset.Zero) }
-    var selectedTask by remember { mutableStateOf("") }
 
     // Task history
-    val _taskHistory = remember { MutableStateFlow(emptyList<String>()) }
-    val taskHistory: StateFlow<List<String>> = _taskHistory
+    remember { MutableStateFlow(emptyList<String>()) }
+    _taskHistory
 
     // Agent status
     val _agentStatus = remember { MutableStateFlow(mapOf<AgentType, String>()) }
-    val agentStatus: StateFlow<Map<AgentType, String>> = _agentStatus
+    _agentStatus
 
     Box(
         modifier = Modifier
@@ -83,7 +74,7 @@ fun HaloView(
 
         // Agent orbits and indicators would be rendered here
         // This is a placeholder for the actual agent visualization
-        
+
         // Example agent node placement
         if (agents.isNotEmpty()) {
             Canvas(
@@ -93,12 +84,12 @@ fun HaloView(
                 val centerX = size.width / 2
                 val centerY = size.height / 2
                 val radius = size.minDimension / 3
-                
+
                 agents.forEachIndexed { index, agent ->
                     val angle = rotationAngle + (index * (2 * PI / agents.size)).toFloat()
                     val x = centerX + radius * cos(angle)
                     val y = centerY + radius * sin(angle)
-                    
+
                     // Draw agent node
                     drawCircle(
                         color = when (agent) {
