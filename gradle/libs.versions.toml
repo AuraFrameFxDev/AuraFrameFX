@@ -3,7 +3,7 @@ androidxActivity = "1.10.1"
 androidxArchCoreTesting = "2.2.0"
 androidxCardview = "1.0.0"
 androidxComposeBom = "2025.06.00"
-androidxComposeCompiler = "1.5.14" # Ensure this matches your Kotlin version compatibility
+androidxComposeCompiler = "1.5.14" # Stable for Kotlin 1.9.x
 androidxConstraintlayout = "2.2.1"
 androidxConstraintlayoutCompose = "1.1.1"
 androidxCore = "1.16.0"
@@ -14,9 +14,6 @@ androidxHiltNavigationCompose = "1.2.0"
 androidxHiltWork = "1.2.0"
 androidxLifecycle = "2.9.1"
 androidxNavigationCompose = "2.9.0"
-androidxPermission = "0.4.0" # Placeholder, assuming this is a custom or less common library. Adjust if known.
-androidxPermissionGroup = "0.4.0" # Placeholder
-androidxPermissionRuntime = "0.4.0" # Placeholder
 androidxRoom = "2.7.1"
 androidxTestJunit = "1.2.1" # Same as androidxExtJunit, check if this is intended or a typo
 androidxWorkRuntimeKtx = "2.10.1"
@@ -38,7 +35,7 @@ kotlinxCoroutines = "1.10.2" # Version already forced in root build.gradle
 kotlinxCoroutinesTest = "1.10.2"
 kotlinxSerializationJson = "1.8.1" # Version already forced in root build.gradle
 kotlinxSerializationCore = "1.8.1" # Placeholder, usually it's kotlinx-serialization-json or -protobuf etc.
-kotlinxSerializationXml = "0.17.0" # Example, check actual artifact name and version
+kotlinxSerializationXml = "0.70.0" # Latest valid version as of 2025
 libxposedApi = "82" # Version for Xposed APIs often matches API level
 libxposedService = "82" # Version for Xposed APIs
 lottieCompose = "6.6.6"
@@ -91,9 +88,6 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigationCompose" }
-androidx-permission = { group = "androidx.permission", name = "permission", version.ref = "androidxPermission" } # Assuming this is the correct artifact
-androidx-permission-group = { group = "androidx.permission", name = "permission-group", version.ref = "androidxPermissionGroup" } # Assuming this is the correct artifact
-androidx-permission-runtime = { group = "androidx.permission", name = "runtime", version.ref = "androidxPermissionRuntime" } # Assuming this is the correct artifact
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }
@@ -172,3 +166,5 @@ accompanist-systemuicontroller = { group = "com.google.accompanist", name = "acc
 [bundles]
 # Example bundle
 # compose = ["androidx.compose.ui", "androidx.compose.material3", "androidx.compose.ui.tooling.preview"]
+
+# Xposed dependencies: these must be provided as local JARs or via a custom repo if not available in Maven Central.

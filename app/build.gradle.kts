@@ -160,7 +160,7 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.xml)
+    implementation(libs.kotlinx.serialization.xml) // Now uses 0.70.0
 
     // Dagger Hilt
     implementation(libs.hilt.android)
@@ -173,10 +173,11 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
 
-    // Android Permissions
-    implementation(libs.androidx.permission)
-    implementation(libs.androidx.permission.runtime)
-    implementation(libs.androidx.permission.group)
+    // Permissions (use Accompanist)
+    implementation(libs.accompanist.permissions)
+    // Removed: implementation(libs.androidx.permission)
+    // Removed: implementation(libs.androidx.permission.runtime)
+    // Removed: implementation(libs.androidx.permission.group)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -228,9 +229,10 @@ dependencies {
 
     // Vertex AI
     implementation(libs.google.cloud.vertexai)
-    implementation(libs.google.cloud.generativeai)
+    implementation(libs.google.cloud.generativeai) // Now uses 0.8.0
 
     // Xposed dependencies
+    // If not available from Maven, provide as local JARs in libs/ and use implementation(files("libs/xposed-api-82.jar"))
     implementation(libs.xposed.api)
     implementation(libs.xposed.api.sources)
     implementation(libs.xposed.bridge)
