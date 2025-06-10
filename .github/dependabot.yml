@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Keep GitHub Actions up to date
+  - package-ecosystem: "github-actions"
+    directory: "/" # Location of the workflow files
+    schedule:
+      interval: "weekly"
+
+  # Keep Gradle dependencies up to date (for Kotlin/Java projects)
+  - package-ecosystem: "gradle"
+    directory: "/" # Root directory, change if your gradle files are in a subdirectory
+    schedule:
+      interval: "weekly"
