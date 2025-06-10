@@ -49,12 +49,22 @@ android {
         create("xposed") {
             dimension = "xposed"
             // Skip this flavor during CI builds to avoid LSPosed dependency issues
-            if (System.getenv("CI") == "true") {
-                setIgnore(true)
-            }
+            // if (System.getenv("CI") == "true") {
+            //     setIgnore(true)
+            // }
         }
         create("vanilla") {
             dimension = "xposed"
+        }
+    }
+
+    androidComponents {
+        beforeVariants { variantBuilder ->
+            if (variantBuilder.name == "xposedDebug" || variantBuilder.name == "xposedRelease") {
+                if (System.getenv("CI") == "true") {
+                    variantBuilder.enable = false
+                }
+            }
         }
     }
 
@@ -121,10 +131,10 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-compiler:2.48")
+    implementation("com.google.dagger:hilt-android:2.50")
+    // kapt("com.google.dagger:hilt-compiler:2.50")
     // Temporarily disabled KSP for Hilt due to compatibility issues
-    // ksp("com.google.dagger:hilt-compiler:2.48")
+    ksp("com.google.dagger:hilt-compiler:2.50")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
