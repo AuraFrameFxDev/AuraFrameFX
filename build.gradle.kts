@@ -35,7 +35,7 @@ buildscript {
         classpath("com.google.firebase:perf-plugin:$firebasePerfVersion")
         classpath("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.9.0")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.9.20")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:2.0.0")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
         classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$kspVersion")
 
