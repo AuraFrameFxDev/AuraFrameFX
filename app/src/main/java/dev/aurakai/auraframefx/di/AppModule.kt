@@ -1,0 +1,298 @@
+package dev.aurakai.auraframefx.di
+
+// Duplicate imports for Application, Context, SharedPreferences removed.
+// Imports for placeholder dependencies
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
+import com.google.ai.client.generativeai.GenerativeModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.ai.AuraAIService
+import dev.aurakai.auraframefx.ai.AuraAIServiceImpl
+import dev.aurakai.auraframefx.ai.config.AIConfig
+import dev.aurakai.auraframefx.ai.context.ContextManager
+import dev.aurakai.auraframefx.ai.error.ErrorHandler
+import dev.aurakai.auraframefx.ai.memory.MemoryManager
+import dev.aurakai.auraframefx.ai.services.KaiAIService
+import dev.aurakai.auraframefx.ai.task.TaskScheduler
+import dev.aurakai.auraframefx.ai.task.execution.TaskExecutionManager
+import dev.aurakai.auraframefx.data.SecurePreferences
+import dev.aurakai.auraframefx.data.logging.AuraFxLogger
+import dev.aurakai.auraframefx.data.network.CloudStatusMonitor
+import dev.aurakai.auraframefx.security.KeystoreManager
+import dev.aurakai.auraframefx.system.overlay.ShapeManager
+import javax.inject.Singleton
+
+/**
+ * Hilt AppModule for providing application-wide dependencies.
+ * TODO: Reported as unused declaration. Ensure Hilt is set up and this module is processed.
+ */
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    /**
+     * Provides the application context.
+     * @param application The application instance. (Hilt provides this, not typically marked as unused by user).
+     * TODO: Method reported as unused. Verify necessity.
+     */
+    @Provides
+    @Singleton
+    fun provideApplicationContext(application: Application): Context {
+        // Hilt provides Application, so no underscore needed for 'application' parameter itself.
+        return application.applicationContext
+    }
+
+    /**
+     * Provides SharedPreferences.
+     * @param _context Application context.
+     * TODO: Method reported as unused. Implement if SharedPreferences are used.
+     */
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        // Using MODE_PRIVATE instead of MODE_WORLD_READABLE for security
+        return context.getSharedPreferences("aura_fx_prefs", Context.MODE_PRIVATE)
+    }
+
+    /**
+     * Provides SecurePreferences.
+     * @param context Application context.
+     * TODO: Method reported as unused. Implement if SecurePreferences is used.
+     */
+    @Provides
+    @Singleton
+    fun provideSecurePreferences(@ApplicationContext context: Context): SecurePreferences {
+        // TODO: Parameter context was reported as _context and unused (Hilt will provide it).
+        // Renamed to context from _context for clarity in usage.
+        return SecurePreferences(context)
+    }
+
+    /**
+     * Provides a generic AIConfig.
+     * TODO: Method reported as unused. Implement if a global AIConfig is needed.
+     */
+    @Provides
+    @Singleton
+    fun provideAIConfig(): AIConfig {
+        // TODO: Load actual config values from a secure source or build config.
+        return AIConfig(
+            modelName = "gemini-pro",
+            apiKey = "TODO_load_api_key",
+            projectId = "TODO_load_project_id"
+        )
+    }
+
+    /**
+     * Placeholder for AIConfigFactory - Name taken from error report list for AppModule.
+     * TODO: Method reported as unused. Define AIConfigFactory and implement.
+     */
+    @Provides
+    @Singleton
+    fun provideAIConfigFactory(): Any? { // Using Any as AIConfigFactory type placeholder
+        // TODO: Define AIConfigFactory class and return an instance.
+        return null
+    }
+
+    /**
+     * Provides AuraAIService.
+     * @param _config AIConfig dependency.
+     * TODO: Method reported as unused. Implement if AuraAIService is used.
+     */
+    @Provides
+    @Singleton
+    fun provideGenerativeModel(securePreferences: SecurePreferences): GenerativeModel? {
+        // This assumes SecurePreferences has a method like getApiKey(): String?
+        // User needs to implement this in SecurePreferences.kt
+        val apiKey = securePreferences.getApiKey() // Placeholder for actual method call
+
+        return if (apiKey != null && apiKey.isNotBlank() && apiKey != "TODO_load_api_key_securely") {
+            try {
+                Log.i("AppModule", "GenerativeModel API Key found, initializing GenerativeModel.")
+                GenerativeModel(modelName = "gemini-pro", apiKey = apiKey)
+            } catch (e: Exception) {
+                Log.e(
+                    "AppModule",
+                    "Exception during GenerativeModel initialization: ${e.message}",
+                    e
+                )
+                null
+            }
+        } else {
+            Log.e(
+                "AppModule",
+                "Gemini API Key not found, is empty, or is a placeholder in SecurePreferences. GenerativeModel will be null."
+            )
+            null
+        }
+    }
+
+    /**
+     * Provides a singleton instance of `AuraAIService` configured with core AI, task management, memory, error handling, context, offline data, and logging dependencies.
+     *
+     * Constructs and returns an `AuraAIServiceImpl` using the supplied dependencies.
+     *
+     * @return A configured `AuraAIService` implementation.
+     */
+    @Provides
+    @Singleton
+    fun provideAuraAIService(
+        generativeModel: GenerativeModel?,
+        taskScheduler: TaskScheduler,
+        taskExecutionManager: TaskExecutionManager,
+        memoryManager: MemoryManager,
+        errorHandler: ErrorHandler,
+        contextManager: ContextManager,
+        offlineDataManager: OfflineDataManager, // Assuming OfflineDataManager is already provided or Hilt can find it
+        auraFxLogger: AuraFxLogger, // NEW param for provider
+    ): AuraAIService = AuraAIServiceImpl(
+        generativeModel,
+        taskScheduler,
+        taskExecutionManager,
+        memoryManager,
+        errorHandler,
+        contextManager,
+        cloudStatusMonitor = cloudStatusMonitor, // This dependency was missing from the original list but present in AuraAIServiceImpl constructor
+        offlineDataManager = offlineDataManager,
+        auraFxLogger = auraFxLogger // Pass to constructor
+    )
+    // Note: Need to ensure CloudStatusMonitor is also passed to provideAuraAIService if it's a dependency of AuraAIServiceImpl
+    // The constructor for AuraAIServiceImpl was previously updated to:
+    // constructor(generativeModel, taskScheduler, taskExecutionManager, memoryManager, errorHandler, contextManager, cloudStatusMonitor, offlineDataManager)
+    /**
+     * Provides a singleton instance of KaiAIService with all required dependencies.
+     *
+     * Constructs and supplies a KaiAIService configured with generative model, task management, memory, error handling, context management, application context, cloud status monitoring, offline data management, and logging capabilities.
+     *
+     * @return A fully initialized KaiAIService instance.
+     */
+
+    @Provides
+    @Singleton
+    fun provideKaiAIService(
+        generativeModel: GenerativeModel?,
+        taskScheduler: TaskScheduler,
+        taskExecutionManager: TaskExecutionManager,
+        memoryManager: MemoryManager,
+        errorHandler: ErrorHandler,
+        contextManager: ContextManager,
+        @ApplicationContext applicationContext: Context,
+        cloudStatusMonitor: CloudStatusMonitor, // Assuming this is needed by KaiAIService constructor
+        offlineDataManager: OfflineDataManager, // Assuming this is needed
+        auraFxLogger: AuraFxLogger, // NEW param for provider
+    ): KaiAIService = KaiAIService(
+        generativeModel,
+        taskScheduler,
+        taskExecutionManager,
+        memoryManager,
+        errorHandler,
+        contextManager,
+        applicationContext,
+        cloudStatusMonitor = cloudStatusMonitor, // This dependency was missing from the original list but present in KaiAIService constructor
+        offlineDataManager = offlineDataManager,
+        auraFxLogger = auraFxLogger // Pass to constructor
+    )
+    // Note: Similar to AuraAIService, ensure all constructor params for KaiAIService are correctly passed.
+    // KaiAIService constructor was:
+    // constructor(generativeModel, taskScheduler, taskExecutionManager, memoryManager, errorHandler, contextManager, applicationContext, cloudStatusMonitor, offlineDataManager)
+    /**
+     * Provides a singleton instance of KeystoreManager initialized with the application context.
+     *
+     * @return A KeystoreManager for secure key storage operations.
+     */
+
+    @Singleton
+    @Provides
+    fun provideKeystoreManager(@ApplicationContext context: Context): KeystoreManager {
+        return KeystoreManager(context)
+    }
+    // SecurityContext is annotated with @Inject constructor and @Singleton,
+    // so Hilt will provide it automatically given that its dependencies (Context and KeystoreManager)
+    // are now available in the Hilt graph. No explicit provider method for SecurityContext is needed here.
+
+    @Provides
+    @Singleton
+    fun provideCloudStatusMonitor(@ApplicationContext context: Context): CloudStatusMonitor {
+        return CloudStatusMonitor(context)
+    }
+
+    /**
+     * Provides a singleton instance of TaskExecutionManager for managing and executing tasks within the application.
+     *
+     * The TaskExecutionManager is initialized with the application context, KaiAIService, OfflineDataManager, and AuraFxLogger.
+     *
+     * @return A singleton TaskExecutionManager instance.
+     */
+    @Provides
+    @Singleton
+    fun provideTaskExecutionManager(
+        @ApplicationContext context: Context,
+        kaiService: KaiAIService,
+        offlineDataManager: OfflineDataManager, // Added as per TaskExecutionManager's constructor in previous step
+        auraFxLogger: AuraFxLogger, // NEW param for provider
+    ): TaskExecutionManager {
+        return TaskExecutionManager(context, kaiService, offlineDataManager, auraFxLogger)
+    }
+    // TaskExecutionManager constructor was updated to:
+    /**
+     * Provides a singleton instance of TaskScheduler configured with the given TaskExecutionManager and AuraFxLogger.
+     *
+     * @return A TaskScheduler instance for managing and scheduling tasks within the application.
+     */
+
+    @Provides
+    @Singleton
+    fun provideTaskScheduler(
+        taskExecutionManager: TaskExecutionManager,
+        auraFxLogger: AuraFxLogger, // NEW param for provider
+    ): TaskScheduler {
+        return TaskScheduler(taskExecutionManager, auraFxLogger)
+    }
+
+    /**
+     * Provides a singleton instance of ShapeManager for dependency injection.
+     *
+     * @return A new ShapeManager instance.
+     */
+    @Provides
+    @Singleton
+    fun provideShapeManager(): ShapeManager {
+        return ShapeManager()
+    }
+
+    /**
+     * Provides a singleton instance of AuraFxLogger initialized with the given KaiAIService.
+     *
+     * @return An AuraFxLogger configured to use the provided KaiAIService.
+     */
+    @Provides
+    @Singleton
+    fun provideAuraFxLogger(kaiService: KaiAIService): AuraFxLogger {
+        return AuraFxLogger(kaiService)
+    }
+
+    /**
+     * Provides a singleton instance of ErrorHandler initialized with the given AuraFxLogger.
+     *
+     * @return A singleton ErrorHandler for centralized error handling and logging.
+     */
+    @Provides
+    @Singleton
+    fun provideErrorHandler(auraFxLogger: AuraFxLogger): ErrorHandler {
+        return ErrorHandler(auraFxLogger)
+    }
+
+    /**
+     * Provides a singleton instance of OracleDriveServiceConnector for AIDL-based IPC with OracleDrive.
+     */
+    @Provides
+    @Singleton
+    fun provideOracleDriveServiceConnector(@ApplicationContext context: Context): com.example.app.ipc.OracleDriveServiceConnector {
+        return com.example.app.ipc.OracleDriveServiceConnector(context)
+    }
+}

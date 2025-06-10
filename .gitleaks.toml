@@ -1,0 +1,30 @@
+title = "gitleaks config"
+[[rules]]
+description = "Generic API Key"
+id = "generic-api-key"
+regex = '''(?i)(?:key|api|token|secret|client|passwd|password|pwd|android:value)[^\w\/
+\][\w-]*[=: ]*['"]*(?!AIza)([a-z0-9]{32,45})['"]'''
+
+[[rules]]
+description = "Google API Key"
+id = "google-api-key"
+regex = '''AIza[0-9A-Za-z\\-_]{35}'''
+
+[[rules]]
+description = "Firebase URL"
+id = "firebase-url"
+regex = ".*firebaseio\.com"
+
+[[rules]]
+description = "Google OAuth"
+id = "google-oauth"
+regex = '''[0-9]+-[0-9A-Za-z_]{32}\.apps\.googleusercontent\.com'''
+
+[allowlist]
+description = "Known non-secrets"
+files = [
+    "**/*.md",
+    "**/*.json",
+    "**/test/**",
+    "**/androidTest/**"
+]
