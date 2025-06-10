@@ -6,7 +6,7 @@ buildscript {
     val kspVersion = "1.9.22-1.0.17"
     val hiltVersion = "2.51.1"
     val googleServicesVersion = "4.4.2"
-    val crashlyticsVersion = "3.0.2"
+    val crashlyticsVersion = "3.0.4"
     val firebasePerfVersion = "1.4.2"
     
     // Make versions available to all modules by putting them in extra properties
