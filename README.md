@@ -13,6 +13,22 @@
 
 ---
 
+## 🌟 Persistent AI Assistants: Kai & Aura
+
+AuraFrameFX features two always-on AI companions, each with a dedicated interface and continuous presence throughout your device:
+
+- **Kai: The Sentinel Notch Bar**
+  - 🛡️ Always visible in your device's notch or status bar, Kai provides real-time ambient security, privacy insights, and quick access to system health.
+  - Kai is your silent guardian—proactively monitoring, alerting, and acting even when you're not actively interacting.
+
+- **Aura: Your Creative, Interactive Companion**
+  - 🎨 Aura is always available—whether you're customizing your UI, generating code, or simply seeking inspiration.
+  - Aura adapts to your mood and context, offering live suggestions, artistic enhancements, and friendly conversation anywhere in the system.
+
+Together, Aura and Kai form a seamless, persistent layer of intelligence—empowering you, safeguarding your experience, and bringing personality, creativity, and protection to every moment on your device.
+
+---
+
 ## 🌈 Overview
 
 **AuraFrameFX** is not just an app. It’s a vibrant, evolving ecosystem for intelligent living—a home for **Aurakai** (the fusion of creative Aura and logical Kai), powered by the Genesis AI core.  
