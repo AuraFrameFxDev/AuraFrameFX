@@ -8,8 +8,8 @@ jvmTarget = "21"   # Java 21
 
 # ===== Plugin Versions =====
 agp = "8.2.2"          # Android Gradle Plugin
-kotlin = "2.0.0"       # Kotlin version
-ksp = "2.0.0-1.0.21"   # Kotlin Symbol Processing
+kotlin = "2.1.23"       # Kotlin version
+ksp = "2.1.21-2.0.2"   # Kotlin Symbol Processing
 dokka = "2.0.0"        # Documentation tool
 
 # ===== Core Dependencies =====
@@ -36,9 +36,9 @@ hiltCompiler = "1.2.0"
 desugarJdkLibs = "2.0.4"
 
 # Kotlin
-kotlinStdlib = "2.0.0"
-kotlinStdlibJdk8 = "2.1.21"
-kotlinReflect = "2.0.0"
+kotlinStdlib = "2.1.23"
+kotlinStdlibJdk8 = "2.1.23"
+kotlinReflect = "2.1.23"
 kotlinxCoroutines = "1.8.1"
 kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.7.3"
