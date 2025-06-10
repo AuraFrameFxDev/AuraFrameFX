@@ -1,0 +1,27 @@
+name: Beta Release CI
+
+on:
+  push:
+    tags:
+      - 'v*beta*'
+    branches:
+      - beta
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+      - name: Build with Gradle
+        run: ./gradlew assembleDebug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: AuraFrameFX-beta-apk
+          path: app/build/outputs/apk/debug/*.apk
