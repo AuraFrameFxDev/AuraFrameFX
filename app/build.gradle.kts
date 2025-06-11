@@ -4,16 +4,13 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("androidx.navigation.safeargs.kotlin")
-    id("org.jetbrains.compose")
-    id("org.openapi.generator")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
-
-val xposedCompileOnly by configurations.creating
 
 android {
     namespace = "dev.aurakai.auraframefx"
@@ -21,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
-        minSdk = 33
+        minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -118,7 +115,7 @@ android {
 
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
             excludes.add("META-INF/LICENSE.md")
             excludes.add("META-INF/LICENSE-notice.md")
             excludes.add("META-INF/licenses/**")
@@ -151,126 +148,128 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEa
 dependencies {
     // Core Android
     coreLibraryDesugaring(libs.desugarJdkLibs)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidxCoreKtx)
+    implementation(libs.androidxLifecycleRuntimeKtx)
+    implementation(libs.androidxLifecycleViewModelCompose)
+    implementation(libs.androidxLifecycleRuntimeCompose)
+    implementation(libs.androidxActivityCompose)
 
     // Kotlin Serialization
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.xml) // Now uses 0.70.0
+    implementation(libs.kotlinxSerializationJson)
+    implementation(libs.kotlinxSerializationCore)
+    implementation(libs.kotlinxSerializationXml)
 
     // Dagger Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.hilt.work)
+    implementation(libs.hiltAndroid)
+    ksp(libs.hiltCompiler)
+    implementation(libs.androidxHiltNavigationCompose)
+    implementation(libs.androidxHiltWork)
 
     // Kotlin Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.kotlinxCoroutinesCore)
+    implementation(libs.kotlinxCoroutinesAndroid)
+    implementation(libs.kotlinxCoroutinesPlayServices)
 
-    // Permissions (use Accompanist)
-    implementation(libs.accompanist.permissions)
-    // Removed: implementation(libs.androidx.permission)
-    // Removed: implementation(libs.androidx.permission.runtime)
-    // Removed: implementation(libs.androidx.permission.group)
+    // Android Permissions
+    implementation(libs.androidxPermission)
+    implementation(libs.androidxPermissionRuntime)
+    implementation(libs.androidxPermissionGroup)
 
     // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.ui.util)
-    implementation(libs.androidx.compose.ui.text)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons)
-    implementation(libs.androidx.compose.material.iconsExtended)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.constraintlayout.compose)
-    implementation(libs.lottie.compose)
+    implementation(platform(libs.androidxComposeBom))
+    implementation(libs.androidxComposeUi)
+    implementation(libs.androidxComposeUiGraphics)
+    implementation(libs.androidxComposeUiToolingPreview)
+    implementation(libs.androidxComposeUiUtil)
+    implementation(libs.androidxComposeUiText)
+    implementation(libs.androidxComposeFoundation)
+    implementation(libs.androidxComposeMaterial3)
+    implementation(libs.androidxComposeMaterialIcons)
+    implementation(libs.androidxComposeMaterialIconsExtended)
+    implementation(libs.androidxComposeRuntime)
+    implementation(libs.androidxNavigationCompose)
+    implementation(libs.androidxConstraintlayoutCompose)
+    implementation(libs.lottieCompose)
 
     // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidxRoomRuntime)
+    implementation(libs.androidxRoomKtx)
+    ksp(libs.androidxRoomCompiler)
 
     // Work Manager
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidxWorkRuntimeKtx)
+    implementation(libs.androidxWorkHilt)
 
     // DataStore
-    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidxDatastorePreferences)
+
 
     // UI Components
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.cardview)
-    implementation(libs.google.material)
-    implementation(libs.coil.compose)
-    implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.permissions)
+    implementation(libs.androidxConstraintlayout)
+    implementation(libs.androidxCardview)
+    implementation(libs.googleMaterial)
+    implementation(libs.coilCompose)
+    implementation(libs.accompanistSystemuicontroller)
+    implementation(libs.accompanistPermissions)
 
     // Compose Glance
-    implementation(libs.glance.appwidget)
-    implementation(libs.glance.compose)
+    implementation(libs.glanceAppwidget)
+    implementation(libs.glanceCompose)
 
     // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics.ktx)
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.storage)
-    implementation(libs.firebase.crashlytics)
+    implementation(platform(libs.firebaseBom))
+    implementation(libs.firebaseAnalyticsKtx)
+    implementation(libs.firebaseAuthKtx)
+    implementation(libs.firebaseFirestoreKtx)
+    implementation(libs.firebaseStorage)
+    implementation(libs.firebaseCrashlytics)
 
     // Vertex AI
-    implementation(libs.google.cloud.vertexai)
-    implementation(libs.google.cloud.generativeai) // Now uses 0.8.0
+    implementation(libs.googleCloudVertexAi)
+    implementation(libs.googleCloudGenerativeAi)
 
     // Xposed dependencies
-    // If not available from Maven, provide as local JARs in libs/ and use implementation(files("libs/xposed-api-82.jar"))
-    implementation(libs.xposed.api)
-    implementation(libs.xposed.api.sources)
-    implementation(libs.xposed.bridge)
-    implementation(libs.xposed.bridge.sources)
-    implementation(libs.xposed.art)
-    implementation(libs.xposed.art.sources)
-    xposedCompileOnly(libs.xposed.hiddenapibypass)
-    xposedCompileOnly(libs.libxposed.api)
-    xposedCompileOnly(libs.libxposed.service)
+    implementation(libs.xposedApi)
+    implementation(libs.xposedApiSources)
+    implementation(libs.xposedBridge)
+    implementation(libs.xposedBridgeSources)
+    implementation(libs.xposedArt)
+    implementation(libs.xposedArtSources)
+    xposedCompileOnly(libs.xposedHiddenapibypass)
+    xposedCompileOnly(libs.libxposedApi)
+    xposedCompileOnly(libs.libxposedService)
 
     // Timber
     implementation(libs.timber)
+
+
+    // Network
     implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofitConverterGson)
     implementation(libs.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit.converter.kotlinx.serialization)
+    implementation(libs.okhttpLoggingInterceptor)
+    implementation(libs.retrofitConverterKotlinxSerialization)
 
     // Testing
     testImplementation(libs.junit)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.androidx.arch.core.testing)
-    testImplementation(libs.mockito.core)
+    testImplementation(libs.kotlinxCoroutinesTest)
+    testImplementation(libs.androidxArchCoreTesting)
+    testImplementation(libs.mockitoCore)
     testImplementation(libs.mockk)
 
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidTestExtJunit)
+    androidTestImplementation(libs.androidTestEspressoCore)
+    androidTestImplementation(platform(libs.androidxComposeBom))
+    androidTestImplementation(libs.androidxComposeUiTestJunit4)
 
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation(libs.androidxComposeUiTooling)
+    debugImplementation(libs.androidxComposeUiTestManifest)
 }
 
 openApiGenerate {
     generatorName.set("kotlin")
-    inputSpec.set("$projectDir/src/main/resources/auraframefx_ai_api.yaml")
-    outputDir.set(layout.buildDirectory.dir("generated/openapi").map { it.asFile.absolutePath })
+    inputSpec.set("${project.projectDir}/src/main/resources/auraframefx_ai_api.yaml")
+    outputDir.set(layout.buildDirectory.dir("generated/openapi").get().asFile.absolutePath)
     apiPackage.set("dev.aurakai.auraframefx.generated.api.auraframefxai")
     modelPackage.set("dev.aurakai.auraframefx.generated.model.auraframefxai")
     configOptions.set(
@@ -285,7 +284,7 @@ openApiGenerate {
 }
 
 tasks.register("validateOpenApiSpec") {
-    val specFile = file("$projectDir/src/main/resources/auraframefx_ai_api.yaml")
+    val specFile = file("${project.projectDir}/src/main/resources/auraframefx_ai_api.yaml")
     doLast {
         if (!specFile.exists()) {
             logger.warn("API spec file not found at: ${specFile.absolutePath}")
