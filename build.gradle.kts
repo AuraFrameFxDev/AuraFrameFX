@@ -3,8 +3,8 @@
 buildscript {
     // Define version constants inside buildscript block for access within its scope
     val kotlinVersion = "1.9.22"  // Standardized on 1.9.22 for compatibility with KSP 1.9.22-1.0.17
-    val kspVersion = "1.9.22-1.0.17"
-    val hiltVersion = "2.56.2"    // Updated to latest version compatible with Kotlin 1.9.22
+    val kspVersion = "1.9.22-1.0.18" // Use latest published patch for Kotlin 1.9.22
+    val hiltVersion = "2.50"    // Last version built with Kotlin 1.9.x
     val googleServicesVersion = "4.4.2"
     val crashlyticsVersion = "2.9.9"
     val firebasePerfVersion = "1.4.2"
@@ -41,15 +41,14 @@ buildscript {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.5") // Downgraded to be compatible with AGP 8.2.2
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.9.10")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
-        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$kspVersion")
+        // classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$kspVersion") // KSP plugin is applied in the plugins block
     }
 }
 
-// These plugin declarations only make the plugins available to subprojects, they don't apply them to the root project
 plugins {
     id("com.android.application").version(rootProject.extra["agpVersion"] as String).apply(false)
     id("org.jetbrains.kotlin.android").version(rootProject.extra["kotlinVersion"] as String)
-        .apply(false)
+        .apply(false) // Standardized on 1.9.22
     id("com.google.devtools.ksp").version(rootProject.extra["kspVersion"] as String).apply(false)
     id("com.google.dagger.hilt.android").version(rootProject.extra["hiltVersion"] as String)
         .apply(false)
@@ -87,18 +86,29 @@ subprojects {
             force("org.jetbrains.kotlin:kotlin-reflect:${rootProject.extra["kotlinVersion"]}")
 
             // Force consistent kotlinx libraries - using versions from GitHub repo catalog
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.2")
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
-            force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.1")  // Updated to match version catalog
-            force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")  // Updated to match version catalog
+            force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+            // Duplicate force, already forced above
+            // force("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0")
+            // Duplicate force, already forced above
+            // force("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+            force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2")  // Downgraded for Kotlin 1.9 compatibility
+            force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")  // Downgraded for Kotlin 1.9 compatibility
 
             // XML serialization has a specific version compatibility issue
             force("org.jetbrains.kotlinx:kotlinx-serialization-xml:0.70.0") // Use compatible version
 
             // Retrofit to the correct version
             force("com.squareup.retrofit2:retrofit:2.9.0") // Reverted to widely available version
+
+            // Avoid duplicate classes between protobuf-java and protobuf-javalite (Firebase vs gRPC)
+            force("com.google.protobuf:protobuf-javalite:3.25.4")
         }
+    }
+
+    // Globally exclude the heavyweight protobuf-java to prevent duplicate class conflicts; Firebase & most
+    // Android-friendly libraries rely on the lite variant.
+    configurations.all {
+        exclude(group = "com.google.protobuf", module = "protobuf-java")
     }
 }
 

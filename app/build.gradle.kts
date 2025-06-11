@@ -150,25 +150,23 @@ dependencies {
     implementation("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
     ksp("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0") // Version from version catalog
-    implementation("androidx.hilt:hilt-work:1.1.0")
 
     // Kotlin Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
     // Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2025.06.00")) // Updated to latest BOM from version catalog
+    implementation(platform("androidx.compose:compose-bom:2023.10.01")) // Aligned with compiler 1.5.x
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.7.5") // Downgraded to be compatible with AGP 8.2.2
     implementation("androidx.compose.foundation:foundation")
-    implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.runtime:runtime")
@@ -180,7 +178,6 @@ dependencies {
 
     // Work Manager
     implementation("androidx.work:work-runtime-ktx:2.8.1")
-    implementation("androidx.hilt:hilt-work:1.1.0")
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -191,7 +188,6 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
-    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     // Compose Glance
     implementation("androidx.glance:glance-appwidget:1.0.0")
@@ -247,7 +243,7 @@ dependencies {
 
     // Testing
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("org.mockito:mockito-core:5.7.0")
     testImplementation("io.mockk:mockk:1.13.8")
