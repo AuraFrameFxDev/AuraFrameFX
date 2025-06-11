@@ -69,4 +69,4 @@ android {
     lint {
         checkDependencies = true
         lintConfig = file("lint.xml")
-        ignoreTestSources = true }
+        ignoreTestSources = true }}
