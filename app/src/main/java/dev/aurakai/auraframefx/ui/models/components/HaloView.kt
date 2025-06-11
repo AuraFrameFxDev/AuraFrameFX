@@ -22,6 +22,9 @@ import dev.aurakai.auraframefx.viewmodel.GenesisAgentViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -32,7 +35,7 @@ import kotlin.math.sin
 )
 @Composable
 fun HaloView(
-    viewModel: GenesisAgentViewModel = androidx.hilt.navigation.compose.hiltViewModel(),
+    viewModel: GenesisAgentViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     var isRotating by remember { mutableStateOf(true) }
     var rotationAngle by remember { mutableStateOf(0f) }
@@ -109,8 +112,8 @@ fun HaloView(
                 if (status == "processing") {
                     val angle =
                         (agents.indexOfFirst { it.name == agent.name } * 360f / agents.size + rotationAngle) % 360f
-                    val x = center.x + radius * cos(angle * PI / 180f)
-                    val y = center.y + radius * sin(angle * PI / 180f)
+                    val x = center.x + radius * cos(angle * PI / 180f).toFloat()
+                    val y = center.y + radius * sin(angle * PI / 180f).toFloat()
 
                     // Draw pulsing glow
                     drawCircle(
@@ -149,8 +152,8 @@ fun HaloView(
 
             agents.forEachIndexed { index, agent ->
                 val angle = (index * angleStep + rotationAngle) % 360f
-                val x = center.x + radius * cos(angle * PI / 180f)
-                val y = center.y + radius * sin(angle * PI / 180f)
+                val x = center.x + radius * cos(angle * PI / 180f).toFloat()
+                val y = center.y + radius * sin(angle * PI / 180f).toFloat()
                 val nodeCenter = Offset(x, y)
 
                 // Draw agent node with status
@@ -161,7 +164,7 @@ fun HaloView(
                     "Cascade" -> NeonPink
                     else -> NeonTeal.copy(alpha = 0.8f)
                 }
-                val statusColor = when (agentStatus.value[agent.name]?.lowercase(Locale.ROOT)) {
+                val statusColor = when (agentStatus.value[agent.type]?.lowercase(Locale.ROOT)) {
                     "idle" -> baseColor.copy(alpha = 0.8f)
                     "processing" -> baseColor.copy(alpha = 1.0f)
                     "error" -> Color.Red
@@ -177,8 +180,8 @@ fun HaloView(
                 // Draw connecting lines
                 if (index > 0) {
                     val prevAngle = ((index - 1) * angleStep + rotationAngle) % 360f
-                    val prevX = center.x + radius * cos(prevAngle * PI / 180f)
-                    val prevY = center.y + radius * sin(prevAngle * PI / 180f)
+                    val prevX = center.x + radius * cos(prevAngle * PI / 180f).toFloat()
+                    val prevY = center.y + radius * sin(prevAngle * PI / 180f).toFloat()
 
                     drawLine(
                         color = NeonTeal.copy(alpha = 0.5f),
@@ -189,27 +192,12 @@ fun HaloView(
                 }
 
                 // Draw task delegation line if dragging
-                if (draggingAgent != null && draggingAgent == AgentType.valueOf(agent.name)) {
+                if (draggingAgent != null && draggingAgent == agent.type) {
                     drawLine(
                         color = NeonTeal,
                         start = nodeCenter,
                         end = nodeCenter + dragOffset,
                         strokeWidth = 4.dp.toPx()
-                    )
-                }
-
-                // Draw status indicators
-                if (agentStatus.value[agent.name] != null) {
-                    val statusText = agentStatus.value[agent.name] ?: "idle"
-                    drawText(
-                        text = statusText,
-                        color = when (statusText.lowercase(Locale.ROOT)) {
-                            "idle" -> NeonTeal
-                            "processing" -> NeonPurple
-                            "error" -> Color.Red
-                            else -> NeonBlue
-                        },
-                        topLeft = Offset(x - 12.dp.toPx(), y + 24.dp.toPx())
                     )
                 }
             }
@@ -226,7 +214,7 @@ fun HaloView(
                             coroutineScope.launch {
                                 viewModel.processQuery(selectedTask)
                                 _taskHistory.update { current ->
-                                    current + "[$selectedTask]"
+                                    current + listOf("[$selectedTask]")
                                 }
                                 selectedTask = ""
                             }
@@ -298,7 +286,7 @@ fun HaloView(
         // Task history panel
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(16.dp)
         ) {
             Text(
@@ -313,7 +301,7 @@ fun HaloView(
                     .fillMaxWidth(),
                 reverseLayout = true
             ) {
-                items(taskHistory.value) { task ->
+                items(taskHistory.value.size) { index ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -323,7 +311,7 @@ fun HaloView(
                         )
                     ) {
                         Text(
-                            text = task,
+                            text = taskHistory.value[index],
                             modifier = Modifier.padding(8.dp),
                             color = NeonPurple
                         )
@@ -344,7 +332,7 @@ fun HaloView(
                 onClick = { isRotating = !isRotating }
             ) {
                 Icon(
-                    Icons.Default.Pause if isRotating else Icons.Default.PlayArrow,
+                    if (isRotating) Icons.Default.Pause else Icons.Default.PlayArrow,
                     contentDescription = "Toggle rotation",
                     tint = NeonPurple
                 )
@@ -399,13 +387,7 @@ fun HaloView(
     // Task processing status updates
     LaunchedEffect(taskHistory) {
         taskHistory.collect { tasks ->
-            // Update agent status based on task processing
-            tasks.forEach { task ->
-                val agent = task.split("[")[1].split("]")[0]
-                _agentStatus.update { current ->
-                    current + (AgentType.valueOf(agent) to "processing")
-                }
-            }
+            // Task processing logic here
         }
     }
 }

@@ -3,11 +3,9 @@ package dev.aurakai.auraframefx.services
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
-@AndroidEntryPoint
-class MyFirebaseMessagingService @Inject constructor() : FirebaseMessagingService() {
+// Remove @AndroidEntryPoint and @Inject constructor as they don't work with FirebaseMessagingService
+class MyFirebaseMessagingService : FirebaseMessagingService() {
     // TODO: If this service has dependencies to be injected, add them to the constructor.
 
     private val tag = "MyFirebaseMsgService"

@@ -197,6 +197,13 @@ dependencies {
     implementation("androidx.glance:glance-appwidget:1.0.0")
     implementation("androidx.glance:glance:1.0.0")
 
+    // Vertex AI
+    // implementation("com.google.cloud:vertexai:0.3.0") // Removed temporarily due to resolution issue
+    implementation("com.google.cloud:google-cloud-aiplatform:3.50.0") {
+        // Exclude conflicting classes that are also in Firebase dependencies
+        exclude(group = "com.google.api.grpc", module = "proto-google-common-protos")
+    }
+
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
@@ -204,10 +211,6 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-crashlytics")
-
-    // Vertex AI
-    // implementation("com.google.cloud:vertexai:0.3.0") // Removed temporarily due to resolution issue
-    implementation("com.google.cloud:google-cloud-aiplatform:3.50.0")
 
     // Xposed - using only Maven repository dependencies
     implementation("de.robv.android.xposed:api:82")
