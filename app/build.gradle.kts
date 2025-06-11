@@ -140,7 +140,7 @@ dependencies {
     // Kotlin Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-xml:0.86.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-xml:1.6.2")
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.50")
@@ -215,9 +215,9 @@ dependencies {
     implementation(files("libs/xposed-bridge-sources.jar"))
     implementation(files("libs/xposed-art.jar"))
     implementation(files("libs/xposed-art-sources.jar"))
-    compileOnly("com.github.LSPosed:HiddenApiBypass:6.0")
-    compileOnly("io.github.libxposed:api:100.1")
-    compileOnly("io.github.libxposed:service:100.1")
+    // compileOnly("com.github.LSPosed:HiddenApiBypass:6.0")
+    // compileOnly("io.github.libxposed:api:100.1")
+    // compileOnly("io.github.libxposed:service:100.1")
 
     // Timber and Network
     implementation("com.jakewharton.timber:timber:5.0.1")
