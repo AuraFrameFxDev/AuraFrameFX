@@ -17,11 +17,12 @@ dependencyResolutionManagement {
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
         maven { url = uri("https://maven.google.com") }
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url = uri("https://api.xposed.info/") }
     }
     versionCatalogs {
-        // Version catalog is defined in gradle/libs.versions.toml
+        // No explicit 'libs' declaration needed if using gradle/libs.versions.toml!
     }
 }
 
 rootProject.name = "AuraFrameFx"
-include(":app", ":oracledrive")
+include(":app")
