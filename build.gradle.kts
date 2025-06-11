@@ -54,7 +54,7 @@ plugins {
     id("com.google.firebase.crashlytics").version("2.9.9").apply(false)  // Updated
     id("com.google.firebase.firebase-perf").version("1.4.2").apply(false)
     id("androidx.navigation.safeargs.kotlin").version("2.7.5").apply(false)  // Updated
-    id("org.jetbrains.compose").version("1.5.11").apply(false)  // Updated for compatibility with Kotlin 1.9.22
+    id("org.jetbrains.compose").version("1.6.11").apply(false)  // Updated for compatibility with Kotlin 1.9.22
     id("org.openapi.generator").version("7.2.0").apply(false)  // Updated for better compatibility
 }
 
