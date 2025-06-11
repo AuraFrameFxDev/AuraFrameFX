@@ -1,20 +1,26 @@
 # Contributing to AuraFrameFX
 
-First off, thank you for considering contributing to AuraFrameFX! It's people like you that make AuraFrameFX such a great tool.
+First off, thank you for considering contributing to AuraFrameFX! It's people like you that make
+AuraFrameFX such a great tool.
 
 ## Code of Conduct
 
-By participating in this project, you are expected to uphold our Code of Conduct. Please report unacceptable behavior to the project maintainers.
+By participating in this project, you are expected to uphold our Code of Conduct. Please report
+unacceptable behavior to the project maintainers.
 
 ## How Can I Contribute?
 
 ### Reporting Bugs
 
-This section guides you through submitting a bug report for AuraFrameFX. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports.
+This section guides you through submitting a bug report for AuraFrameFX. Following these guidelines
+helps maintainers and the community understand your report, reproduce the behavior, and find related
+reports.
 
 **Before Submitting A Bug Report:**
+
 * Check the documentation for a list of common questions and problems.
-* Ensure the bug is not already reported by searching on GitHub under [Issues](https://github.com/AuraFrameFxDev/AuraFrameFx/issues).
+* Ensure the bug is not already reported by searching on GitHub
+  under [Issues](https://github.com/AuraFrameFxDev/AuraFrameFx/issues).
 
 **How Do I Submit A Good Bug Report?**
 Bugs are tracked as GitHub issues. Create an issue and provide the following information:
@@ -29,14 +35,17 @@ Bugs are tracked as GitHub issues. Create an issue and provide the following inf
 
 ### Suggesting Enhancements
 
-This section guides you through submitting an enhancement suggestion for AuraFrameFX, including completely new features and minor improvements to existing functionality.
+This section guides you through submitting an enhancement suggestion for AuraFrameFX, including
+completely new features and minor improvements to existing functionality.
 
 **Before Submitting An Enhancement Suggestion:**
+
 * Check if the enhancement has already been suggested.
 * Determine which repository the enhancement should be suggested in.
 
 **How Do I Submit A Good Enhancement Suggestion?**
-Enhancement suggestions are tracked as GitHub issues. Create an issue and provide the following information:
+Enhancement suggestions are tracked as GitHub issues. Create an issue and provide the following
+information:
 
 * Use a clear and descriptive title.
 * Provide a step-by-step description of the suggested enhancement.
@@ -77,7 +86,8 @@ Enhancement suggestions are tracked as GitHub issues. Create an issue and provid
 
 ### Kotlin Style Guide
 
-* Follow the [Kotlin Coding Conventions](https://kotlinlang.org/docs/reference/coding-conventions.html)
+* Follow
+  the [Kotlin Coding Conventions](https://kotlinlang.org/docs/reference/coding-conventions.html)
 * Use 4 spaces for indentation
 * Use camelCase for variables and functions
 * Use PascalCase for class names

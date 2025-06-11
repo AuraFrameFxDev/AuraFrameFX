@@ -1,6 +1,7 @@
 # GitHub Setup Guide for AuraFrameFX
 
-This guide will help you push your AuraFrameFX project to GitHub and set up Dependabot to automatically fix dependency issues.
+This guide will help you push your AuraFrameFX project to GitHub and set up Dependabot to
+automatically fix dependency issues.
 
 ## Prerequisites
 
@@ -39,7 +40,7 @@ This guide will help you push your AuraFrameFX project to GitHub and set up Depe
    ```
    git push -u origin main
    ```
-   
+
    If you're overwriting an existing repository:
    ```
    git push -f origin main
@@ -58,19 +59,19 @@ We've set up the following files to help with your GitHub integration:
 ## After Pushing to GitHub
 
 1. **Enable GitHub Actions**:
-   - Go to your repository on GitHub
-   - Navigate to "Actions" tab
-   - Enable workflows
+    - Go to your repository on GitHub
+    - Navigate to "Actions" tab
+    - Enable workflows
 
 2. **Set up Branch Protection**:
-   - Go to "Settings" > "Branches"
-   - Add a rule for the main branch
-   - Require pull request reviews before merging
-   - Require status checks to pass before merging
+    - Go to "Settings" > "Branches"
+    - Add a rule for the main branch
+    - Require pull request reviews before merging
+    - Require status checks to pass before merging
 
 3. **Check Dependabot**:
-   - Dependabot should automatically create pull requests for any outdated dependencies
-   - These will help fix the dependency issues you're experiencing
+    - Dependabot should automatically create pull requests for any outdated dependencies
+    - These will help fix the dependency issues you're experiencing
 
 ## Troubleshooting
 

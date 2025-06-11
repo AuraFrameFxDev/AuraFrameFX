@@ -2,8 +2,10 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.parcelize")
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
-    id("com.google.dagger.hilt.android") version "2.50"
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
+    // Firebase plugins - comment out if google-services.json is not available
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("org.openapi.generator")
@@ -92,7 +94,8 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8" // Hardcoded for Kotlin 1.9.22 compatibility
+        kotlinCompilerExtensionVersion =
+            rootProject.extra["composeCompilerVersion"] as String // Using 1.5.14 from root project
     }
 
     packaging {
@@ -131,20 +134,22 @@ dependencies {
     // Core Android
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2") // Downgraded to be compatible with AGP 8.2.2
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // Downgraded
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2") // Downgraded
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2") // Downgraded
     implementation("androidx.activity:activity-compose:1.8.2")
 
-    // Kotlin Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-xml:0.86.1")
+    // Kotlin Serialization - using versions forced by root build.gradle.kts
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.1")
+    // XML serialization commented out as it's not available in this version
+    // implementation("org.jetbrains.kotlinx:kotlinx-serialization-xml:0.70.0")
 
-    // Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.50")
-    ksp("com.google.dagger:hilt-compiler:2.50")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    // Dagger Hilt - using version from root build.gradle.kts
+    implementation("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
+    ksp("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0") // Version from version catalog
     implementation("androidx.hilt:hilt-work:1.1.0")
 
     // Kotlin Coroutines
@@ -156,20 +161,17 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
+    implementation(platform("androidx.compose:compose-bom:2025.06.00")) // Updated to latest BOM from version catalog
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.ui:ui-util")
-    implementation("androidx.compose.ui:ui-text")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.navigation:navigation-compose:2.7.5") // Downgraded to be compatible with AGP 8.2.2
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.runtime:runtime")
-    implementation("androidx.navigation:navigation-compose:2.7.5")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    implementation("com.airbnb.android:lottie-compose:6.1.0")
 
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
@@ -204,27 +206,41 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
 
     // Vertex AI
-    implementation("com.google.cloud:vertexai:0.3.0")
+    // implementation("com.google.cloud:vertexai:0.3.0") // Removed temporarily due to resolution issue
     implementation("com.google.cloud:google-cloud-aiplatform:3.50.0")
 
-    // Xposed dependencies
+    // Xposed - using only Maven repository dependencies
     implementation("de.robv.android.xposed:api:82")
     implementation("de.robv.android.xposed:api:82:sources")
-    implementation(files("libs/xposed-bridge.jar"))
-    implementation(files("libs/xposed-bridge-sources.jar"))
-    implementation(files("libs/xposed-art.jar"))
-    implementation(files("libs/xposed-art-sources.jar"))
-    compileOnly("com.github.LSPosed:HiddenApiBypass:6.0")
-    compileOnly("io.github.libxposed:api:100.1")
-    compileOnly("io.github.libxposed:service:100.1")
+
+    // Define a custom configuration for Xposed dependencies that might be missing
+    configurations {
+        create("xposedCompileOnly") {
+            description = "Configuration for Xposed compile-only dependencies"
+            isCanBeConsumed = false
+            isCanBeResolved = false
+        }
+    }
+
+    // Local JAR files commented out as they're missing
+    // compileOnly(files("libs/xposed-bridge.jar"))
+    // compileOnly(files("libs/xposed-art.jar"))
+
+    // Using LSPosed HiddenApiBypass instead of the XanderYe version
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
+
+    // LibXposed - commented out due to resolution issues
+    // implementation("io.github.libxposed:api:100-preview.5")
+    // implementation("io.github.libxposed:service:100-preview.5")
 
     // Timber and Network
     implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0") // Reverted to widely available version
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0") // Matched with retrofit version
+    // Using the correctly named converter for kotlinx serialization
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
