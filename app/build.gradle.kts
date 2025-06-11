@@ -36,3 +36,37 @@ android {
         // Room schema location for annotation processing
         javaCompileOptions {
             annotationProcessorOptions {
+                arguments += mapOf(
+                    "room.schemaLocation" to "$projectDir/schemas",
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true",
+                    "dagger.fastInit" to "enabled"
+                )
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        debug {
+            isDebuggable = true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
+    }
+
+    lint {
+        checkDependencies = true
+        lintConfig = file("lint.xml")
+        ignoreTestSources = true
