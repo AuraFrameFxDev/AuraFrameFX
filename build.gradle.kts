@@ -1,91 +1,45 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-    // Define version constants inside buildscript block for access within its scope
-    val kotlinVersion = "1.9.22"  // Changed from 2.1.21 to 1.9.22 for compatibility with KSP
-    val kspVersion = "1.9.22-1.0.17"
-    val hiltVersion = "2.50"      // Updated to be compatible with Kotlin 1.9.22
-    val googleServicesVersion = "4.4.2"
-    val crashlyticsVersion = "2.9.9"
-    val firebasePerfVersion = "1.4.2"
-
-    // Make versions available to all modules by putting them in extra properties
-    project.extra.apply {
-        set("kotlinVersion", kotlinVersion)
-        set("kspVersion", kspVersion)
-        set("hiltVersion", hiltVersion)
-        set("googleServicesVersion", googleServicesVersion)
-        set("crashlyticsVersion", crashlyticsVersion)
-        set("firebasePerfVersion", firebasePerfVersion)
-    }
-
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-        maven { url = uri("https://jitpack.io") }
-        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
-    }
-
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.2.2") // Updated to a compatible version
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-        classpath("com.google.gms:google-services:$googleServicesVersion")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion")
-        classpath("com.google.firebase:perf-plugin:$firebasePerfVersion")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.5") // Updated for compatibility
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.9.10") // Updated for compatibility
-        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
-        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$kspVersion")
-    }
-}
-
-// These plugin declarations only make the plugins available to subprojects, they don't apply them to the root project
-// Using a more traditional syntax to avoid dependency on version catalog in root project
 plugins {
-    id("com.android.application").version("8.2.2").apply(false)  // Updated to match buildscript
-    id("org.jetbrains.kotlin.android").version("1.9.22").apply(false)
-    id("com.google.devtools.ksp").version("1.9.22-1.0.17").apply(false)
-    id("com.google.dagger.hilt.android").version("2.50").apply(false)  // Updated
-    id("org.jetbrains.kotlin.plugin.serialization").version("1.9.22").apply(false)
-    id("org.jetbrains.kotlin.plugin.parcelize").version("1.9.22").apply(false)
-    id("com.google.gms.google-services").version("4.4.2").apply(false)
-    id("com.google.firebase.crashlytics").version("2.9.9").apply(false)  // Updated
-    id("com.google.firebase.firebase-perf").version("1.4.2").apply(false)
-    id("androidx.navigation.safeargs.kotlin").version("2.7.5").apply(false)  // Updated
-    id("org.jetbrains.compose").version("1.6.11").apply(false)  // Updated for compatibility with Kotlin 1.9.22
-    id("org.openapi.generator").version("7.2.0").apply(false)  // Updated for better compatibility
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.google.services) apply false
 }
 
-// Clean task to delete the build directory
-tasks.register("clean", Delete::class) {
-    delete(layout.buildDirectory)
-}
-
-// Add dependency resolutions for consistent dependency versions
+// Apply common configuration to all subprojects
 subprojects {
-    configurations.all {
-        resolutionStrategy {
-            // Force consistent Kotlin versions
-            force("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlinVersion"]}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-common:${rootProject.extra["kotlinVersion"]}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.extra["kotlinVersion"]}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${rootProject.extra["kotlinVersion"]}")
-            force("org.jetbrains.kotlin:kotlin-reflect:${rootProject.extra["kotlinVersion"]}")
-
-            // Force consistent kotlinx libraries
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")  // Updated for consistency
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-            force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2")  // Compatible with Kotlin 1.9.22
-            force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")  // Compatible with Kotlin 1.9.22
-
-            // Retrofit to a specific version
-            force("com.squareup.retrofit2:retrofit:2.9.0")
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+            project.extensions.configure<com.android.build.gradle.BaseExtension> {
+                compileSdkVersion(35)
+                
+                defaultConfig {
+                    minSdk = 33
+                    targetSdk = 35
+                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                    multiDexEnabled = true
+                }
+                
+                compileOptions {
+                    sourceCompatibility = JavaVersion.VERSION_17
+                    targetCompatibility = JavaVersion.VERSION_17
+                }
+                
+                tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+                    kotlinOptions {
+                        jvmTarget = "17"
+                        freeCompilerArgs += listOf(
+                            "-opt-in=kotlin.RequiresOptIn",
+                            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
-// Better approach for handling Gradle warnings
-gradle.startParameter.warningMode = WarningMode.All
+tasks.register("clean", Delete::class) {
+    delete(rootProject.layout.buildDirectory)
+}
