@@ -4,16 +4,13 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("androidx.navigation.safeargs.kotlin")
-    id("org.jetbrains.compose")
-    id("org.openapi.generator")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
-
-val xposedCompileOnly by configurations.creating
 
 android {
     namespace = "dev.aurakai.auraframefx"
@@ -21,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
-        minSdk = 33
+        minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -69,4 +66,248 @@ android {
     lint {
         checkDependencies = true
         lintConfig = file("lint.xml")
-        ignoreTestSources = true }}
+        ignoreTestSources = true
+        abortOnError = false
+        warningsAsErrors = true
+        checkReleaseBuilds = false
+        checkAllWarnings = true
+
+        disable.addAll(
+            listOf(
+                "MissingTranslation",
+                "VectorPath",
+                "MissingIf"
+            )
+        )
+    }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+        languageVersion = "1.9"
+        apiVersion = "1.9"
+        freeCompilerArgs = listOf(
+            "-Xjvm-default=all",
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
+            "-opt-in=kotlin.time.ExperimentalTime",
+            "-opt-in=kotlin.experimental.ExperimentalTypeInference",
+            "-opt-in=kotlin.ExperimentalStdlibApi",
+            "-opt-in=kotlin.concurrent.ExperimentalAtomicApi",
+            "-opt-in=kotlin.experimental.ExperimentalNativeApi",
+            "-Xcontext-receivers"
+        )
+    }
+
+    buildFeatures {
+        compose = true
+        buildConfig = true
+        viewBinding = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
+    }
+
+    packaging {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+            excludes.add("META-INF/LICENSE.md")
+            excludes.add("META-INF/LICENSE-notice.md")
+            excludes.add("META-INF/licenses/**")
+            excludes.add("META-INF/LICENSE*")
+        }
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
+    sourceSets {
+        getByName("main") {
+            java.srcDir("build/generated/src/main/kotlin")
+        }
+    }
+
+    hilt {
+        enableAggregatingTask = true
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+    jvmTargetValidationMode.set(org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode.ERROR)
+}
+
+dependencies {
+    // Core Android
+    coreLibraryDesugaring(libs.desugarJdkLibs)
+    implementation(libs.androidxCoreKtx)
+    implementation(libs.androidxLifecycleRuntimeKtx)
+    implementation(libs.androidxLifecycleViewModelCompose)
+    implementation(libs.androidxLifecycleRuntimeCompose)
+    implementation(libs.androidxActivityCompose)
+
+    // Kotlin Serialization
+    implementation(libs.kotlinxSerializationJson)
+    implementation(libs.kotlinxSerializationCore)
+    implementation(libs.kotlinxSerializationXml)
+
+    // Dagger Hilt
+    implementation(libs.hiltAndroid)
+    ksp(libs.hiltCompiler)
+    implementation(libs.androidxHiltNavigationCompose)
+    implementation(libs.androidxHiltWork)
+
+    // Kotlin Coroutines
+    implementation(libs.kotlinxCoroutinesCore)
+    implementation(libs.kotlinxCoroutinesAndroid)
+    implementation(libs.kotlinxCoroutinesPlayServices)
+
+    // Android Permissions
+    implementation(libs.androidxPermission)
+    implementation(libs.androidxPermissionRuntime)
+    implementation(libs.androidxPermissionGroup)
+
+    // Compose
+    implementation(platform(libs.androidxComposeBom))
+    implementation(libs.androidxComposeUi)
+    implementation(libs.androidxComposeUiGraphics)
+    implementation(libs.androidxComposeUiToolingPreview)
+    implementation(libs.androidxComposeUiUtil)
+    implementation(libs.androidxComposeUiText)
+    implementation(libs.androidxComposeFoundation)
+    implementation(libs.androidxComposeMaterial3)
+    implementation(libs.androidxComposeMaterialIcons)
+    implementation(libs.androidxComposeMaterialIconsExtended)
+    implementation(libs.androidxComposeRuntime)
+    implementation(libs.androidxNavigationCompose)
+    implementation(libs.androidxConstraintlayoutCompose)
+    implementation(libs.lottieCompose)
+
+    // Room
+    implementation(libs.androidxRoomRuntime)
+    implementation(libs.androidxRoomKtx)
+    ksp(libs.androidxRoomCompiler)
+
+    // Work Manager
+    implementation(libs.androidxWorkRuntimeKtx)
+    implementation(libs.androidxWorkHilt)
+
+    // DataStore
+    implementation(libs.androidxDatastorePreferences)
+
+
+    // UI Components
+    implementation(libs.androidxConstraintlayout)
+    implementation(libs.androidxCardview)
+    implementation(libs.googleMaterial)
+    implementation(libs.coilCompose)
+    implementation(libs.accompanistSystemuicontroller)
+    implementation(libs.accompanistPermissions)
+
+    // Compose Glance
+    implementation(libs.glanceAppwidget)
+    implementation(libs.glanceCompose)
+
+    // Firebase
+    implementation(platform(libs.firebaseBom))
+    implementation(libs.firebaseAnalyticsKtx)
+    implementation(libs.firebaseAuthKtx)
+    implementation(libs.firebaseFirestoreKtx)
+    implementation(libs.firebaseStorage)
+    implementation(libs.firebaseCrashlytics)
+
+    // Vertex AI
+    implementation(libs.googleCloudVertexAi)
+    implementation(libs.googleCloudGenerativeAi)
+
+    // Xposed dependencies
+    implementation(libs.xposedApi)
+    implementation(libs.xposedApiSources)
+    implementation(libs.xposedBridge)
+    implementation(libs.xposedBridgeSources)
+    implementation(libs.xposedArt)
+    implementation(libs.xposedArtSources)
+    xposedCompileOnly(libs.xposedHiddenapibypass)
+    xposedCompileOnly(libs.libxposedApi)
+    xposedCompileOnly(libs.libxposedService)
+
+    // Timber
+    implementation(libs.timber)
+
+
+    // Network
+    implementation(libs.retrofit)
+    implementation(libs.retrofitConverterGson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttpLoggingInterceptor)
+    implementation(libs.retrofitConverterKotlinxSerialization)
+
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinxCoroutinesTest)
+    testImplementation(libs.androidxArchCoreTesting)
+    testImplementation(libs.mockitoCore)
+    testImplementation(libs.mockk)
+
+    androidTestImplementation(libs.androidTestExtJunit)
+    androidTestImplementation(libs.androidTestEspressoCore)
+    androidTestImplementation(platform(libs.androidxComposeBom))
+    androidTestImplementation(libs.androidxComposeUiTestJunit4)
+
+    debugImplementation(libs.androidxComposeUiTooling)
+    debugImplementation(libs.androidxComposeUiTestManifest)
+}
+
+openApiGenerate {
+    generatorName.set("kotlin")
+    inputSpec.set("${project.projectDir}/src/main/resources/auraframefx_ai_api.yaml")
+    outputDir.set(layout.buildDirectory.dir("generated/openapi").get().asFile.absolutePath)
+    apiPackage.set("dev.aurakai.auraframefx.generated.api.auraframefxai")
+    modelPackage.set("dev.aurakai.auraframefx.generated.model.auraframefxai")
+    configOptions.set(
+        mapOf(
+            "library" to "jvm-retrofit2",
+            "serializationLibrary" to "kotlinx_serialization",
+            "useCoroutines" to "true",
+            "dateLibrary" to "java8",
+            "enumPropertyNaming" to "UPPERCASE"
+        )
+    )
+}
+
+tasks.register("validateOpenApiSpec") {
+    val specFile = file("${project.projectDir}/src/main/resources/auraframefx_ai_api.yaml")
+    doLast {
+        if (!specFile.exists()) {
+            logger.warn("API spec file not found at: ${specFile.absolutePath}")
+            logger.warn("OpenAPI code generation may fail or use stale code.")
+        } else {
+            logger.lifecycle("OpenAPI spec file found at: ${specFile.absolutePath}")
+        }
+    }
+}
+
+tasks.named("openApiGenerate") {
+    dependsOn("validateOpenApiSpec")
+    mustRunAfter(tasks.named("clean"))
+}
+
+tasks.register<Delete>("cleanOpenApiGenerated") {
+    delete(layout.buildDirectory.dir("generated/openapi"))
+}
+
+tasks.named("clean") {
+    finalizedBy("cleanOpenApiGenerated")
+}
+
+tasks.named("preBuild") {
+    dependsOn("openApiGenerate")
+}
