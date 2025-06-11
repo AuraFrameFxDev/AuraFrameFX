@@ -1,49 +1,28 @@
-@file:Suppress("UNUSED_VARIABLE", "UnstableApiUsage", "DEPRECATION")
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
-    id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.parcelize")
-    id("androidx.navigation.safeargs.kotlin")
-    id("org.jetbrains.compose")
+    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
+    id("com.google.dagger.hilt.android") version "2.50"
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     id("org.openapi.generator")
 }
 
-val xposedCompileOnly by configurations.creating
-
 android {
     namespace = "dev.aurakai.auraframefx"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
         minSdk = 33
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        // Xposed configuration
-        buildConfigField("String", "XPOSED_API_VERSION", "\"82\"")
-        buildConfigField("String", "LSPOSED_PACKAGE_NAME", "\"de.robv.android.xposed\"")
-        buildConfigField("int", "LSPOSED_API_VERSION", "82")
-
-        // Room schema location for annotation processing
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true",
-                    "dagger.fastInit" to "enabled"
-                )
-            }
-        }
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -56,7 +35,9 @@ android {
             )
         }
         debug {
+            isMinifyEnabled = false
             isDebuggable = true
+            applicationIdSuffix = ".debug"
         }
     }
 
@@ -67,8 +48,6 @@ android {
     }
 
     lint {
-        checkDependencies = true
-        lintConfig = file("lint.xml")
         ignoreTestSources = true
         abortOnError = false
         warningsAsErrors = true
@@ -101,8 +80,8 @@ android {
             "-opt-in=kotlin.experimental.ExperimentalTypeInference",
             "-opt-in=kotlin.ExperimentalStdlibApi",
             "-opt-in=kotlin.concurrent.ExperimentalAtomicApi",
-            "-opt-in=kotlin.experimental.ExperimentalNativeApi",
-            "-Xcontext-receivers"
+            "-opt-in=kotlin.experimental.ExperimentalNativeApi"
+            // Removed -Xcontext-receivers as it's not compatible with Kotlin 1.9.22
         )
     }
 
@@ -113,7 +92,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
+        kotlinCompilerExtensionVersion = "1.5.8" // Hardcoded for Kotlin 1.9.22 compatibility
     }
 
     packaging {
@@ -150,121 +129,117 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEa
 
 dependencies {
     // Core Android
-    coreLibraryDesugaring(libs.desugarJdkLibs)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.activity.compose)
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("androidx.activity:activity-compose:1.8.2")
 
     // Kotlin Serialization
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.xml) // Now uses 0.70.0
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-xml:0.86.1")
 
     // Dagger Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.hilt.work)
+    implementation("com.google.dagger:hilt-android:2.50")
+    ksp("com.google.dagger:hilt-compiler:2.50")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-work:1.1.0")
 
     // Kotlin Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
-    // Permissions (use Accompanist)
-    implementation(libs.accompanist.permissions)
-    // Removed: implementation(libs.androidx.permission)
-    // Removed: implementation(libs.androidx.permission.runtime)
-    // Removed: implementation(libs.androidx.permission.group)
+    // Permissions
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.ui.util)
-    implementation(libs.androidx.compose.ui.text)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons)
-    implementation(libs.androidx.compose.material.iconsExtended)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.constraintlayout.compose)
-    implementation(libs.lottie.compose)
+    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.ui:ui-util")
+    implementation("androidx.compose.ui:ui-text")
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.runtime:runtime")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("com.airbnb.android:lottie-compose:6.1.0")
 
     // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
     // Work Manager
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.hilt.work)
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.hilt:hilt-work:1.1.0")
 
     // DataStore
-    implementation(libs.androidx.datastore.preferences)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // UI Components
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.cardview)
-    implementation(libs.google.material)
-    implementation(libs.coil.compose)
-    implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.permissions)
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     // Compose Glance
-    implementation(libs.glance.appwidget)
-    implementation(libs.glance.compose)
+    implementation("androidx.glance:glance-appwidget:1.0.0")
+    implementation("androidx.glance:glance:1.0.0")
 
     // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics.ktx)
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.storage)
-    implementation(libs.firebase.crashlytics)
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-crashlytics")
 
     // Vertex AI
-    implementation(libs.google.cloud.vertexai)
-    implementation(libs.google.cloud.generativeai) // Now uses 0.8.0
+    implementation("com.google.cloud:vertexai:0.3.0")
+    implementation("com.google.cloud:google-cloud-aiplatform:3.50.0")
 
     // Xposed dependencies
-    // If not available from Maven, provide as local JARs in libs/ and use implementation(files("libs/xposed-api-82.jar"))
-    implementation(libs.xposed.api)
-    implementation(libs.xposed.api.sources)
-    implementation(libs.xposed.bridge)
-    implementation(libs.xposed.bridge.sources)
-    implementation(libs.xposed.art)
-    implementation(libs.xposed.art.sources)
-    xposedCompileOnly(libs.xposed.hiddenapibypass)
-    xposedCompileOnly(libs.libxposed.api)
-    xposedCompileOnly(libs.libxposed.service)
+    implementation("de.robv.android.xposed:api:82")
+    implementation("de.robv.android.xposed:api:82:sources")
+    implementation(files("libs/xposed-bridge.jar"))
+    implementation(files("libs/xposed-bridge-sources.jar"))
+    implementation(files("libs/xposed-art.jar"))
+    implementation(files("libs/xposed-art-sources.jar"))
+    compileOnly("com.github.LSPosed:HiddenApiBypass:6.0")
+    compileOnly("io.github.libxposed:api:100.1")
+    compileOnly("io.github.libxposed:service:100.1")
 
-    // Timber
-    implementation(libs.timber)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit.converter.kotlinx.serialization)
+    // Timber and Network
+    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 
     // Testing
-    testImplementation(libs.junit)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.androidx.arch.core.testing)
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockk)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.mockito:mockito-core:5.7.0")
+    testImplementation("io.mockk:mockk:1.13.8")
 
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
 
 openApiGenerate {
