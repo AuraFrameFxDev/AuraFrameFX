@@ -2,7 +2,7 @@
 
 buildscript {
     // Define version constants inside buildscript block for access within its scope
-    val kotlinVersion = "2.1.21"
+    val kotlinVersion = "1.9.22"
     val kspVersion = "1.9.22-1.0.17"
     val hiltVersion = "2.51.1"
     val googleServicesVersion = "4.4.2"
