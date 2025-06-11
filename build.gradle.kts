@@ -3,8 +3,8 @@
 buildscript {
     // Define version constants inside buildscript block for access within its scope
     val kotlinVersion = "2.1.21"
-    val kspVersion = "1.9.22-1.0.17"
-    val hiltVersion = "2.51.1"
+    val kspVersion = "1.9.22-1.0.17" // Ensure this is the correct ksp version for your project
+    val hiltVersion = "2.56.2" // Updated Hilt version
     val googleServicesVersion = "4.4.2"
     val crashlyticsVersion = "3.0.4"
     val firebasePerfVersion = "1.4.2"
