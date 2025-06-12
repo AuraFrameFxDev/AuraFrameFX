@@ -3,7 +3,7 @@ buildscript {
     // Define version constants
     val kotlinVersion = "1.9.22"
     val kspVersion = "1.9.22-1.0.17"
-    val hiltVersion = "2.50"
+    val hiltVersion = "2.56.2"
     val googleServicesVersion = "4.4.1"
     val crashlyticsVersion = "2.9.9"
     
