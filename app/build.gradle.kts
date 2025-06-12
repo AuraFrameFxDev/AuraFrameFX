@@ -170,7 +170,7 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:1.78")
     implementation("io.netty:netty-common:4.1.118.Final")
     implementation("org.apache.commons:commons-compress:1.26.0")
-    implementation("com.google.guava:guava:32.0.0-android")
+    implementation("com.google.guava:guava:33.4.8-android")
     implementation("io.netty:netty-codec-http:4.1.118.Final")
     implementation(libs.google.material)
     implementation(libs.androidx.constraintlayout)
