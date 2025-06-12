@@ -203,7 +203,6 @@ hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" }
 firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
 # kotlinParcelize = { id = "kotlin-parcelize", version.ref = "kotlin" } # or org.jetbrains.kotlin.plugin.parcelize
-# navigationSafeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navSafeArgs" }
 # jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composePlugin" } # Ensure 'composePlugin' version is defined if used like this
 # openapiGenerator = { id = "org.openapi.generator", version.ref = "openapiGeneratorPlugin" }
 
