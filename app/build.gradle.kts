@@ -183,9 +183,7 @@ dependencies {
 
     // Permissions (use Accompanist)
     implementation(libs.accompanist.permissions)
-    // Removed: implementation(libs.androidx.permission)
-    // Removed: implementation(libs.androidx.permission.runtime)
-    // Removed: implementation(libs.androidx.permission.group)
+    // implementation(libs.androidx.permissions.runtime) // Redundant with Accompanist
 
     // Compose BOM - Using BOM to manage all Compose versions
     val composeBom = platform(libs.androidx.compose.bom)
