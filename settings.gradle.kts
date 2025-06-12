@@ -18,7 +18,7 @@ pluginManagement {
         id("io.netty:netty-handler") version "4.1.118"
       id("org.bouncycastle:bcprov-jdk18on") version "1.78"
         id("io.netty:netty-common") version "4.1.118"
-        id("org.apache.commons:commons-compress") "1.26.0"
+        id("org.apache.commons:commons-compress") version "1.26.0"
         id("com.google.guava:guava") version "32.0.0-android"
         id("io.netty:netty-codec-http") version "4.1.108.Final"
 
