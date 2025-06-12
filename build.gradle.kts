@@ -67,11 +67,7 @@ subprojects {
             
             // Force consistent Compose versions
             force("androidx.compose.compiler:compiler:1.5.15")
-            force("androidx.compose.runtime:runtime:1.5.14")
-            force("androidx.compose.foundation:foundation:1.5.14")
             force("androidx.compose.material3:material3:1.1.2")
-            force("androidx.compose.ui:ui:1.5.14")
-            force("androidx.compose.ui:ui-tooling:1.5.14")
             force("androidx.compose.ui:ui-tooling-preview:1.8.2")
             
             // Retrofit to a specific version
