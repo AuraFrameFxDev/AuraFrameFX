@@ -72,7 +72,7 @@ subprojects {
             force("androidx.compose.material3:material3:1.1.2")
             force("androidx.compose.ui:ui:1.5.14")
             force("androidx.compose.ui:ui-tooling:1.5.14")
-            force("androidx.compose.ui:ui-tooling-preview:1.5.14")
+            force("androidx.compose.ui:ui-tooling-preview:1.8.2")
             
             // Retrofit to a specific version
             force("com.squareup.retrofit2:retrofit:2.9.0")
