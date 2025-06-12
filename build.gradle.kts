@@ -1,4 +1,4 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Top-level build file where you can add configuration options common to all sub-projects/modul
 // buildscript {} block and project.extra {} removed as versions are now managed by libs.versions.toml
 
 // These plugin declarations make the plugins available to subprojects
@@ -28,7 +28,7 @@ subprojects {
             force(libs.kotlin.stdlib.jdk8.lib)
             force(libs.kotlin.reflect.lib)
 
-            // Force consistent kotlinx libraries
+            // Force consistent kotlinx librari
             force(libs.kotlinx.coroutines.core) // Assumes this is the intended alias from TOML
             force(libs.kotlinx.coroutines.core.jvm) // Reverted to direct library alias
             force(libs.kotlinx.coroutines.android) // Assumes this is the intended alias from TOML
@@ -42,7 +42,8 @@ subprojects {
             force(libs.androidx.compose.material3.lib) // Ensure this alias exists and is correct
             force(libs.androidx.compose.ui.lib)
             force(libs.androidx.compose.ui.tooling.lib)
-            force(libs.androidx.compose.ui.tooling.preview.lib)
+            force(libs.androidx.compose.ui.tooling.previe
+            
             
             // Retrofit to a specific version
             force(libs.retrofit.lib) // Ensure this alias exists and is correct

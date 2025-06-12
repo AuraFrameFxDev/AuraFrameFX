@@ -161,6 +161,17 @@ dependencies {
     coreLibraryDesugaring(libs.desugarJdkLibs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    
+    // Protocol Buffers and Netty
+    implementation("com.google.protobuf:protobuf-java:3.25.5")
+    implementation("commons-io:commons-io:2.14.0")
+    implementation("io.netty:netty-codec-http2:4.1.100.Final")
+    implementation("io.netty:netty-handler:4.1.118.Final")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.78")
+    implementation("io.netty:netty-common:4.1.118.Final")
+    implementation("org.apache.commons:commons-compress:1.26.0")
+    implementation("com.google.guava:guava:32.0.0-android")
+    implementation("io.netty:netty-codec-http:4.1.118.Final")
     implementation(libs.google.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -210,7 +221,6 @@ dependencies {
 
     // Work Manager
     implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.hilt.work)
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
@@ -219,7 +229,6 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.coil.compose)
     implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.permissions)
 
     // Compose Glance
     implementation(libs.glance.appwidget)
@@ -234,9 +243,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
 
     // Google Cloud AI - using BOM for version management
-    implementation(platform(libs.google.cloud.bom))
     implementation("com.google.cloud:google-cloud-generativeai")
-    implementation(libs.google.cloud.generativeai) // Now uses 0.8.0
 
     // Timber
     implementation(libs.timber)
@@ -245,18 +252,18 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit.converter.kotlinx.serialization)
-    
+
     // Xposed dependencies - using local JARs
     compileOnly(xposedApiJar)
     compileOnly(xposedBridgeJar)
-    
+
     // Xposed hidden API bypass
     xposedCompileOnly(libs.xposed.hiddenapibypass)
-    
+
     // For development and documentation
     compileOnly(xposedApiSourcesJar) // Only needed for development
     compileOnly(xposedBridgeSourcesJar) // Only needed for development
-    
+
     // LSPosed API (if using LSPosed specific features)
     xposedCompileOnly("org.lsposed:libxposed:82")
     xposedCompileOnly("org.lsposed:libxposed:82:sources") // For development only
@@ -268,13 +275,8 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockk)
 
-    androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
 
 openApiGenerate {
