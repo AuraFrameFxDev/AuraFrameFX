@@ -2,9 +2,9 @@
 androidxActivity = "1.10.1"
 androidxArchCoreTesting = "2.2.0"
 androidxCardview = "1.0.0"
-# Using the latest stable Compose versions
-androidxComposeBom = "2025.06.00"  # Latest stable BOM as of June 2025
-androidxComposeCompiler = "1.6.5"  # Stable compiler that works with Kotlin 1.9.22
+# Using stable Compose versions that are known to work together
+androidxComposeBom = "2025.06.00"  # Stable BOM version
+androidxComposeCompiler = "1.5.3"  # Matches Kotlin 1.9.22
 androidxConstraintlayout = "2.2.1"
 androidxConstraintlayoutCompose = "1.1.1"
 androidxCore = "1.16.0"
@@ -28,7 +28,7 @@ firebaseCrashlytics = "19.4.4"
 firebaseFirestore = "25.1.4"
 firebaseStorage = "21.0.2"
 glance = "1.1.1" # Assuming androidx.glance:glance
-googleCloudGenerativeAi = "0.8.0"
+googleCloudGenerativeAi = "0.3.2"  # Latest stable version
 # Add Google Cloud BOM for better dependency management
 googleCloudBom = "26.28.0"
 googleCloudVertexAi = "1.24.0" # Check for latest version and specific artifact if different
@@ -40,7 +40,7 @@ kotlinxCoroutinesTest = "1.10.2"
 kotlinxSerializationJson = "1.8.1" # Version already forced in root build.gradle
 kotlinxSerializationCore = "1.8.1" # Placeholder, usually it's kotlinx-serialization-json or -protobuf etc.
 # Using a stable version of kotlinx-serialization-xml
-kotlinxSerializationXml = "1.5.1" # Stable version that works with Kotlin 1.9.x
+kotlinxSerializationXml = "1.6.0" # Stable version that works with Kotlin 1.9.x
 libxposedApi = "82" # Version for Xposed APIs often matches API level
 libxposedService = "82" # Version for Xposed APIs
 lottieCompose = "6.6.6"
@@ -72,7 +72,7 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.1.2" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.3.2" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -122,7 +122,7 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.7.3" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.10.2" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines"}
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
@@ -138,7 +138,7 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "3.0.0" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitConverterGson" }
 retrofit-converter-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitConverterKotlinxSerialization" }
 

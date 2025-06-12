@@ -185,21 +185,21 @@ dependencies {
     implementation(libs.accompanist.permissions)
     // implementation(libs.androidx.permissions.runtime) // Redundant with Accompanist
 
-    // Compose BOM - Using BOM to manage all Compose versions
+    // Compose
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
+    androidTestImplementation(composeBom)
+    
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons)
-    implementation(libs.androidx.compose.material.iconsExtended)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.constraintlayout.compose)
-    implementation(libs.lottie.compose)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    
+    // Google Cloud
+    implementation(platform(libs.google.cloud.bom))
+    implementation(libs.google.cloud.generativeai)
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
