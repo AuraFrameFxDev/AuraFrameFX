@@ -12,7 +12,9 @@ pluginManagement {
     plugins {
         id("org.jetbrains.compose") version "1.6.11"
         id("org.openapi.generator") version "7.5.0"
+ 
         // Only Gradle plugins should be declared here, not regular dependencies
+
     }
 }
 
