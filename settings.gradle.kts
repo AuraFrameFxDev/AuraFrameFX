@@ -12,18 +12,9 @@ pluginManagement {
     plugins {
         id("org.jetbrains.compose") version "1.6.11"
         id("org.openapi.generator") version "7.5.0"
-        id("com.google.protobuf:protobuf-java") version "3.25.5"
-        id("commons-io:commons-io") version "2.14.0"
-        id("io.netty:netty-codec-http2") version "4.1.100.Final"
-        id("io.netty:netty-handler") version "4.1.118.Final"
-        id("org.bouncycastle:bcprov-jdk18on") version "1.78"
-        id("io.netty:netty-common") version "4.1.118.Final"
-        id("org.apache.commons:commons-compress") "1.26.0"
-        id("com.google.guava:guava") version "32.0.0-android"
-        id("io.netty:netty-codec-http") version "4.1.108.Final"
-
-
-
+        id("androidx.navigation.safeargs.kotlin") version "2.7.7" // Added for safeargs kotlin
+        // Removed invalid plugin entries which were actually libraries
+        // androidx.navigation.navigation-safe-args-gradle-plugin will be handled by root build.gradle.kts
     }
 }
 
