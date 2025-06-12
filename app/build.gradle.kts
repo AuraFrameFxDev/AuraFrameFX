@@ -224,7 +224,6 @@ dependencies {
 
     // Work Manager
     implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.hilt.work)
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
@@ -233,7 +232,6 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.coil.compose)
     implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.permissions)
 
     // Compose Glance
     implementation(libs.glance.appwidget)
@@ -248,9 +246,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
 
     // Google Cloud AI - using BOM for version management
-    implementation(platform(libs.google.cloud.bom))
     implementation("com.google.cloud:google-cloud-generativeai")
-    implementation(libs.google.cloud.generativeai) // Now uses 0.8.0
 
     // Timber
     implementation(libs.timber)
@@ -282,22 +278,8 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockk)
 
-    androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-
-    implementation("commons-io:commons-io:2.14.0")
-    implementation("io.netty:netty-codec-http2:4.1.100.Final")
-    implementation("io.netty:netty-handler:4.1.118.Final")
-    implementation("org.bouncycastle:bcprov-jdk18on:1.78")
-    implementation("io.netty:netty-common:4.1.118.Final")
-    implementation("org.apache.commons:commons-compress:1.26.0")
-    implementation("com.google.guava:guava:32.0.0-android")
-    implementation("io.netty:netty-codec-http:4.1.108.Final")
 }
 
 openApiGenerate {
