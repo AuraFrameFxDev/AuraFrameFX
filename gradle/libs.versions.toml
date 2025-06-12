@@ -2,11 +2,13 @@
 androidxActivity = "1.10.1"
 androidxArchCoreTesting = "2.2.0"
 androidxCardview = "1.0.0"
-androidxComposeBom = "2024.04.00"
-androidxComposeCompiler = "1.5.8" # Stable for Kotlin 1.9.x
+# Using the latest stable Compose versions
+androidxComposeBom = "2025.06.00"  # Latest stable BOM as of June 2025
+androidxComposeCompiler = "1.6.5"  # Stable compiler that works with Kotlin 1.9.22
 androidxConstraintlayout = "2.2.1"
 androidxConstraintlayoutCompose = "1.1.1"
 androidxCore = "1.16.0"
+androidxAppcompat = "1.7.1"
 androidxDatastorePreferences = "1.1.7"
 androidxEspressoCore = "3.6.1"
 androidxExtJunit = "1.2.1"
@@ -27,6 +29,8 @@ firebaseFirestore = "25.1.4"
 firebaseStorage = "21.0.2"
 glance = "1.1.1" # Assuming androidx.glance:glance
 googleCloudGenerativeAi = "0.8.0"
+# Add Google Cloud BOM for better dependency management
+googleCloudBom = "26.28.0"
 googleCloudVertexAi = "1.24.0" # Check for latest version and specific artifact if different
 googleMaterial = "1.12.0"
 hilt = "2.56.2"
@@ -35,7 +39,8 @@ kotlinxCoroutines = "1.10.2" # Version already forced in root build.gradle
 kotlinxCoroutinesTest = "1.10.2"
 kotlinxSerializationJson = "1.8.1" # Version already forced in root build.gradle
 kotlinxSerializationCore = "1.8.1" # Placeholder, usually it's kotlinx-serialization-json or -protobuf etc.
-kotlinxSerializationXml = "1.6.0" # Official Kotlinx Serialization XML version
+# Using a stable version of kotlinx-serialization-xml
+kotlinxSerializationXml = "1.5.1" # Stable version that works with Kotlin 1.9.x
 libxposedApi = "82" # Version for Xposed APIs often matches API level
 libxposedService = "82" # Version for Xposed APIs
 lottieCompose = "6.6.6"
@@ -67,12 +72,12 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.1.2" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.8.2" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
@@ -80,6 +85,7 @@ androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text"} # 
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintlayout" }
 androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "androidxConstraintlayoutCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastorePreferences" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspressoCore" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
@@ -107,6 +113,7 @@ firebase-storage = { group = "com.google.firebase", name = "firebase-storage", v
 glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }
 glance-compose = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" } # Or glance-material, check your specific need
 
+google-cloud-bom = { group = "com.google.cloud", name = "google-cloud-bom", version.ref = "googleCloudBom" }
 google-cloud-generativeai = { group = "com.google.cloud", name = "google-cloud-generativeai", version.ref = "googleCloudGenerativeAi"}
 google-cloud-vertexai = { group = "com.google.cloud", name = "google-cloud-vertexai", version.ref = "googleCloudVertexAi" } # Ensure this is the correct artifact and group
 google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
@@ -115,7 +122,7 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.7.3" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines"}
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
@@ -131,7 +138,7 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitConverterGson" }
 retrofit-converter-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitConverterKotlinxSerialization" }
 

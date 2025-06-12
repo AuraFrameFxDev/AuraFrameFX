@@ -158,14 +158,16 @@ dependencies {
     // Core Android
     coreLibraryDesugaring(libs.desugarJdkLibs)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.material)
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
 
-    // Kotlin Serialization
+    // Kotlinx Serialization
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.serialization.core)
+    implementation("io.github.pdvrieze.xmlutil:core-jvm:0.86.3")
+    implementation("io.github.pdvrieze.xmlutil:serialization-jvm:0.91.1")
     implementation(libs.kotlinx.serialization.xml) // Now uses 0.70.0
 
     // Dagger Hilt
@@ -185,14 +187,12 @@ dependencies {
     // Removed: implementation(libs.androidx.permission.runtime)
     // Removed: implementation(libs.androidx.permission.group)
 
-    // Compose
-    implementation(platform(libs.androidx.compose.bom))
+    // Compose BOM - Using BOM to manage all Compose versions
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.ui.util)
-    implementation(libs.androidx.compose.ui.text)
-    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons)
     implementation(libs.androidx.compose.material.iconsExtended)
@@ -200,6 +200,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.lottie.compose)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    androidTestImplementation(composeBom)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
     // Room
     implementation(libs.androidx.room.runtime)
@@ -214,9 +218,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     // UI Components
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.cardview)
-    implementation(libs.google.material)
     implementation(libs.coil.compose)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.permissions)
@@ -233,8 +235,9 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.firebase.crashlytics)
 
-    // Vertex AI
-    implementation(libs.google.cloud.vertexai)
+    // Google Cloud AI - using BOM for version management
+    implementation(platform(libs.google.cloud.bom))
+    implementation("com.google.cloud:google-cloud-generativeai")
     implementation(libs.google.cloud.generativeai) // Now uses 0.8.0
 
     // Timber

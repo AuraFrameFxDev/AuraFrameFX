@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -8,8 +10,12 @@ pluginManagement {
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
+    // Using the incubating RepositoriesMode to ensure all repositories are declared in settings.gradle.kts
+    @Suppress("DEPRECATION")
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    
     repositories {
         google()
         mavenCentral()
@@ -19,8 +25,12 @@ dependencyResolutionManagement {
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
         maven { url = uri("https://api.xposed.info/") }
     }
+    
+    // Version catalog configuration - no need to explicitly declare 'libs' here
+    // as it's automatically loaded from gradle/libs.versions.toml
     versionCatalogs {
-        // No explicit 'libs' declaration needed if using gradle/libs.versions.toml!
+        // This block is intentionally left empty as we're using the default 'libs' catalog
+        // from gradle/libs.versions.toml
     }
 }
 
