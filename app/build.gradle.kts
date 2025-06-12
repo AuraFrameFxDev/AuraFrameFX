@@ -162,6 +162,17 @@ dependencies {
     coreLibraryDesugaring(libs.desugarJdkLibs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    
+    // Protocol Buffers and Netty
+    implementation("com.google.protobuf:protobuf-java:3.25.5")
+    implementation("commons-io:commons-io:2.14.0")
+    implementation("io.netty:netty-codec-http2:4.1.100.Final")
+    implementation("io.netty:netty-handler:4.1.118.Final")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.78")
+    implementation("io.netty:netty-common:4.1.118.Final")
+    implementation("org.apache.commons:commons-compress:1.26.0")
+    implementation("com.google.guava:guava:32.0.0-android")
+    implementation("io.netty:netty-codec-http:4.1.118.Final")
     implementation(libs.google.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime.ktx)
