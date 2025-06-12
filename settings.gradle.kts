@@ -8,6 +8,11 @@ pluginManagement {
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
+    
+    plugins {
+        id("org.jetbrains.compose") version "1.6.11"
+        id("org.openapi.generator") version "7.5.0"
+    }
 }
 
 @Suppress("UnstableApiUsage")
@@ -21,16 +26,9 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
-        maven { url = uri("https://maven.google.com") }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
         maven { url = uri("https://api.xposed.info/") }
-    }
-    
-    // Version catalog configuration - no need to explicitly declare 'libs' here
-    // as it's automatically loaded from gradle/libs.versions.toml
-    versionCatalogs {
-        // This block is intentionally left empty as we're using the default 'libs' catalog
-        // from gradle/libs.versions.toml
     }
 }
 

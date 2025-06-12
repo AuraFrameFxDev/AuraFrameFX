@@ -9,13 +9,14 @@ val xposedBridgeSourcesJar = files("libs/bridge-82-sources.jar")
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization") version "1.9.22"
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
-    id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs.kotlin")
     id("org.jetbrains.compose")
     id("org.openapi.generator")
+    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
 }
 
 android {
@@ -166,9 +167,7 @@ dependencies {
 
     // Kotlinx Serialization
     implementation(libs.kotlinx.serialization.json)
-    implementation("io.github.pdvrieze.xmlutil:core-jvm:0.86.3")
-    implementation("io.github.pdvrieze.xmlutil:serialization-jvm:0.91.1")
-    implementation(libs.kotlinx.serialization.xml) // Now uses 0.70.0
+    implementation(libs.kotlinx.serialization.xml)
 
     // Dagger Hilt
     implementation(libs.hilt.android)
@@ -183,25 +182,25 @@ dependencies {
 
     // Permissions (use Accompanist)
     implementation(libs.accompanist.permissions)
-    // implementation(libs.androidx.permissions.runtime) // Redundant with Accompanist
 
     // Compose
-    val composeBom = platform(libs.androidx.compose.bom)
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-    
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.runtime)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    
+
     // Google Cloud
     implementation(platform(libs.google.cloud.bom))
     implementation(libs.google.cloud.generativeai)
-    androidTestImplementation(composeBom)
+
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.junit)
 
     // Room
     implementation(libs.androidx.room.runtime)
