@@ -1,13 +1,10 @@
 [versions]
 androidxActivity = "1.10.1"
 androidxArchCoreTesting = "2.2.0"
-androidxCardview = "1.0.
+androidxCardview = "1.0.0"
 # Using the latest stable Compose versions
 androidxComposeBom = "2024.06.00"  # Latest stable BOM as of June 2024
 androidxComposeCompiler = "1.5.14" # Compatible with Kotlin 
-# Using stable Compose versions that are known to work together
-androidxComposeBom = "2025.06.00"  # Stable BOM version
-androidxComposeCompiler = "1.6.5"  # Matches Kotl
 androidxConstraintlayout = "2.2.1"
 androidxConstraintlayoutCompose = "1.1.1"
 androidxCore = "1.16.0"
@@ -128,7 +125,7 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.7.3" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines"}
-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlinx-serialization-xml = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-xml", version.ref = "kotlinxSerializationXml"} # Check actual artifact name
 
