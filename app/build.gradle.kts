@@ -138,6 +138,7 @@ android {
             java.srcDir("build/generated/src/main/kotlin")
         }
     }
+    buildToolsVersion = "36.0.0"
 
     hilt {
         enableAggregatingTask = true

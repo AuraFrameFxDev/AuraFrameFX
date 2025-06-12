@@ -80,5 +80,21 @@ subprojects {
     }
 }
 
+// Configure Java 17 toolchain for all projects
+allprojects {
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = "17"
+            apiVersion = "1.9"
+            languageVersion = "1.9"
+        }
+    }
+    
+    tasks.withType<JavaCompile>().configureEach {
+        sourceCompatibility = JavaVersion.VERSION_17.toString()
+        targetCompatibility = JavaVersion.VERSION_17.toString()
+    }
+}
+
 // Better approach for handling Gradle warnings
 gradle.startParameter.warningMode = org.gradle.api.logging.configuration.WarningMode.All
