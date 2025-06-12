@@ -9,13 +9,14 @@ val xposedBridgeSourcesJar = files("libs/bridge-82-sources.jar")
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization") version "1.9.22"
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
-    id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs.kotlin")
     id("org.jetbrains.compose")
     id("org.openapi.generator")
+    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
 }
 
 android {
@@ -64,7 +65,10 @@ android {
     }
 
     compileOptions {
+        sourceCompatibility = JavaVersion.VE
+    compileOptions
         sourceCompatibility = JavaVersion.VERSION_21
+     
         targetCompatibility = JavaVersion.VERSION_21
         isCoreLibraryDesugaringEnabled = true
     }
@@ -137,6 +141,7 @@ android {
             java.srcDir("build/generated/src/main/kotlin")
         }
     }
+    buildToolsVersion = "36.0.0"
 
     hilt {
         enableAggregatingTask = true
@@ -159,6 +164,17 @@ dependencies {
     coreLibraryDesugaring(libs.desugarJdkLibs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    
+    // Protocol Buffers and Netty
+    implementation("com.google.protobuf:protobuf-java:3.25.5")
+    implementation("commons-io:commons-io:2.14.0")
+    implementation("io.netty:netty-codec-http2:4.1.100.Final")
+    implementation("io.netty:netty-handler:4.1.118.Final")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.78")
+    implementation("io.netty:netty-common:4.1.118.Final")
+    implementation("org.apache.commons:commons-compress:1.26.0")
+    implementation("com.google.guava:guava:32.0.0-android")
+    implementation("io.netty:netty-codec-http:4.1.118.Final")
     implementation(libs.google.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -166,9 +182,7 @@ dependencies {
 
     // Kotlinx Serialization
     implementation(libs.kotlinx.serialization.json)
-    implementation("io.github.pdvrieze.xmlutil:core-jvm:0.86.3")
-    implementation("io.github.pdvrieze.xmlutil:serialization-jvm:0.91.1")
-    implementation(libs.kotlinx.serialization.xml) // Now uses 0.70.0
+    implementation(libs.kotlinx.serialization.xml)
 
     // Dagger Hilt
     implementation(libs.hilt.android)
@@ -183,27 +197,25 @@ dependencies {
 
     // Permissions (use Accompanist)
     implementation(libs.accompanist.permissions)
-    // Removed: implementation(libs.androidx.permission)
-    // Removed: implementation(libs.androidx.permission.runtime)
-    // Removed: implementation(libs.androidx.permission.group)
 
-    // Compose BOM - Using BOM to manage all Compose versions
-    val composeBom = platform(libs.androidx.compose.bom)
-    implementation(composeBom)
+    // Compose
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons)
-    implementation(libs.androidx.compose.material.iconsExtended)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.constraintlayout.compose)
-    implementation(libs.lottie.compose)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    androidTestImplementation(composeBom)
+
+    // Google Cloud
+    implementation(platform(libs.google.cloud.bom))
+    implementation(libs.google.cloud.generativeai)
+
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.junit)
 
     // Room
     implementation(libs.androidx.room.runtime)
@@ -247,18 +259,18 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit.converter.kotlinx.serialization)
-    
+
     // Xposed dependencies - using local JARs
     compileOnly(xposedApiJar)
     compileOnly(xposedBridgeJar)
-    
+
     // Xposed hidden API bypass
     xposedCompileOnly(libs.xposed.hiddenapibypass)
-    
+
     // For development and documentation
     compileOnly(xposedApiSourcesJar) // Only needed for development
     compileOnly(xposedBridgeSourcesJar) // Only needed for development
-    
+
     // LSPosed API (if using LSPosed specific features)
     xposedCompileOnly("org.lsposed:libxposed:82")
     xposedCompileOnly("org.lsposed:libxposed:82:sources") // For development only
@@ -277,6 +289,15 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    implementation("commons-io:commons-io:2.14.0")
+    implementation("io.netty:netty-codec-http2:4.1.100.Final")
+    implementation("io.netty:netty-handler:4.1.118.Final")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.78")
+    implementation("io.netty:netty-common:4.1.118.Final")
+    implementation("org.apache.commons:commons-compress:1.26.0")
+    implementation("com.google.guava:guava:32.0.0-android")
+    implementation("io.netty:netty-codec-http:4.1.108.Final")
 }
 
 openApiGenerate {
