@@ -28,7 +28,7 @@ buildscript {
     }
     
     dependencies {
-        classpath("com.android.tools.build:gradle:8.10.1")
+        classpath("com.android.tools.build:gradle:8.6.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.google.gms:google-services:$googleServicesVersion")
         classpath("com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion")
@@ -42,12 +42,12 @@ buildscript {
     }
 }
 
-// These plugin declarations only make the plugins available to subprojects, they don't apply them to the root project
-// Using a more traditional syntax to avoid dependency on version catalog in root project
+// These plugin declarations make the plugins available to subprojects, they don't apply them to the root project
 plugins {
-    id("com.android.application").version("8.4.0").apply(false)
+    id("com.android.application").version("8.6.0").apply(false)
     id("org.jetbrains.kotlin.android").version("1.9.22").apply(false)
     id("com.google.devtools.ksp").version("1.9.22-1.0.17").apply(false)
+    id("org.jetbrains.compose").version("1.6.11").apply(false)
     id("com.google.dagger.hilt.android").version("2.51.1").apply(false)
     id("org.jetbrains.kotlin.plugin.serialization").version("1.9.22").apply(false)
     id("org.jetbrains.kotlin.plugin.parcelize").version("1.9.22").apply(false)
@@ -55,7 +55,6 @@ plugins {
     id("com.google.firebase.crashlytics").version("3.0.2").apply(false)
     id("com.google.firebase.firebase-perf").version("1.4.2").apply(false)
     id("androidx.navigation.safeargs.kotlin").version("2.9.0").apply(false)
-    id("org.jetbrains.compose").version("1.6.11").apply(false)
     id("org.openapi.generator").version("7.8.0").apply(false)
     // Additional plugins can be added here as needed
 }
@@ -76,13 +75,22 @@ subprojects {
             force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${rootProject.extra["kotlinVersion"]}")
             force("org.jetbrains.kotlin:kotlin-reflect:${rootProject.extra["kotlinVersion"]}")
 
-            // Force consistent kotlinx libraries
+                    // Force consistent kotlinx libraries
             force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             force("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.2")
             force("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
             force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.1")
             force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
+            
+            // Force consistent Compose versions
+            force("androidx.compose.compiler:compiler:1.5.14")
+            force("androidx.compose.runtime:runtime:1.5.14")
+            force("androidx.compose.foundation:foundation:1.5.14")
+            force("androidx.compose.material3:material3:1.1.2")
+            force("androidx.compose.ui:ui:1.5.14")
+            force("androidx.compose.ui:ui-tooling:1.5.14")
+            force("androidx.compose.ui:ui-tooling-preview:1.5.14")
+            
             // Retrofit to a specific version
             force("com.squareup.retrofit2:retrofit:2.9.0")
         }

@@ -2,8 +2,8 @@
 androidxActivity = "1.10.1"
 androidxArchCoreTesting = "2.2.0"
 androidxCardview = "1.0.0"
-androidxComposeBom = "2025.06.00"
-androidxComposeCompiler = "1.5.14" # Stable for Kotlin 1.9.x
+androidxComposeBom = "2024.04.00"
+androidxComposeCompiler = "1.5.8" # Stable for Kotlin 1.9.x
 androidxConstraintlayout = "2.2.1"
 androidxConstraintlayoutCompose = "1.1.1"
 androidxCore = "1.16.0"
@@ -35,7 +35,7 @@ kotlinxCoroutines = "1.10.2" # Version already forced in root build.gradle
 kotlinxCoroutinesTest = "1.10.2"
 kotlinxSerializationJson = "1.8.1" # Version already forced in root build.gradle
 kotlinxSerializationCore = "1.8.1" # Placeholder, usually it's kotlinx-serialization-json or -protobuf etc.
-kotlinxSerializationXml = "0.70.0" # Latest valid version as of 2025
+kotlinxSerializationXml = "1.6.0" # Official Kotlinx Serialization XML version
 libxposedApi = "82" # Version for Xposed APIs often matches API level
 libxposedService = "82" # Version for Xposed APIs
 lottieCompose = "6.6.6"
@@ -137,12 +137,10 @@ retrofit-converter-kotlinx-serialization = { group = "com.jakewharton.retrofit",
 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
-xposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "xposedApi" } # Often, these are provided and not typical maven artifacts
-xposed-api-sources = { group = "de.robv.android.xposed", name = "api-sources", version.ref = "xposedApiSources" } # Or similar, check how these are meant to be included
-xposed-art = { group = "de.robv.android.xposed", name = "art", version.ref = "xposedArt" }
-xposed-art-sources = { group = "de.robv.android.xposed", name = "art-sources", version.ref = "xposedArtSources" }
-xposed-bridge = { group = "de.robv.android.xposed", name = "bridge", version.ref = "xposedBridge" }
-xposed-bridge-sources = { group = "de.robv.android.xposed", name = "bridge-sources", version.ref = "xposedBridgeSources" }
+xposed-api = { group = "local", name = "xposed-api-82", version = "1.0" }
+xposed-api-sources = { group = "local", name = "xposed-api-82-sources", version = "1.0" }
+xposed-bridge = { group = "local", name = "xposed-bridge-82", version = "1.0" }
+xposed-bridge-sources = { group = "local", name = "xposed-bridge-82-sources", version = "1.0" }
 xposed-hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "xposedHiddenapibypass" } # Group and name might vary
 
 # Accompanist
