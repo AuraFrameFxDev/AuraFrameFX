@@ -12,6 +12,8 @@ pluginManagement {
     plugins {
         id("org.jetbrains.compose") version "1.6.11"
         id("org.openapi.generator") version "7.5.0"
+        id("com.google.protobuf:protobuf-java") version "3.25.5"
+
     }
 }
 
