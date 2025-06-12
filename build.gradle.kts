@@ -3,7 +3,7 @@ buildscript {
     // Define version constants
     val kotlinVersion = "1.9.22"
     val kspVersion = "1.9.22-1.0.17"
-    val hiltVersion = "2.50"
+    val hiltVersion = "2.56.2"
     val googleServicesVersion = "4.4.1"
     val crashlyticsVersion = "2.9.9"
     
@@ -34,11 +34,11 @@ buildscript {
 
 // These plugin declarations make the plugins available to subprojects
 plugins {
-    id("com.android.application") version "8.6.0" apply false
+    id("com.android.application") version "8.10.1" apply false
     id("org.jetbrains.kotlin.android") version "1.9.22" apply false
     id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
     id("com.google.dagger.hilt.android") version "2.51.1" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.1.21" apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
     id("com.google.firebase.crashlytics") version "3.0.2" apply false
 }
@@ -66,13 +66,13 @@ subprojects {
             force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
             
             // Force consistent Compose versions
-            force("androidx.compose.compiler:compiler:1.5.14")
+            force("androidx.compose.compiler:compiler:1.5.15")
             force("androidx.compose.runtime:runtime:1.5.14")
             force("androidx.compose.foundation:foundation:1.5.14")
             force("androidx.compose.material3:material3:1.1.2")
             force("androidx.compose.ui:ui:1.5.14")
             force("androidx.compose.ui:ui-tooling:1.5.14")
-            force("androidx.compose.ui:ui-tooling-preview:1.5.14")
+            force("androidx.compose.ui:ui-tooling-preview:1.8.2")
             
             // Retrofit to a specific version
             force("com.squareup.retrofit2:retrofit:2.9.0")
