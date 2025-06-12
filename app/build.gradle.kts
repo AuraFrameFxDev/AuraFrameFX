@@ -13,7 +13,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
-    id("androidx.navigation.safeargs.kotlin") // Apply by ID
+    id("androidx.navigation.safeargs.kotlin")
     id("org.jetbrains.compose")
     id("org.openapi.generator")
     id("com.google.devtools.ksp") version "1.9.22-1.0.17"
@@ -117,7 +117,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompilerVer.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
 
     packaging {
@@ -240,7 +240,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage)
-    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.crashlytics.lib)
 
     // Google Cloud AI - using BOM for version management
     implementation("com.google.cloud:google-cloud-generativeai")

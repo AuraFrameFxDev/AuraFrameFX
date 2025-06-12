@@ -1,31 +1,13 @@
 [versions]
-# Buildscript/Root Plugins
-androidGradlePlugin = "8.2.2"
-kotlin = "1.9.22" # Covers kotlin-gradle-plugin, kotlin-stdlib*, kotlin-reflect, kotlinSerializationPlugin
-ksp = "1.9.22-1.0.17" # Covers com.google.devtools.ksp plugin
-hiltRootPlugin = "2.50" # com.google.dagger:hilt-android-gradle-plugin in buildscript
-googleServicesRootPlugin = "4.4.1" # com.google.gms:google-services in buildscript (classpath)
-firebaseCrashlyticsRootPlugin = "2.9.9" # com.google.firebase:firebase-crashlytics-gradle in buildscript
-androidxNavigationSafeargsPlugin = "2.7.7"
-
-# Versions from root plugins {} block (apply false) - for subproject application
-androidApplicationPlugin = "8.6.0"
-# kotlinAndroidPlugin = "1.9.22" # Covered by 'kotlin'
-# kspPlugin = "1.9.22-1.0.17" # Covered by 'ksp'
-hiltAndroidPlugin = "2.51.1" # com.google.dagger.hilt.android in root plugins block
-kotlinSerializationPlugin = "1.9.22" # Covered by 'kotlin'
-googleServicesPlugin = "4.4.2" # com.google.gms.google-services in root plugins block
-firebaseCrashlyticsAppPlugin = "3.0.2" # com.google.firebase.crashlytics in root plugins block
-
-
-# Libraries / Dependencies
+agp = "8.10.1"
 androidxActivity = "1.10.1"
 androidxArchCoreTesting = "2.2.0"
 androidxCardview = "1.0.0"
-# Using stable Compose versions that are known to work together
-androidxComposeBom = "2025.06.00"  # Stable BOM version
-androidxComposeCompilerVer = "1.6.5"  # Renamed from androidxComposeCompiler, matches Kotlin 1.9.22
-
+# Using the latest stable Compose versions
+# Latest stable BOM as of June 2024
+androidxComposeBom = "2024.06.00"
+# Compatible with Kotlin
+androidxComposeCompiler = "1.5.14"
 androidxConstraintlayout = "2.2.1"
 androidxConstraintlayoutCompose = "1.1.1"
 androidxCore = "1.16.0"
@@ -47,6 +29,7 @@ firebaseAnalytics = "22.4.0"
 firebaseAuth = "23.2.1"
 firebaseBom = "33.15.0"
 firebaseCrashlytics = "19.4.4"
+firebaseCrashlyticsPlugin = "3.0.2"
 firebaseFirestore = "25.1.4"
 firebaseStorage = "21.0.2"
 # Assuming androidx.glance:glance
@@ -58,55 +41,26 @@ googleCloudBom = "26.28.0"
 # Check for latest version and specific artifact if different
 googleCloudVertexAi = "1.24.0"
 googleMaterial = "1.12.0"
-hilt = "2.56.2" # This is for the library dependency
+googleServicesPlugin = "4.4.2"
+hilt = "2.56.2"
 junit = "4.13.2"
-
-# Kotlin stdlib, reflect (matches 'kotlin' version)
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-kotlin-stdlib-common = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
-kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
-
-# Coroutines (versions from existing force resolutions)
-kotlinxCoroutines = "1.7.3" # kotlinx-coroutines-core, kotlinx-coroutines-android
-# kotlinxCoroutinesCore = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" } # Incorrectly placed library definition
-kotlinxCoroutinesCoreJvm = "1.10.2" # Corrected to be a simple version string
-# kotlinxCoroutinesAndroid = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" } # Incorrectly placed library definition
-kotlinxCoroutinesTest = "1.10.2" # Kept existing version from toml
-
-# Serialization (versions from existing force resolutions)
-kotlinxSerialization = "1.6.3" # kotlinx-serialization-json (from force)
-kotlinxSerializationCore = "1.8.1" # kotlinx-serialization-core (from force)
-kotlinxSerializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-# kotlinxSerializationCore = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" } # Already defined above with different ref
+kotlin = "1.9.22"
+ksp = "1.9.22-1.0.17"
+# Version forced in root build.gradle
+kotlinxCoroutines = "1.7.3"
+# Aligning with kotlinxCoroutines
+kotlinxCoroutinesTest = "1.7.3"
+# Version forced in root build.gradle
+kotlinxSerializationJson = "1.6.3"
+# Placeholder, usually it's kotlinx-serialization-json or -protobuf etc.
+kotlinxSerializationCore = "1.8.1"
 # Using a stable version of kotlinx-serialization-xml
-kotlinxSerializationXml = "1.6.0" # Stable version that works with Kotlin 1.9.x (keep existing toml)
-
-# Compose - versions from existing force resolutions
-# androidxComposeCompilerVersion = "1.5.14" # Removed to avoid clash and unify with androidxComposeCompiler
-androidxComposeRuntimeVersion = "1.5.14"
-androidxComposeFoundationVersion = "1.5.14"
-androidxComposeMaterial3Version = "1.1.2" # Already in TOML with this version
-androidxComposeUiVersion = "1.5.14"
-androidxComposeUiToolingVersion = "1.5.14"
-androidxComposeUiToolingPreviewVersion = "1.5.14"
-
-androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "androidxComposeCompilerVer" } # Unified to use existing androidxComposeCompilerVer
-# androidx-compose-runtime defined below
-# androidx-compose-foundation defined below
-# androidx-compose-material3 defined below
-# androidx-compose-ui defined below
-# androidx-compose-ui-tooling defined below
-# androidx-compose-ui-tooling-preview defined below
-
-
-# Retrofit (version from existing force resolution)
-retrofitVersion = "2.9.0" # Already in TOML with this version for the library
-
-libxposedApi = "82" # Version for Xposed APIs often matches API level
-libxposedService = "82" # Version for Xposed APIs
-
+# Stable version that works with Kotlin 1.9.x
+kotlinxSerializationXml = "1.6.0"
+# Version for Xposed APIs often matches API level
+libxposedApi = "82"
+# Version for Xposed APIs
+libxposedService = "82"
 lottieCompose = "6.6.6"
 mockitoCore = "5.18.0"
 mockk = "1.14.2"
@@ -180,7 +134,7 @@ firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analy
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuth" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 # Removed -ktx as it's not standard for crashlytics artifact
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics"}
+firebase-crashlytics-lib = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics"} # Renamed to avoid conflict with plugin
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestore" }
 # Removed -ktx as it's not standard for storage artifact
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
@@ -200,17 +154,15 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.7.3" }
-kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" } # kotlinxCoroutines is 1.7.3
-kotlinx-coroutines-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "kotlinxCoroutinesCoreJvm" } # Uncommented and referencing the version alias
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines"}
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+# Check actual artifact name
+kotlinx-serialization-xml = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-xml", version.ref = "kotlinxSerializationXml"}
 
-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" } # kotlinxCoroutinesTest is 1.10.2
-kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" } # kotlinxSerializationCore is 1.8.1
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" } # Corrected ref to use kotlinxSerialization="1.6.3"
-kotlinx-serialization-xml = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-xml", version.ref = "kotlinxSerializationXml"} # Check actual artifact name
-
-
-# Commonly used group/name folibxposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "libxposedApi" }
+# Commonly used group/name for this
+libxposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "libxposedApi" }
 # Commonly used group/name for this
 libxposed-service = { group = "de.robv.android.xposed", name = "service", version.ref = "libxposedService" }
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
@@ -236,50 +188,19 @@ xposed-hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hidden
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version = "0.37.3" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 
-# Add libraries for forced dependencies if not already present
-kotlin-stdlib-lib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" } # Alias for library
-kotlin-stdlib-common-lib = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
-kotlin-stdlib-jdk7-lib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
-kotlin-stdlib-jdk8-lib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
-kotlin-reflect-lib = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
-
-# Ensure kotlinx-coroutines-core-jvm is explicitly defined if it's different and needed by force()
-# kotlinx.coroutines.core.jvm was forced with 1.10.2
-# libs.kotlinx.coroutines.core points to version 1.7.3 (via kotlinxCoroutines)
-# libs.kotlinx.coroutines.core.jvm points to version 1.10.2 (this seems correct from previous TOML)
-
-# Ensure kotlinx.serialization.json points to "1.6.3" (kotlinxSerialization)
-# Ensure kotlinx.serialization.core points to "1.8.1" (kotlinxSerializationCore)
-
-
-androidx-compose-compiler-lib = { group = "androidx.compose.compiler", name = "compiler", version.ref = "androidxComposeCompilerVer" } # Changed ref to androidxComposeCompilerVer
-androidx-compose-runtime-lib = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxComposeRuntimeVersion" }
-androidx-compose-foundation-lib = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxComposeFoundationVersion" }
-androidx-compose-material3-lib = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3Version" } # Will conflict if material3 version is different
-androidx-compose-ui-lib = { group = "androidx.compose.ui", name = "ui", version.ref = "androidxComposeUiVersion" }
-androidx-compose-ui-tooling-lib = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidxComposeUiToolingVersion" }
-androidx-compose-ui-tooling-preview-lib = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxComposeUiToolingPreviewVersion" }
-
-retrofit-lib = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" } # Will conflict if retrofit version is different
-
 
 [plugins]
-# Plugins from buildscript
-android-gradle = { id = "com.android.tools.build.gradle", version.ref = "androidGradlePlugin" }
-kotlin-gradle = { id = "org.jetbrains.kotlin.gradle.plugin", version.ref = "kotlin" } # This is a guess for the plugin id
-hilt-gradle = { id = "com.google.dagger.hilt.android.gradle.plugin", version.ref = "hiltRootPlugin" }
-google-services-gradle = { id = "com.google.gms.google-services", version.ref = "googleServicesRootPlugin" } # This is for classpath, app uses different one
-firebase-crashlytics-gradle = { id = "com.google.firebase.firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsRootPlugin" }
-androidx-navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigationSafeargsPlugin" } # Changed alias and ID
-
-# Plugins from root plugins {} block (apply false)
-android-application = { id = "com.android.application", version.ref = "androidApplicationPlugin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroidPlugin" } # This is the one applied with apply false
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" } # This is the one applied with apply false
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsAppPlugin" } # This is the one applied with apply false
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kspPlugin = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" }
+firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+# kotlinParcelize = { id = "kotlin-parcelize", version.ref = "kotlin" } # or org.jetbrains.kotlin.plugin.parcelize
+# navigationSafeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navSafeArgs" }
+# jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composePlugin" } # Ensure 'composePlugin' version is defined if used like this
+# openapiGenerator = { id = "org.openapi.generator", version.ref = "openapiGeneratorPlugin" }
 
 [bundles]
 # Example bundle
