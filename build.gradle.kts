@@ -36,14 +36,10 @@ subprojects {
             force(libs.kotlinx.serialization.json)  // Assumes this is the intended alias from TOML
 
             // Force consistent Compose versions
-            force(libs.androidx.compose.compiler.lib)
-            force(libs.androidx.compose.runtime.lib)
-            force(libs.androidx.compose.foundation.lib)
-            force(libs.androidx.compose.material3.lib) // Ensure this alias exists and is correct
-            force(libs.androidx.compose.ui.lib)
-            force(libs.androidx.compose.ui.tooling.lib)
-            force(libs.androidx.compose.ui.tooling.previe
-            
+            force("androidx.compose.compiler:compiler:1.5.15")
+            force("androidx.compose.material3:material3:1.1.2")
+            force("androidx.compose.ui:ui-tooling-preview:1.8.2")
+
             
             // Retrofit to a specific version
             force(libs.retrofit.lib) // Ensure this alias exists and is correct
