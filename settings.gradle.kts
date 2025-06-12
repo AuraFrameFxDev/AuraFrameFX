@@ -12,9 +12,9 @@ pluginManagement {
     plugins {
         id("org.jetbrains.compose") version "1.6.11"
         id("org.openapi.generator") version "7.5.0"
- 
-        // Only Gradle plugins should be declared here, not regular dependencies
-
+        id("androidx.navigation.safeargs.kotlin") version "2.7.7" // Added for safeargs kotlin
+        // Removed invalid plugin entries which were actually libraries
+        // androidx.navigation.navigation-safe-args-gradle-plugin will be handled by root build.gradle.kt
     }
 }
 

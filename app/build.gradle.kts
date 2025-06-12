@@ -13,7 +13,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
-    id("androidx.navigation.safeargs.kotlin")
+    id("androidx.navigation.safeargs.kotlin") // Apply by ID
     id("org.jetbrains.compose")
     id("org.openapi.generator")
     id("com.google.devtools.ksp") version "1.9.22-1.0.17"
@@ -117,7 +117,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompilerVer.get()
     }
 
     packaging {
