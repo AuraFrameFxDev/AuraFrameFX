@@ -1,5 +1,3 @@
-# gradle/libs.versions.toml
-
 [versions]
 # CORE BUILD PLUGINS - Corrected to a stable version
 agp = "8.4.1"
