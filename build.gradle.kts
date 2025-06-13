@@ -1,105 +1,155 @@
-@file:Suppress("UNUSED_VARIABLE", "UnstableApiUsage", "DEPRECATION")
+import org.gradle.internal.declarativedsl.intrinsics.gradleRuntimeIntrinsicsKClass
 
-// Define plugin versions here for clarity
-val kotlinVersion = "1.9.22"
-val agpVersion = "8.2.2"
-val hiltVersion = "2.50"
-val composeVersion = "1.6.1"
+val kotlinVersion = libs.versions.kgp.get() // Using kgp for Kotlin Gradle Plugin version
+val agpVersion = libs.versions.agp.get()
+val googleServicesVersion = libs.versions.googleServices.get()
+val firebaseCrashlyticsVersion = libs.versions.firebaseCrashlytics.get()
+val firebasePerformanceVersion = libs.versions.firebasePerf.get() // Corrected alias
+val hiltVersion = libs.versions.hilt.get()
+val kspVersion = libs.versions.ksp.get()
+val navigationVersion = libs.versions.navigationSafeArgs.get() // Corrected alias
+val dokkaVersion = libs.versions.dokka.get()
 
+
+// This 'plugins' block applies plugins to your *project*.
+// All plugin versions are now managed by libs.versions.toml and applied via alias().
 plugins {
-    // Android and Kotlin plugins
-    id("com.android.application") version "8.2.2"
-    id("org.jetbrains.kotlin.android") version "1.9.22" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
-    
-    // Hilt
-    id("com.google.dagger.hilt.android") version "2.50" apply false
-    
-    // Google Services
-    id("com.google.gms.google-services") version "4.4.1" apply false
-    
-    // Compose
-    id("org.jetbrains.compose") version "1.6.1" apply false
-    
-    // Other plugins
-    id("org.openapi.generator") version "7.1.0" apply false
-    id("androidx.navigation.safeargs.kotlin") version "2.7.7" apply false
-    id("com.google.firebase.crashlytics") version "2.9.9" apply false
-    
-    // KSP
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library) // Added for library modules if you ever create them
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.firebase.perf)
+    alias(libs.plugins.navigation.safe.args)
+    alias(libs.plugins.openapi.generator)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.compose) // org.jetbrains.compose plugin
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.ktlint) // Ensure this is also applied here if defined in libs.versions.toml
+    alias(libs.plugins.kotlin.compose.compiler) // Add this if you want it applied project-wide
 }
 
-// Consolidated allprojects block (removed duplicate)
+// Common configurations for all projects
 allprojects {
-    plugins.withType<JavaBasePlugin> {
-        extensions.configure<JavaPluginExtension> {
-            toolchain {
-                languageVersion.set(JavaLanguageVersion.of(21))
-            }
-        }
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url = uri("https://api.xposed.info/") }
     }
-
+    // Consolidated Kotlin compilation options (removed duplicate blocks)
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
-            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9)
-            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9)
+        kotlinOptions { // This block is still 'kotlinOptions' in allprojects context
+            jvmTarget = JavaVersion.VERSION_21.toString() // Set to 21 for Java 21 toolchain
+            languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9.version
+            apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9.version
             freeCompilerArgs.addAll(
                 "-Xjvm-default=all",
                 "-opt-in=kotlin.RequiresOptIn",
-                "-Xcontext-receivers"
+                "-Xcontext-receivers",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
+                "-opt-in=kotlin.time.ExperimentalTime",
+                "-opt-in=kotlin.experimental.ExperimentalTypeInference",
+                "-opt-in=kotlin.ExperimentalStdlibApi",
+                "-opt-in=kotlin.concurrent.ExperimentalAtomicApi",
+                "-opt-in=kotlin.experimental.ExperimentalNativeApi"
             )
         }
     }
-
     tasks.withType<JavaCompile>().configureEach {
-        sourceCompatibility = JavaVersion.VERSION_21.toString()
-        targetCompatibility = JavaVersion.VERSION_21.toString()
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     configurations.all {
         resolutionStrategy {
-            // Force Kotlin version
-            force("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-            force("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-            force("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-            force("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-            force("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-        }
-    }
-}
-android {
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-    compileSdk = 36
-    buildToolsVersion = "36.0.0"
-}
-subprojects {
-    // Apply common configurations to all subprojects
-    plugins.withType<org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper> {
-        extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension> {
-            jvmToolchain(21)
-        }
-    }
-
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = "21"
-            languageVersion = "1.9"
-            apiVersion = "1.9"
-            freeCompilerArgs = listOf(
-                "-Xjvm-default=all",
-                "-opt-in=kotlin.RequiresOptIn",
-                "-Xcontext-receivers"
-            )
+            val kotlinCoreVersion = libs.versions.kgp.get() // Using kgp for Kotlin standard library
+            force("org.jetbrains.kotlin:kotlin-stdlib:$kotlinCoreVersion")
+            force("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinCoreVersion")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinCoreVersion")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinCoreVersion")
+            force("org.jetbrains.kotlin:kotlin-reflect:$kotlinCoreVersion")
         }
     }
 }
 
-gradle.startParameter.warningMode = WarningMode.All
+// Global tasks (clean, Dokka, Detekt, Spotless)
+tasks.register("clean", Delete::class) {
+    delete(rootProject.layout.buildDirectory)
+}
+
+tasks.withType<Detekt>().configureEach {
+    jvmTarget = JavaVersion.VERSION_21.toString() // Use Java 21
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        txt.required.set(false)
+    }
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+    baseline.set(file("$rootDir/config/detekt/baseline.xml"))
+    buildUponDefaultConfig = true
+    ignoreFailures = false
+    parallel = true
+    autoCorrect = true
+    debug = true
+    source = files("src/main/java", "src/main/kotlin")
+    include("**/*.kt", "**/*.java")
+    exclude("**/build/**", "**/generated/**", "**/test/**", "**/androidTest/**")
+}
+
+tasks.withType<DokkaTask>().configureEach {
+    outputFormat = "html"
+    outputDirectory = "$rootDir/docs"
+    dokkaSourceSets {
+        configureEach {
+            displayName.set("Main Sources")
+            moduleName.set("AuraFrameFX")
+            sourceLink {
+                localDirectory.set(file("src/main/kotlin"))
+                remoteUrl.set(uri("https://github.com/aurakai/AuraFrameFX/tree/main/app/src/main/kotlin"))
+                remoteLineSuffix.set("#L")
+            }
+            sourceRoots.from(file("src/main/kotlin"))
+            sourceRoots.from(file("src/main/java"))
+            includeNonPublic.set(false)
+            skipEmptyPackages.set(true)
+            reportUndocumented.set(true)
+            jdkVersion.set(9) // Can be set to 11 or 17 or 21 depending on specific Dokka needs
+            languageVersion.set("1.9")
+            apiVersion.set("1.9")
+        }
+    }
+}
+
+spotless {
+    kotlin {
+        target("**/*.kt")
+        ktlint(libs.versions.ktlint.get()).userData(mapOf("android" to "true"))
+        licenseHeaderFile("$rootDir/config/spotless/copyright.kt")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        ktlint(libs.versions.ktlint.get()).userData(mapOf("android" to "true"))
+        licenseHeaderFile("$rootDir/config/spotless/copyright.kt")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format("misc") {
+        target("**/*.md", "**/.gitignore")
+        trimTrailingWhitespace()
+        endWithNewline()
+        licenseHeaderFile("$rootDir/config/spotless/copyright.txt")
+    }
+}
+
+val kspVersion = libs.versions.ksp.get() // Use ksp for gradleRuntimeIntrinsicsKClass

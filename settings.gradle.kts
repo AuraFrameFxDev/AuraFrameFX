@@ -5,11 +5,8 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
-    }
-
-    plugins {
-        id("org.jetbrains.compose") version "1.6.11"
-        id("org.openapi.generator") version "7.8.0"
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
 }
 
@@ -25,6 +22,8 @@ dependencyResolutionManagement {
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
         maven { url = uri("https://api.xposed.info/") }
     }
+
+    // Remove the explicit versionCatalogs block to avoid double import
 }
 
 rootProject.name = "AuraFrameFx"
