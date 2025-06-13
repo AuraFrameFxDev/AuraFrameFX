@@ -9,7 +9,7 @@ val xposedBridgeSourcesJar = files("libs/bridge-82-sources.jar")
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("plugin.serialization") version "1.9.22"
+    kotlin("plugin.serialization") version "2.1.21"
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
