@@ -51,7 +51,6 @@ android-application-plugin = { id = "com.android.application", version.ref = "ag
 kotlin-android-plugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-ksp-plugin = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 google-services-plugin = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" }
 navigation-safeargs-plugin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeargs" }
 compose-compiler-plugin = { id = "org.jetbrains.compose", version.ref = "composeCompiler"}
