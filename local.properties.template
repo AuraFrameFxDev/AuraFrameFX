@@ -1,0 +1,18 @@
+## This file must *NOT* be checked into Version Control Systems,
+## as it contains information specific to your local configuration.
+##
+## Location of the SDK. This is only used by Gradle.
+## For customization when using a Version Control System, please read the
+## header note.
+
+# SDK location on Windows
+sdk.dir=C\:\\path\\to\\your\\android-sdk
+
+# SDK location on macOS
+# sdk.dir=/Users/username/Library/Android/sdk
+
+# SDK location on Linux
+# sdk.dir=/home/username/Android/Sdk
+
+# ANDROID_HOME environment variable (optional, can be set in system environment instead)
+ANDROID_HOME=${sdk.dir}
