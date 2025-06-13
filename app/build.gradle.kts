@@ -122,7 +122,9 @@ dependencies {
     // }
 
     // LSPosed specific
-    compileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1")
+    compileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1") {
+        exclude(group = "de.robv.android.xposed", module = "api")
+    }
     
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:$firebaseBomVersion"))
@@ -138,11 +140,10 @@ dependencies {
     
     // Firebase ML Kit
     implementation("com.google.firebase:firebase-ml-modeldownloader-ktx")
-    implementation("com.google.firebase:firebase-ml-model-interpreter:22.0.4")
     
     // ML Kit
-    implementation("com.google.mlkit:language-id:17.0.6")
-    implementation("com.google.mlkit:translate:17.0.3")
+    implementation("com.google.mlkit:language-id")
+    implementation("com.google.mlkit:translate")
     
     // TensorFlow Lite
     implementation("org.tensorflow:tensorflow-lite:2.14.0")
@@ -151,11 +152,6 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
     implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
     
-    // Google AI Client
-    // implementation("com.google.ai.client:google-ai:0.3.0") {
-    //     exclude(group = "com.google.guava", module = "guava")
-    // }
-
     // Accompanist for Compose utilities (version 0.32.0 is compatible with Compose 1.5.4)
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     implementation("com.google.accompanist:accompanist-pager:0.32.0")
