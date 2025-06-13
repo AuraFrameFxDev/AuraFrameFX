@@ -192,7 +192,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("io.mockk:mockk:1.14.2")
     testImplementation("app.cash.turbine:turbine:1.0.0")
     testImplementation("com.google.truth:truth:1.1.5")
     
@@ -206,7 +206,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.4")
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("io.mockk:mockk-android:1.13.8")
+    androidTestImplementation("io.mockk:mockk-android:1.14.2")
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
     
