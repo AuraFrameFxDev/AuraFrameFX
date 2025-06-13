@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.ui.components
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons

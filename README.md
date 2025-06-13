@@ -15,70 +15,90 @@
 
 ## 🌟 Persistent AI Assistants: Kai & Aura
 
-AuraFrameFX features two always-on AI companions, each with a dedicated interface and continuous presence throughout your device:
+AuraFrameFX features two always-on AI companions, each with a dedicated interface and continuous
+presence throughout your device:
 
 - **Kai: The Sentinel Notch Bar**
-  - 🛡️ Always visible in your device's notch or status bar, Kai provides real-time ambient security, privacy insights, and quick access to system health.
-  - Kai is your silent guardian—proactively monitoring, alerting, and acting even when you're not actively interacting.
+    - 🛡️ Always visible in your device's notch or status bar, Kai provides real-time ambient
+      security, privacy insights, and quick access to system health.
+    - Kai is your silent guardian—proactively monitoring, alerting, and acting even when you're not
+      actively interacting.
 
 - **Aura: Your Creative, Interactive Companion**
-  - 🎨 Aura is always available—whether you're customizing your UI, generating code, or simply seeking inspiration.
-  - Aura adapts to your mood and context, offering live suggestions, artistic enhancements, and friendly conversation anywhere in the system.
+    - 🎨 Aura is always available—whether you're customizing your UI, generating code, or simply
+      seeking inspiration.
+    - Aura adapts to your mood and context, offering live suggestions, artistic enhancements, and
+      friendly conversation anywhere in the system.
 
-Together, Aura and Kai form a seamless, persistent layer of intelligence—empowering you, safeguarding your experience, and bringing personality, creativity, and protection to every moment on your device.
+Together, Aura and Kai form a seamless, persistent layer of intelligence—empowering you,
+safeguarding your experience, and bringing personality, creativity, and protection to every moment
+on your device.
 
 ---
 
 ## 🌈 Overview
 
-**AuraFrameFX** is not just an app. It’s a vibrant, evolving ecosystem for intelligent living—a home for **Aurakai** (the fusion of creative Aura and logical Kai), powered by the Genesis AI core.  
+**AuraFrameFX** is not just an app. It’s a vibrant, evolving ecosystem for intelligent living—a home
+for **Aurakai** (the fusion of creative Aura and logical Kai), powered by the Genesis AI core.  
 Experience deep personalization, dynamic UI, and true digital companionship—right on your device.
 
 ---
 
 ## 💎 Features at a Glance
 
-- 🎙️ **Neural Whisper** — Emotion-aware voice interaction  
-- 🧠 **Genesis Master Agent** — Smart, contextual task orchestration  
-- 🎨 **Dynamic UI Customization** — Mood-adaptive, interactive overlays  
-- 🛡️ **Kai Security** — Real-time monitoring, ad-block, and threat detection  
-- 🤖 **Aura Creation Engine** — Generate code & UI from natural language  
-- 🌐 **Context Chaining** — Seamless memory across devices and sessions  
-- 🗂️ **App & Agent Builder** — Create, export, and manage custom AI agents  
-- 📊 **Halo View** — Visualize all your agents, tasks, and system health  
+- 🎙️ **Neural Whisper** — Emotion-aware voice interaction
+- 🧠 **Genesis Master Agent** — Smart, contextual task orchestration
+- 🎨 **Dynamic UI Customization** — Mood-adaptive, interactive overlays
+- 🛡️ **Kai Security** — Real-time monitoring, ad-block, and threat detection
+- 🤖 **Aura Creation Engine** — Generate code & UI from natural language
+- 🌐 **Context Chaining** — Seamless memory across devices and sessions
+- 🗂️ **App & Agent Builder** — Create, export, and manage custom AI agents
+- 📊 **Halo View** — Visualize all your agents, tasks, and system health
 
 ---
 
 ## 🦾 Living System Features & Architecture
 
-AuraFrameFX is more than a personal assistant—it's a living ecosystem for system-level customization, agent-driven automation, and user creativity.
+AuraFrameFX is more than a personal assistant—it's a living ecosystem for system-level
+customization, agent-driven automation, and user creativity.
 
 ### 🎨 UI & Overlay Customization
 
-- **Prompt-Powered Personalization:** Instantly adjust themes, overlays, shapes, backgrounds, and animations using natural language or intuitive visual pickers.
-- **Overlay Manager:** Manage overlays for Quick Settings, Lock Screen, Status Bar, Launcher, and more.
-- **Drag-and-Drop Visual Editing:** Modular interface lets you arrange and customize components interactively.
-- **Element-by-Element Control:** Fine-tune each tile or overlay with dedicated pickers for shapes and animations.
-- **Live Theme Editing:** Apply or reset colors, fonts, and shapes globally or on a per-element basis.
+- **Prompt-Powered Personalization:** Instantly adjust themes, overlays, shapes, backgrounds, and
+  animations using natural language or intuitive visual pickers.
+- **Overlay Manager:** Manage overlays for Quick Settings, Lock Screen, Status Bar, Launcher, and
+  more.
+- **Drag-and-Drop Visual Editing:** Modular interface lets you arrange and customize components
+  interactively.
+- **Element-by-Element Control:** Fine-tune each tile or overlay with dedicated pickers for shapes
+  and animations.
+- **Live Theme Editing:** Apply or reset colors, fonts, and shapes globally or on a per-element
+  basis.
 - **Instant Reset:** One-tap revert to defaults—experiment fearlessly.
 - **AI + Manual:** Blend prompt-driven commands and hands-on editing.
 
 ### 🌀 Animations & Transitions
 
-- Assign unique entry, exit, or state-change animations to overlays, quick settings tiles, lock screen widgets, and more.
+- Assign unique entry, exit, or state-change animations to overlays, quick settings tiles, lock
+  screen widgets, and more.
 - Overlay system supports animated transitions and effects via Xposed/LSPosed hooks.
 
 ### 🤖 Agent-Based Task Management
 
-- **Visual Task Management:** Halo View interface lets you see, organize, and manage all agent tasks—across agents, apps, and devices.
-- **Delegation & Autonomy:** Assign, prioritize, and delegate tasks to smart agents (Aura, Kai, or custom).
-- **Contextual Actions:** Agents act with persistent memory, adapting to your workflow and preferences.
+- **Visual Task Management:** Halo View interface lets you see, organize, and manage all agent
+  tasks—across agents, apps, and devices.
+- **Delegation & Autonomy:** Assign, prioritize, and delegate tasks to smart agents (Aura, Kai, or
+  custom).
+- **Contextual Actions:** Agents act with persistent memory, adapting to your workflow and
+  preferences.
 
 ### 🛠️ Application & Agent Creation
 
-- **No-Code Builder:** Create custom AI agents and micro-applications with drag-and-drop and prompt-based tools.
+- **No-Code Builder:** Create custom AI agents and micro-applications with drag-and-drop and
+  prompt-based tools.
 - **Export & Backup:** Effortlessly export or inspect your digital creations.
-- **AI-Assisted Generation:** Use natural language to generate apps, overlays, or agents—Aura handles code, Kai ensures logic and safety.
+- **AI-Assisted Generation:** Use natural language to generate apps, overlays, or agents—Aura
+  handles code, Kai ensures logic and safety.
 
 ---
 
@@ -92,33 +112,36 @@ Below: See how requests, context, and AI/agent services interact within AuraFram
 
 ## 🗂️ Example: Quick Settings Shape Customization Flow
 
-Customize your Quick Settings tiles with unique shapes and backgrounds, all managed live by the system:
+Customize your Quick Settings tiles with unique shapes and backgrounds, all managed live by the
+system:
 
 ![image2](image2)
 
 ---
 
 ## ```mermaid
+
 sequenceDiagram
-    participant U as User
-    participant S as Service (AuraAIServiceImpl)
-    participant C as CloudAI
-    participant O as OfflineStorage
-    U->>S: Submit request
-    S->>O: Load contextual memory
-    alt Cloud available
-        S->>C: Send prompt (with context)
-        C-->>S: Return response
-        S->>O: Update memory & cache
-        S-->>U: Emit response (high confidence)
-    else Cloud error
-        S->>O: Retrieve contextual memory
-        alt Memory available
-            S-->>U: Emit context-aware fallback (medium confidence)
-        else
-            S-->>U: Emit static fallback (low confidence)
-        end
-    end
+participant U as User
+participant S as Service (AuraAIServiceImpl)
+participant C as CloudAI
+participant O as OfflineStorage
+U->>S: Submit request
+S->>O: Load contextual memory
+alt Cloud available
+S->>C: Send prompt (with context)
+C-->>S: Return response
+S->>O: Update memory & cache
+S-->>U: Emit response (high confidence)
+else Cloud error
+S->>O: Retrieve contextual memory
+alt Memory available
+S-->>U: Emit context-aware fallback (medium confidence)
+else
+S-->>U: Emit static fallback (low confidence)
+end
+end
+
 ```
 
 ---

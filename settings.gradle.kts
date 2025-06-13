@@ -1,27 +1,21 @@
-@file:Suppress("UnstableApiUsage")
+// settings.gradle.kts
 
 pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
-    
+
     plugins {
         id("org.jetbrains.compose") version "1.6.11"
-        id("org.openapi.generator") version "7.5.0"
-        // Only Gradle plugins should be declared here, not regular dependencies
+        id("org.openapi.generator") version "7.8.0"
     }
 }
 
-@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
-    // Using the incubating RepositoriesMode to ensure all repositories are declared in settings.gradle.kts
-    @Suppress("DEPRECATION")
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+
     repositories {
         google()
         mavenCentral()

@@ -1,46 +1,70 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    // Define version constants
-    val kotlinVersion = "1.9.22"
-    val kspVersion = "1.9.22-1.0.17"
-    val hiltVersion = "2.56.2"
-    val googleServicesVersion = "4.4.1"
-    val crashlyticsVersion = "2.9.9"
-    
-    // Make versions available to all modules
-    project.extra.apply {
-        set("kotlinVersion", kotlinVersion)
-        set("kspVersion", kspVersion)
-        set("hiltVersion", hiltVersion)
-        set("googleServicesVersion", googleServicesVersion)
-        set("crashlyticsVersion", crashlyticsVersion)
-    }
-    
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        maven { url = uri("https://plugins.gradle.org/m2/") }  // For OpenAPI Generator
     }
-    
+
     dependencies {
-        classpath("com.android.tools.build:gradle:8.2.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
-        classpath("com.google.gms:google-services:$googleServicesVersion")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
+        // These versions are managed in the version catalog (libs.versions.toml)
+        classpath(libs.android.gradle.plugin)
+        classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.hilt.android.gradle.plugin)
+        classpath(libs.google.services.plugin)
+        classpath(libs.firebase.crashlytics.gradle.plugin)
+        classpath(libs.navigation.safe.args.gradle.plugin)
+        classpath(libs.openapi.generator.plugin)
     }
 }
 
 // These plugin declarations make the plugins available to subprojects
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+// Configure Java and Kotlin compilation for all projects
+allprojects {
+    // Set Java toolchain to Java 21
+    plugins.withType<JavaBasePlugin> {
+        extensions.configure<JavaPluginExtension> {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(21))
+            }
+        }
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9)
+            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9)
+            freeCompilerArgs.addAll(
+                "-Xjvm-default=all",
+                "-opt-in=kotlin.RequiresOptIn",
+                "-Xcontext-receivers"
+            )
+        }
+    }
+
+    tasks.withType<JavaCompile>().configureEach {
+        sourceCompatibility = JavaVersion.VERSION_21.toString()
+        targetCompatibility = JavaVersion.VERSION_21.toString()
+    }
+}
+
 plugins {
-    id("com.android.application") version "8.10.1" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.22" apply false
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
-    id("com.google.dagger.hilt.android") version "2.51.1" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
-    id("com.google.gms.google-services") version "4.4.2" apply false
-    id("com.google.firebase.crashlytics") version "3.0.2" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.compose) apply false
+    alias(libs.plugins.openapi.generator) apply false
+    alias(libs.plugins.navigation.safe.args) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.kapt) apply false
+    alias(libs.plugins.parcelize) apply false
 }
 
 tasks.register("clean", Delete::class) {
@@ -51,50 +75,48 @@ tasks.register("clean", Delete::class) {
 subprojects {
     configurations.all {
         resolutionStrategy {
-            // Force consistent Kotlin versions
-            force("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlinVersion"]}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-common:${rootProject.extra["kotlinVersion"]}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.extra["kotlinVersion"]}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${rootProject.extra["kotlinVersion"]}")
-            force("org.jetbrains.kotlin:kotlin-reflect:${rootProject.extra["kotlinVersion"]}")
+            // Use version catalog for Kotlin version
+            val kotlinVersion = libs.versions.kgp.get()
+            force("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+            force("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+            force("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
-            // Force consistent kotlinx libraries
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.2")
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-            force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.1")
-            force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-            
-            // Force consistent Compose versions
-            force("androidx.compose.compiler:compiler:1.5.15")
-            force("androidx.compose.runtime:runtime:1.5.14")
-            force("androidx.compose.foundation:foundation:1.5.14")
-            force("androidx.compose.material3:material3:1.1.2")
-            force("androidx.compose.ui:ui:1.5.14")
-            force("androidx.compose.ui:ui-tooling:1.5.14")
-            force("androidx.compose.ui:ui-tooling-preview:1.8.2")
-            
-            // Retrofit to a specific version
-            force("com.squareup.retrofit2:retrofit:2.9.0")
+            // Removed all force() lines for kotlinx, serialization, and Retrofit to let the version catalog manage them
         }
     }
 }
 
-// Configure Java 17 toolchain for all projects
+// Configure Java and Kotlin compilation for all projects
 allprojects {
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = "17"
-            apiVersion = "1.9"
-            languageVersion = "1.9"
+    // Set Java toolchain to Java 21
+    plugins.withType<JavaBasePlugin> {
+        extensions.configure<JavaPluginExtension> {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(21))
+            }
         }
     }
-    
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9)
+            apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9)
+            freeCompilerArgs.addAll(
+                "-Xjvm-default=all",
+                "-opt-in=kotlin.RequiresOptIn",
+                "-Xcontext-receivers"
+            )
+        }
+    }
+
     tasks.withType<JavaCompile>().configureEach {
-        sourceCompatibility = JavaVersion.VERSION_17.toString()
-        targetCompatibility = JavaVersion.VERSION_17.toString()
+        sourceCompatibility = JavaVersion.VERSION_21.toString()
+        targetCompatibility = JavaVersion.VERSION_21.toString()
     }
 }
 
 // Better approach for handling Gradle warnings
-gradle.startParameter.warningMode = org.gradle.api.logging.configuration.WarningMode.All
+gradle.startParameter.warningMode = WarningMode.All
