@@ -161,17 +161,6 @@ dependencies {
     coreLibraryDesugaring(libs.desugarJdkLibs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    
-    // Protocol Buffers and Netty
-    implementation("com.google.protobuf:protobuf-java:3.25.5")
-    implementation("commons-io:commons-io:2.14.0")
-    implementation("io.netty:netty-codec-http2:4.1.100.Final")
-    implementation("io.netty:netty-handler:4.1.118.Final")
-    implementation("org.bouncycastle:bcprov-jdk18on:1.78")
-    implementation("io.netty:netty-common:4.1.118.Final")
-    implementation("org.apache.commons:commons-compress:1.26.0")
-    implementation("com.google.guava:guava:32.0.0-android")
-    implementation("io.netty:netty-codec-http:4.1.118.Final")
     implementation(libs.google.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -179,7 +168,7 @@ dependencies {
 
     // Kotlinx Serialization
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.serialization.xml)
+    implementation(libs.xmlutil.serialization) // Changed to community XML library
 
     // Dagger Hilt
     implementation(libs.hilt.android)
@@ -206,9 +195,10 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // Google Cloud
-    implementation(platform(libs.google.cloud.bom))
-    implementation(libs.google.cloud.generativeai)
+    // Firebase AI (Gemini)
+    implementation(libs.firebase.ai)
+    implementation(libs.guava.android) // Recommended for Firebase AI
+    implementation(libs.reactive.streams) // Required by Firebase AI
 
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.test.ext.junit)
@@ -221,6 +211,7 @@ dependencies {
 
     // Work Manager
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
@@ -229,6 +220,7 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.coil.compose)
     implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.accompanist.permissions)
 
     // Compose Glance
     implementation(libs.glance.appwidget)
@@ -243,7 +235,9 @@ dependencies {
     implementation(libs.firebase.crashlytics)
 
     // Google Cloud AI - using BOM for version management
-    implementation("com.google.cloud:google-cloud-generativeai")
+    // implementation(platform(libs.google.cloud.bom)) // Duplicate removed
+    // implementation("com.google.cloud:google-cloud-generativeai") // Commented out
+    // implementation(libs.google.cloud.generativeai) // Removed
 
     // Timber
     implementation(libs.timber)
@@ -265,8 +259,8 @@ dependencies {
     compileOnly(xposedBridgeSourcesJar) // Only needed for development
 
     // LSPosed API (if using LSPosed specific features)
-    xposedCompileOnly("org.lsposed:libxposed:82")
-    xposedCompileOnly("org.lsposed:libxposed:82:sources") // For development only
+    // xposedCompileOnly("org.lsposed:libxposed:82") // Commented out to isolate build issues
+    // xposedCompileOnly("org.lsposed:libxposed:82:sources") // Commented out to isolate build issues
 
     // Testing
     testImplementation(libs.junit)
@@ -275,8 +269,13 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockk)
 
+    androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
 
 openApiGenerate {
