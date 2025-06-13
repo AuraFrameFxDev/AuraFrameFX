@@ -2,11 +2,13 @@
 
 pluginManagement {
     repositories {
-        mavenCentral()   // KSP plugin is here
-        google()
         gradlePluginPortal()
+        google()
+        mavenCentral()
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        maven { url = uri("https://androidx.dev/storage/compose-compiler/repository/") }
+        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
     }
 }
 
@@ -17,13 +19,8 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
-    }
-}
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("libs") {
-            from(files("gradle/libs.versions.toml"))
-        }
+        maven { url = uri("https://androidx.dev/storage/compose-compiler/repository/") }
+        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
     }
 }
 
