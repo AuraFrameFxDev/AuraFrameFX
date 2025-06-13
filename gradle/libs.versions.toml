@@ -1,213 +1,215 @@
 [versions]
+[span_220](start_span)agp = "8.14.2"[span_220](end_span)
 
-agp = "8.14.2"
-
-androidxActivity = "1.10.1"
-androidxArchCoreTesting = "2.2.0"
-androidxCardview = "1.0.0"
+[span_221](start_span)androidxActivity = "1.10.1"[span_221](end_span)
+[span_222](start_span)androidxArchCoreTesting = "2.2.0"[span_222](end_span)
+[span_223](start_span)androidxCardview = "1.0.0"[span_223](end_span)
 # Using the latest stable Compose versions
 # Latest stable BOM as of June 2024
-androidxComposeBom = "2024.06.00"
+[span_224](start_span)androidxComposeBom = "2024.06.00"[span_224](end_span)
 # Compatible with Kotlin
-androidxComposeCompiler = "1.5.14"
-androidxConstraintlayout = "2.2.1"
-androidxConstraintlayoutCompose = "1.1.1"
-androidxCore = "1.16.0"
-androidxAppcompat = "1.7.1"
-androidxDatastorePreferences = "1.1.7"
-androidxEspressoCore = "3.6.1"
-androidxExtJunit = "1.2.1"
-androidxHiltNavigationCompose = "1.2.0"
-androidxHiltWork = "1.2.0"
-androidxLifecycle = "2.9.1"
-androidxNavigationCompose = "2.9.0"
-androidxRoom = "2.7.1"
+[span_225](start_span)androidxComposeCompiler = "1.5.14"[span_225](end_span)
+[span_226](start_span)androidxConstraintlayout = "2.2.1"[span_226](end_span)
+[span_227](start_span)androidxConstraintlayoutCompose = "1.1.1"[span_227](end_span)
+[span_228](start_span)androidxCore = "1.16.0"[span_228](end_span)
+[span_229](start_span)androidxAppcompat = "1.7.1"[span_229](end_span)
+[span_230](start_span)androidxDatastorePreferences = "1.1.7"[span_230](end_span)
+[span_231](start_span)androidxEspressoCore = "3.6.1"[span_231](end_span)
+[span_232](start_span)androidxExtJunit = "1.2.1"[span_232](end_span)
+[span_233](start_span)androidxHiltNavigationCompose = "1.2.0"[span_233](end_span)
+[span_234](start_span)androidxHiltWork = "1.2.0"[span_234](end_span)
+[span_235](start_span)androidxLifecycle = "2.9.1"[span_235](end_span)
+[span_236](start_span)androidxNavigationCompose = "2.9.0"[span_236](end_span)
+androidxNavigationSafeargs = "2.7.7" # Added for consistency
+[span_237](start_span)androidxRoom = "2.7.1"[span_237](end_span)
 # Same as androidxExtJunit, check if this is intended or a typo
-androidxTestJunit = "1.2.1"
-androidxWorkRuntimeKtx = "2.10.1"
-coil = "2.7.0"
-desugarJdkLibs = "2.1.5"
-firebaseAnalytics = "22.4.0"
-firebaseAuth = "23.2.1"
-firebaseBom = "33.15.0"
-firebaseCrashlytics = "19.4.4"
-firebaseCrashlyticsPlugin = "3.0.2"
-firebaseFirestore = "25.1.4"
-firebaseStorage = "21.0.2"
+[span_238](start_span)androidxTestJunit = "1.2.1"[span_238](end_span)
+[span_239](start_span)androidxWorkRuntimeKtx = "2.10.1"[span_239](end_span)
+[span_240](start_span)coil = "2.7.0"[span_240](end_span)
+[span_241](start_span)desugarJdkLibs = "2.1.5"[span_241](end_span)
+[span_242](start_span)firebaseAnalytics = "22.4.0"[span_242](end_span)
+[span_243](start_span)firebaseAuth = "23.2.1"[span_243](end_span)
+[span_244](start_span)firebaseBom = "33.15.0"[span_244](end_span)
+[span_245](start_span)firebaseCrashlytics = "19.4.4"[span_245](end_span)
+[span_246](start_span)firebaseCrashlyticsPlugin = "3.0.2"[span_246](end_span)
+[span_247](start_span)firebaseFirestore = "25.1.4"[span_247](end_span)
+[span_248](start_span)firebaseStorage = "21.0.2"[span_248](end_span)
 # Assuming androidx.glance:glance
-glance = "1.1.1"
+[span_249](start_span)glance = "1.1.1"[span_249](end_span)
 # Latest stable version
-googleCloudGenerativeAi = "0.3.2"
+[span_250](start_span)googleCloudGenerativeAi = "0.3.2"[span_250](end_span)
 # Add Google Cloud BOM for better dependency management
-googleCloudBom = "26.28.0"
+[span_251](start_span)googleCloudBom = "26.28.0"[span_251](end_span)
 # Check for latest version and specific artifact if different
-googleCloudVertexAi = "1.24.0"
-googleMaterial = "1.12.0"
-googleServicesPlugin = "4.4.2"
-hilt = "2.56.2"
-junit = "4.13.2"
-kotlin = "1.9.22"
-ksp = "1.9.22-1.0.17"
+[span_252](start_span)googleCloudVertexAi = "1.24.0"[span_252](end_span)
+[span_253](start_span)googleMaterial = "1.12.0"[span_253](end_span)
+[span_254](start_span)googleServicesPlugin = "4.4.2"[span_254](end_span)
+[span_255](start_span)hilt = "2.56.2"[span_255](end_span)
+[span_256](start_span)junit = "4.13.2"[span_256](end_span)
+[span_257](start_span)kotlin = "1.9.22"[span_257](end_span)
+[span_258](start_span)ksp = "1.9.22-1.0.17"[span_258](end_span)
 # Version forced in root build.gradle
-kotlinxCoroutines = "1.7.3"
+[span_259](start_span)kotlinxCoroutines = "1.7.3"[span_259](end_span)
 # Aligning with kotlinxCoroutines
-kotlinxCoroutinesTest = "1.7.3"
+[span_260](start_span)kotlinxCoroutinesTest = "1.7.3"[span_260](end_span)
 # Version forced in root build.gradle
-kotlinxSerializationJson = "1.6.3"
+[span_261](start_span)kotlinxSerializationJson = "1.6.3"[span_261](end_span)
 # Placeholder, usually it's kotlinx-serialization-json or -protobuf etc.
-kotlinxSerializationCore = "1.8.1"
+[span_262](start_span)kotlinxSerializationCore = "1.8.1"[span_262](end_span)
 # Using a stable version of kotlinx-serialization-xml
-
 # Stable version that works with Kotlin 1.9.x
-kotlinxSerializationXml = "1.6.0"
+[span_263](start_span)kotlinxSerializationXml = "1.6.0"[span_263](end_span)
 # Version for Xposed APIs often matches API level
-libxposedApi = "82"
+[span_264](start_span)libxposedApi = "82"[span_264](end_span)
 # Version for Xposed APIs
-libxposedService = "82"
+[span_265](start_span)libxposedService = "82"[span_265](end_span)
 
-
-lottieCompose = "6.6.6"
-mockitoCore = "5.18.0"
-mockk = "1.14.2"
-# Retrofit brings its own OkHttp, but good to have a version if used directly
-okhttp = "4.12.0"
-okhttpLoggingInterceptor = "4.12.0"
+[span_266](start_span)lottieCompose = "6.6.6"[span_266](end_span)
+[span_267](start_span)mockitoCore = "5.18.0"[span_267](end_span)
+[span_268](start_span)mockk = "1.14.2"[span_268](end_span)
+# [span_269](start_span)Retrofit brings its own OkHttp, but good to have a version if used directly[span_269](end_span)
+[span_270](start_span)okhttp = "4.12.0"[span_270](end_span)
+[span_271](start_span)okhttpLoggingInterceptor = "4.12.0"[span_271](end_span)
 # Version forced in root build.gradle
-retrofit = "2.9.0"
+[span_272](start_span)retrofit = "2.9.0"[span_272](end_span)
 # Aligning with retrofit
-retrofitConverterGson = "2.9.0"
-retrofitConverterKotlinxSerialization = "1.0.0"
-timber = "5.0.1"
-xposedApi = "82"
-xposedApiSources = "82"
-# These are often just API level, not typical maven artifacts.
-xposedArt = "82"
-xposedArtSources = "82"
-xposedBridge = "82"
-xposedBridgeSources = "82"
+[span_273](start_span)retrofitConverterGson = "2.9.0"[span_273](end_span)
+[span_274](start_span)retrofitConverterKotlinxSerialization = "1.0.0"[span_274](end_span)
+[span_275](start_span)timber = "5.0.1"[span_275](end_span)
+[span_276](start_span)xposedApi = "82"[span_276](end_span)
+[span_277](start_span)xposedApiSources = "82"[span_277](end_span)
+# [span_278](start_span)These are often just API level, not typical maven artifacts.[span_278](end_span)
+[span_279](start_span)xposedArt = "82"[span_279](end_span)
+[span_280](start_span)xposedArtSources = "82"[span_280](end_span)
+[span_281](start_span)xposedBridge = "82"[span_281](end_span)
+[span_282](start_span)xposedBridgeSources = "82"[span_282](end_span)
 # Check specific version for this library
-xposedHiddenapibypass = "6.1"
+[span_283](start_span)xposedHiddenapibypass = "6.1"[span_283](end_span)
 
 # Accompanist - Consider migrating to official Compose APIs if available
 # Check for latest or alternatives
-accompanistPermissions = "0.37.3"
-accompanistSystemuicontroller = "0.36.0"
+[span_284](start_span)accompanistPermissions = "0.37.3"[span_284](end_span)
+[span_285](start_span)accompanistSystemuicontroller = "0.36.0"[span_285](end_span)
+
+# Plugin versions not managed by dependencies, but explicitly for plugins block
+[span_286](start_span)composePlugin = "1.6.11" # Extracted from pluginManagement in logaura.docx[span_286](end_span)
+[span_287](start_span)openapiGeneratorPlugin = "7.5.0" # Extracted from pluginManagement in logaura.docx[span_287](end_span)
 
 [libraries]
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
-androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxArchCoreTesting" }
-androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "androidxCardview" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
-androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
-androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-core" }
-androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.3.2" }
-androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
-androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.8.2" }
-androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
+[span_288](start_span)androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }[span_288](end_span)
+[span_289](start_span)androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxArchCoreTesting" }[span_289](end_span)
+[span_290](start_span)androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "androidxCardview" }[span_290](end_span)
+[span_291](start_span)androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }[span_291](end_span)
+[span_292](start_span)androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }[span_292](end_span)
+[span_293](start_span)androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-core" }[span_293](end_span)
+[span_294](start_span)androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }[span_294](end_span)
+[span_295](start_span)androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.3.2" }[span_295](end_span)
+[span_296](start_span)androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }[span_296](end_span)
+[span_297](start_span)androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }[span_297](end_span)
+[span_298](start_span)androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }[span_298](end_span)
+[span_299](start_span)androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }[span_299](end_span)
+[span_300](start_span)androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.8.2" }[span_300](end_span)
+[span_301](start_span)androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }[span_301](end_span)
+[span_302](start_span)androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }[span_302](end_span)
+[span_303](start_span)androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }[span_303](end_span)
+# [span_304](start_span)Added based[span_304](end_span) on app/build.gradle.kts
+[span_305](start_span)androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text"}[span_305](end_span)
+[span_306](start_span)androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintlayout" }[span_306](end_span)
+[span_307](start_span)androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "androidxConstraintlayoutCompose" }[span_307](end_span)
+[span_308](start_span)androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }[span_308](end_span)
+[span_309](start_span)androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }[span_309](end_span)
+[span_310](start_span)androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastorePreferences" }[span_310](end_span)
+[span_311](start_span)androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspressoCore" }[span_311](end_span)
+[span_312](start_span)androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }[span_312](end_span)
 # Added based on app/build.gradle.kts
-androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text"}
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintlayout" }
-androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "androidxConstraintlayoutCompose" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
-androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastorePreferences" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspressoCore" }
-androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
-# Added based on app/build.gradle.kts
-androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "androidxHiltWork"}
-androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
-androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigationCompose" }
-androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
-androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
-androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }
+[span_313](start_span)androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "androidxHiltWork"}[span_313](end_span)
+[span_314](start_span)androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }[span_314](end_span)
+[span_315](start_span)androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }[span_315](end_span)
+[span_316](start_span)androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }[span_316](end_span)
+[span_317](start_span)androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigationCompose" }[span_317](end_span)
+[span_318](start_span)androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }[span_318](end_span)
+[span_319](start_span)androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }[span_319](end_span)
+[span_320](start_span)androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }[span_320](end_span)
 # Corrected group
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxExtJunit" }
-androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWorkRuntimeKtx" }
+[span_321](start_span)androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxExtJunit" }[span_321](end_span)
+[span_322](start_span)androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWorkRuntimeKtx" }[span_322](end_span)
 
-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+[span_323](start_span)coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }[span_323](end_span)
+[span_324](start_span)desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }[span_324](end_span)
 
-firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analytics-ktx", version.ref = "firebaseAnalytics" }
-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuth" }
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+[span_325](start_span)firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analytics-ktx", version.ref = "firebaseAnalytics" }[span_325](end_span)
+[span_326](start_span)firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuth" }[span_326](end_span)
+[span_327](start_span)firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }[span_327](end_span)
 # Removed -ktx as it's not standard for crashlytics artifact
-firebase-crashlytics-lib = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics"} # Renamed to avoid conflict with plugin
-firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestore" }
+[span_328](start_span)firebase-crashlytics-lib = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics"}[span_328](end_span) # Renamed to avoid conflict with plugin
+[span_329](start_span)firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestore" }[span_329](end_span)
 # Removed -ktx as it's not standard for storage artifact
-firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+[span_330](start_span)firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }[span_330](end_span)
 
-glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }
+[span_331](start_span)glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }[span_331](end_span)
 # Or glance-material, check your specific need
-glance-compose = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }
+[span_332](start_span)glance-compose = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }[span_332](end_span)
 
-google-cloud-bom = { group = "com.google.cloud", name = "google-cloud-bom", version.ref = "googleCloudBom" }
-google-cloud-generativeai = { group = "com.google.cloud", name = "google-cloud-generativeai", version.ref = "googleCloudGenerativeAi"}
+[span_333](start_span)google-cloud-bom = { group = "com.google.cloud", name = "google-cloud-bom", version.ref = "googleCloudBom" }[span_333](end_span)
+[span_334](start_span)google-cloud-generativeai = { group = "com.google.cloud", name = "google-cloud-generativeai", version.ref = "googleCloudGenerativeAi"}[span_334](end_span)
 # Ensure this is the correct artifact and group
-google-cloud-vertexai = { group = "com.google.cloud", name = "google-cloud-vertexai", version.ref = "googleCloudVertexAi" }
-google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
+[span_335](start_span)google-cloud-vertexai = { group = "com.google.cloud", name = "google-cloud-vertexai", version.ref = "googleCloudVertexAi" }[span_335](end_span)
+[span_336](start_span)google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }[span_336](end_span)
 
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+[span_337](start_span)hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }[span_337](end_span)
+[span_338](start_span)hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }[span_338](end_span)
 
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.7.3" }
-kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
-kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines"}
-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+[span_339](start_span)junit = { group = "junit", name = "junit", version.ref = "junit" }[span_339](end_span)
+[span_340](start_span)kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.7.3" }[span_340](end_span)
+[span_341](start_span)kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }[span_341](end_span)
+[span_342](start_span)kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines"}[span_342](end_span)
+[span_343](start_span)kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }[span_343](end_span)
+[span_344](start_span)kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }[span_344](end_span)
 # Check actual artifact name
-kotlinx-serialization-xml = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-xml", version.ref = "kotlinxSerializationXml"}
+[span_345](start_span)kotlinx-serialization-xml = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-xml", version.ref = "kotlinxSerializationXml"}[span_345](end_span)
 
 # Commonly used group/name for this
-libxposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "libxposedApi" }
+[span_346](start_span)libxposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "libxposedApi" }[span_346](end_span)
 # Commonly used group/name for this
-libxposed-service = { group = "de.robv.android.xposed", name = "service", version.ref = "libxposedService" }
-lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+[span_347](start_span)libxposed-service = { group = "de.robv.android.xposed", name = "service", version.ref = "libxposedService" }[span_347](end_span)
+[span_348](start_span)lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }[span_348](end_span)
+[span_349](start_span)mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }[span_349](end_span)
+[span_350](start_span)mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }[span_350](end_span)
 
-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
-okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }
-retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitConverterGson" }
-retrofit-converter-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitConverterKotlinxSerialization" }
+[span_351](start_span)okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }[span_351](end_span)
+[span_352](start_span)okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }[span_352](end_span)
+[span_353](start_span)retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }[span_353](end_span)
+[span_354](start_span)retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitConverterGson" }[span_354](end_span)
+[span_355](start_span)retrofit-converter-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitConverterKotlinxSerialization" }[span_355](end_span)
 
-timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+[span_356](start_span)timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }[span_356](end_span)
 
-xposed-api = { group = "local", name = "xposed-api-82", version = "1.0" }
-xposed-api-sources = { group = "local", name = "xposed-api-82-sources", version = "1.0" }
-xposed-bridge = { group = "local", name = "xposed-bridge-82", version = "1.0" }
-xposed-bridge-sources = { group = "local", name = "xposed-bridge-82-sources", version = "1.0" }
+[span_357](start_span)xposed-api = { group = "local", name = "xposed-api-82", version = "1.0" }[span_357](end_span)
+[span_358](start_span)xposed-api-sources = { group = "local", name = "xposed-api-82-sources", version = "1.0" }[span_358](end_span)
+[span_359](start_span)xposed-bridge = { group = "local", name = "xposed-bridge-82", version = "1.0" }[span_359](end_span)
+[span_360](start_span)xposed-bridge-sources = { group = "local", name = "xposed-bridge-82-sources", version = "1.0" }[span_360](end_span)
 # Group and name might vary
-xposed-hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "xposedHiddenapibypass" }
+[span_361](start_span)xposed-hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "xposedHiddenapibypass" }[span_361](end_span)
 
 # Accompanist
-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version = "0.37.3" }
-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
-
+[span_362](start_span)accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version = "0.37.3" }[span_362](end_span)
+[span_363](start_span)accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }[span_363](end_span)
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kspPlugin = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-googleServices = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" }
-firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
-# kotlinParcelize = { id = "kotlin-parcelize", version.ref = "kotlin" } # or org.jetbrains.kotlin.plugin.parcelize
-# jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composePlugin" } # Ensure 'composePlugin' version is defined if used like this
-# openapiGenerator = { id = "org.openapi.generator", version.ref = "openapiGeneratorPlugin" }
+[span_364](start_span)androidApplication = { id = "com.android.application", version.ref = "agp" }[span_364](end_span)
+[span_365](start_span)kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }[span_365](end_span)
+[span_366](start_span)kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }[span_366](end_span)
+[span_367](start_span)kspPlugin = { id = "com.google.devtools.ksp", version.ref = "ksp" }[span_367](end_span)
+[span_368](start_span)hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }[span_368](end_span)
+[span_369](start_span)googleServices = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" }[span_369](end_span)
+[span_370](start_span)firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }[span_370](end_span)
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" } # Corrected ID and version reference
+androidxNavigationSafeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigationSafeargs" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "composePlugin" } # Ensure 'composePlugin' version is defined if used like this
+openapiGenerator = { id = "org.openapi.generator", version.ref = "openapiGeneratorPlugin" } # Added
 
 [bundles]
 # Example bundle
 # compose = ["androidx.compose.ui", "androidx.compose.material3", "androidx.compose.ui.tooling.preview"]
 
-# Xposed dependencies: these must be provided as local JARs or via a custom repo if not available in Maven Central.
+# [span_371](start_span)Xposed dependencies: these must be provided as local JARs or via a custom repo if not available in Maven Central.[span_371](end_span)
