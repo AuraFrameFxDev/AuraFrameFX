@@ -5,8 +5,6 @@ import org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode
 // Xposed JAR files configuration
 val xposedApiJar = files("libs/api-82.jar")
 val xposedBridgeJar = files("libs/bridge-82.jar")
-val xposedApiSourcesJar = files("libs/api-82-sources.jar")
-val xposedBridgeSourcesJar = files("libs/bridge-82-sources.jar")
 
 plugins {
     alias(libs.plugins.android.application)
@@ -162,10 +160,7 @@ dependencies {
     xposedCompileOnly(xposedApiJar)
     xposedCompileOnly(xposedBridgeJar)
     xposedCompileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1")
-    compileOnly(xposedApiSourcesJar)
-    compileOnly(xposedBridgeSourcesJar)
     xposedCompileOnly("org.lsposed:libxposed:82")
-    xposedCompileOnly("org.lsposed:libxposed:82:sources")
     implementation(libs.okhttp.logging.interceptor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

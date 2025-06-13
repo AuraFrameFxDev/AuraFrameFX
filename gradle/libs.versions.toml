@@ -7,7 +7,7 @@ androidxComposeBom = "2025.06.00"
 androidxConstraintlayout = "2.2.1"
 androidxConstraintlayoutCompose = "1.1.1"
 androidxCore = "1.16.0"
-androidxAppcompat = "1.7.0"
+androidxAppcompat = "1.7.1"
 androidxDatastorePreferences = "1.1.7"
 androidxEspressoCore = "3.6.1"
 androidxExtJunit = "1.2.1"
@@ -16,7 +16,7 @@ androidxHiltWork = "1.2.0"
 androidxLifecycle = "2.9.1"
 androidxRoom = "2.7.1"
 androidxWorkRuntimeKtx = "2.10.1"
-androidxNavigationCompose = "2.7.0"
+androidxNavigationCompose = "2.9.0"
 
 # Firebase
 firebaseBom = "33.15.0"
@@ -73,16 +73,16 @@ androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.8.2" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigationCompose" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version = "2.9.0" }
 
 # AndroidX Other
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintlayout" }
 androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "androidxConstraintlayoutCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastorePreferences" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspressoCore" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
