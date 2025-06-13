@@ -72,6 +72,14 @@ allprojects {
         }
     }
 }
+android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
+}
 subprojects {
     // Apply common configurations to all subprojects
     plugins.withType<org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper> {
