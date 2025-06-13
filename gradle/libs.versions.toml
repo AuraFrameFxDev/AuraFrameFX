@@ -8,6 +8,9 @@ googleServicesPlugin = "4.4.2"
 navigationSafeargs = "2.7.7"
 composeCompiler = "1.5.8" # Compatible with Kotlin 1.9.22
 composeBom = "2024.05.00"
+openapiGenerator = "7.13.0"
+androidxConstraintlayout = "2.2.1"
+androidxCardview = "1.0.0"
 
 # LIBRARIES
 androidxActivity = "1.9.0"
@@ -46,15 +49,6 @@ mockitoCore = "5.11.0"
 androidxArchCoreTesting = "2.2.0"
 
 [libraries]
-# Build Plugins (for root build.gradle.kts)
-android-application-plugin = { id = "com.android.application", version.ref = "agp" }
-kotlin-android-plugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-google-services-plugin = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" }
-navigation-safeargs-plugin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeargs" }
-compose-compiler-plugin = { id = "org.jetbrains.compose", version.ref = "composeCompiler"}
-
 # AndroidX Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppcompat" }
@@ -72,6 +66,11 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" } # Alias will be libs.androidx.compose.runtime
+
+# AndroidX UI Components
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintlayout" } # Alias will be libs.androidx.constraintlayout
+androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "androidxCardview" } # Alias will be libs.androidx.cardview
 
 # Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -150,13 +149,13 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 
 [plugins]
 # Aliases for plugins for type-safe access in build scripts
+parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+openapi-generator = { id = "org.openapi.generator", version.ref = "openapiGenerator" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+# Moved from [libraries] - Renamed to match build.gradle.kts usage
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" }
 navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeargs" }
-compose-compiler = { id = "org.jetbrains.compose", version.ref = "composeCompiler" }
-openapi-generator = { id = "org.openapi.generator" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

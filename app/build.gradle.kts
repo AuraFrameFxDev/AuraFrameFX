@@ -7,16 +7,16 @@ val xposedApiSourcesJar = files("libs/api-82-sources.jar")
 val xposedBridgeSourcesJar = files("libs/bridge-82-sources.jar")
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    kotlin("plugin.serialization") version "1.9.22"
-    id("org.jetbrains.kotlin.plugin.parcelize")
-    id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
-    id("androidx.navigation.safeargs.kotlin") // Apply by ID
-    id("org.jetbrains.compose")
-    id("org.openapi.generator")
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.parcelize)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.navigation.safeargs)
+    // id("org.jetbrains.compose") REMOVED - Handled by composeOptions
+    alias(libs.plugins.openapi.generator)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -117,7 +117,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompilerVer.get()
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     packaging {
@@ -170,7 +170,7 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:1.78")
     implementation("io.netty:netty-common:4.1.118.Final")
     implementation("org.apache.commons:commons-compress:1.26.0")
-    implementation("com.google.guava:guava:32.0.0-android")
+    implementation(libs.guava)
     implementation("io.netty:netty-codec-http:4.1.118.Final")
     implementation(libs.google.material)
     implementation(libs.androidx.constraintlayout)
