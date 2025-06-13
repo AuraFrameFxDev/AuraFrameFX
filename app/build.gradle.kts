@@ -175,6 +175,17 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    
+    // Xposed Framework
+    compileOnly(files("libs/api-82.jar"))
+    compileOnly(files("libs/bridge-82.jar"))
+    
+    // LSPosed Framework
+    compileOnly(libs.lsposed.libxposed) {
+        // Exclude any transitive dependencies that might cause conflicts
+        exclude(group = "org.jetbrains.kotlin")
+        exclude(module = "androidx.annotation")
+    }
     implementation(libs.google.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.runtime.ktx)
