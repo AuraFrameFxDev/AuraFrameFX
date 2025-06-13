@@ -64,7 +64,7 @@ kotlinxSerializationXml = "1.6.0"
 libxposedApi = "82"
 # Version for Xposed APIs
 libxposedService = "82"
-=======
+
 
 lottieCompose = "6.6.6"
 mockitoCore = "5.18.0"
