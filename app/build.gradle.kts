@@ -117,10 +117,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     
     // Xposed Framework
-    compileOnly("de.robv.android.xposed:api:82") {
-        isTransitive = false
-    }
-    
+    // compileOnly("de.robv.android.xposed:api:82") {
+    //     isTransitive = false
+    // }
+
     // LSPosed specific
     compileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1")
     
@@ -152,10 +152,10 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
     
     // Google AI Client
-    implementation("com.google.ai.client:google-ai:0.3.0") {
-        exclude(group = "com.google.guava", module = "guava")
-    }
-    
+    // implementation("com.google.ai.client:google-ai:0.3.0") {
+    //     exclude(group = "com.google.guava", module = "guava")
+    // }
+
     // Accompanist for Compose utilities (version 0.32.0 is compatible with Compose 1.5.4)
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     implementation("com.google.accompanist:accompanist-pager:0.32.0")
