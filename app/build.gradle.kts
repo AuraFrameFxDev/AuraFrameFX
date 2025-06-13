@@ -29,8 +29,22 @@ plugins {
 
 android {
     namespace = "dev.aurakai.auraframefx"
-    compileSdk = 36
-    buildToolsVersion = "36.0.0"
+    compileSdk = 34  // Updated to a standard compileSdk version
+    buildToolsVersion = "34.0.0"
+
+    defaultConfig {
+        applicationId = "dev.aurakai.auraframefx"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+    }
+
 
     buildFeatures {
         compose = true
