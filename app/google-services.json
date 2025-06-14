@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:35417750637:android:9ede3ca7e8b1634e2a1364",
         "android_client_info": {
-          "package_name": "com.genesis.ai.app"
+          "package_name": "dev.aurakai.auraframefx"
         }
       },
       "oauth_client": [
@@ -41,7 +41,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:35417750637:android:ed1064af595e84692a1364",
         "android_client_info": {
-          "package_name": "com.genesis.ai.app.debug"
+          "package_name": "dev.aurakai.auraframef.debug"
         }
       },
       "oauth_client": [
@@ -169,7 +169,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:35417750637:android:45678901234567892a1364",
         "android_client_info": {
-          "package_name": "com.example.app"
+          "package_name": "dev.aurakai.auraframefx"
         }
       },
       "oauth_client": [
