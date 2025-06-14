@@ -189,7 +189,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("io.mockk:mockk:1.13.8")
-    testImplementation("app.cash.turbine:turbine:1.0.0")
+    testImplementation("app.cash.turbine:turbine:1.2.1")
     testImplementation("com.google.truth:truth:1.1.5")
     
     // Hilt testing
