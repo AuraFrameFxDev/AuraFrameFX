@@ -65,11 +65,11 @@ fun MenuScreen(
             }
         }
     }
+}
 
-    @Preview(showBackground = true)
-    @Composable
-    fun MenuScreenPreview() {
-        MaterialTheme { // Using MaterialTheme for preview
-            MenuScreen()
-        }
+@Preview(showBackground = true)
+@Composable
+fun MenuScreenPreview() {
+    MaterialTheme { // Using MaterialTheme for preview
+        MenuScreen()
     }
