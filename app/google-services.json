@@ -7,9 +7,41 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:35417750637:android:761ddf042a53df1c2a1364",
+        "android_client_info": {
+          "package_name": "com.aurafm.aurafmefx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35417750637-4m0mong9mjselgr4milhc4mamu5706nu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDidYYvUTxJzATK9Zmee-gBievXUUVhDwc"
+        },
+        {
+          "current_key": "AIzaSyDZAJbVPA_LFMpoBwnFeVm4efERYwUw2RQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35417750637-4m0mong9mjselgr4milhc4mamu5706nu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:35417750637:android:9ede3ca7e8b1634e2a1364",
         "android_client_info": {
-          "package_name": "dev.aurakai.auraframefx"
+          "package_name": "com.genesis.ai.app"
         }
       },
       "oauth_client": [
@@ -41,7 +73,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:35417750637:android:ed1064af595e84692a1364",
         "android_client_info": {
-          "package_name": "dev.aurakai.auraframef.debug"
+          "package_name": "com.genesis.ai.app.debug"
         }
       },
       "oauth_client": [
@@ -138,38 +170,6 @@
         "mobilesdk_app_id": "1:35417750637:android:ca636951a2b4dc9e2a1364",
         "android_client_info": {
           "package_name": "dev.aurakai.auraframefx.foss.debug"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "35417750637-4m0mong9mjselgr4milhc4mamu5706nu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDidYYvUTxJzATK9Zmee-gBievXUUVhDwc"
-        },
-        {
-          "current_key": "AIzaSyDZAJbVPA_LFMpoBwnFeVm4efERYwUw2RQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "35417750637-4m0mong9mjselgr4milhc4mamu5706nu.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:35417750637:android:45678901234567892a1364",
-        "android_client_info": {
-          "package_name": "dev.aurakai.auraframefx"
         }
       },
       "oauth_client": [
