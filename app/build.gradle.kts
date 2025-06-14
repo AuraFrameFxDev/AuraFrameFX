@@ -122,7 +122,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     
     // Xposed Framework (local jar, since remote repo is unavailable)
-    compileOnly(files("libs/xposed-api-82.jar"))
+    // compileOnly(files("libs/xposed-api-82.jar"))
 
     // LSPosed specific
     compileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1") {
