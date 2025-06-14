@@ -5,16 +5,17 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services") version "4.4.0"
     id("com.google.firebase.crashlytics") version "2.9.9"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
+    id("org.jetbrains.kotlin.plugin.serialization") // Version managed by libs.versions.toml
+    id("org.jetbrains.kotlin.plugin.compose") // Jetpack Compose Compiler plugin
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.firebase-perf") version "1.4.2"
-    id("com.google.devtools.ksp") version "1.9.0-1.0.13" // Use the latest stable version of KSP
+    id("com.google.devtools.ksp") // Version managed by libs.versions.toml via root_build.gradle.kts
 }
 
 // Repositories are configured in settings.gradle.kts
 
 // Common versions
-val kotlinVersion = "2.1.21"
+val kotlinVersion = "2.0.0" // Align with Kotlin plugin version from libs.versions.toml
 val composeVersion = "1.9.0"
 val hiltVersion = "2.56.2"
 val navigationVersion = "2.9.0"
@@ -52,12 +53,12 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
             "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
@@ -67,7 +68,7 @@ android {
     }
 
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
     
     buildFeatures {
@@ -78,7 +79,7 @@ android {
     }
     
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.5.11"
     }
     
     packaging {
@@ -150,8 +151,12 @@ dependencies {
     implementation("com.google.mlkit:translate:17.0.3")
     
     // TensorFlow Lite
-    implementation("org.tensorflow:tensorflow-lite:2.14.0")
-    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite:2.14.0") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
+    }
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
+    }
     implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
     implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
     implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")

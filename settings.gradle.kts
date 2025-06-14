@@ -1,6 +1,25 @@
 @file:Suppress("UnstableApiUsage")
 
 pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "org.jetbrains.kotlin.android") {
+                useVersion("2.0.0")
+            }
+            if (requested.id.id == "com.android.application") {
+                useVersion("8.3.0")
+            }
+            if (requested.id.id == "com.google.devtools.ksp") {
+                useVersion("2.0.0-1.0.21") // KSP version for Kotlin 2.0.0
+            }
+            if (requested.id.id == "org.jetbrains.kotlin.plugin.serialization") {
+                useVersion("2.0.0")
+            }
+            if (requested.id.id == "org.jetbrains.kotlin.plugin.compose") {
+                useVersion("2.0.0") // Align with Kotlin version
+            }
+        }
+    }
     repositories {
         gradlePluginPortal()
         google()
@@ -10,6 +29,10 @@ pluginManagement {
         maven { url = uri("https://androidx.dev/storage/compose-compiler/repository/") }
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
     }
+}
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
 dependencyResolutionManagement {
