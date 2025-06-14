@@ -10,13 +10,10 @@ pluginManagement {
                 useVersion("8.3.0")
             }
             if (requested.id.id == "com.google.devtools.ksp") {
-                useVersion("2.0.0-1.0.21") // KSP version for Kotlin 2.0.0
+                useVersion("2.0.0-1.0.21")
             }
             if (requested.id.id == "org.jetbrains.kotlin.plugin.serialization") {
                 useVersion("2.0.0")
-            }
-            if (requested.id.id == "org.jetbrains.kotlin.plugin.compose") {
-                useVersion("2.0.0") // Align with Kotlin version
             }
         }
     }

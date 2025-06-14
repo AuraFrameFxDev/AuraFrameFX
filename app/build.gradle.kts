@@ -3,31 +3,30 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services") version "4.4.0"
-    id("com.google.firebase.crashlytics") version "2.9.9"
-    id("org.jetbrains.kotlin.plugin.serialization") // Version managed by libs.versions.toml
-    id("org.jetbrains.kotlin.plugin.compose") // Jetpack Compose Compiler plugin
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("org.jetbrains.kotlin.plugin.serialization")
     id("androidx.navigation.safeargs.kotlin")
-    id("com.google.firebase.firebase-perf") version "1.4.2"
-    id("com.google.devtools.ksp") // Version managed by libs.versions.toml via root_build.gradle.kts
+    id("com.google.firebase.firebase-perf")
+    id("com.google.devtools.ksp")
 }
 
 // Repositories are configured in settings.gradle.kts
 
 // Common versions
-val kotlinVersion = "2.0.0" // Align with Kotlin plugin version from libs.versions.toml
-val composeVersion = "1.9.0"
+val kotlinVersion = "1.9.0"
+val composeVersion = "1.5.4" // Use a Compose version compatible with Kotlin 1.9.0
 val hiltVersion = "2.56.2"
-val navigationVersion = "2.9.0"
-val firebaseBomVersion = "33.15.0"
-val lifecycleVersion = "2.9.1"
+val navigationVersion = "2.7.5"
+val firebaseBomVersion = "32.7.0"
+val lifecycleVersion = "2.6.2"
 
 android {
-    namespace = "com.aurafm.aurafmefx"
+    namespace = "dev.aurakai.auraframefx"
     compileSdk = 36
     
     defaultConfig {
-        applicationId = "com.aurafm.aurafmefx"
+        applicationId = "dev.aurakai.auraframefx"
         minSdk = 31
         targetSdk = 36
         versionCode = 1
@@ -57,18 +56,19 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     
-    kotlinOptions {
-        jvmTarget = "21"
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlin.RequiresOptIn"
-        )
-    }
-
     kotlin {
         jvmToolchain(21)
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+            freeCompilerArgs.addAll(
+                listOf(
+                    "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+                    "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
+                    "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-opt-in=kotlin.RequiresOptIn"
+                )
+            )
+        }
     }
     
     buildFeatures {
@@ -121,10 +121,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     
-    // Xposed Framework
-    // compileOnly("de.robv.android.xposed:api:82") {
-    //     isTransitive = false
-    // }
+    // Xposed Framework (local jar, since remote repo is unavailable)
+    compileOnly(files("libs/xposed-api-82.jar"))
 
     // LSPosed specific
     compileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1") {
@@ -221,4 +219,18 @@ dependencies {
     
     // Desugar JDK libs for Java 8+ APIs on older Android versions
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+}
+
+// Register a task to build a jar for Xposed/LSPosed modules after the Android plugin is configured
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        if (variant.buildType.name == "release" || variant.buildType.name == "debug") {
+            tasks.register("buildXposedJar${variant.name.replaceFirstChar { it.uppercase() }}", org.gradle.api.tasks.bundling.Jar::class) {
+                archiveBaseName.set("app-xposed-${variant.name}")
+                from(variant.javaCompileProvider.get().destinationDirectory)
+                destinationDirectory.set(file("${'$'}buildDir/libs"))
+            }
+        }
+        true // Fix: return Boolean as expected
+    }
 }

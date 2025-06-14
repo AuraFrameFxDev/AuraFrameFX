@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     dependencies {
-        classpath("com.android.tools.build:gradle:8.10.1") // Matched with Kotlin 1.9.0
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
+        classpath("com.android.tools.build:gradle:8.3.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.48")
         classpath("com.google.gms:google-services:4.4.0")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
@@ -12,15 +12,16 @@ buildscript {
 }
 
 plugins {
-    id("com.android.application") version "8.10.1" apply false // Matched with Kotlin 1.9.0
-    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
+    id("com.android.application") version "8.3.0" apply false
+    id("org.jetbrains.kotlin.android") version "2.0.0" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" apply false
     id("com.google.dagger.hilt.android") version "2.56.2" apply false
     id("com.google.gms.google-services") version "4.4.0" apply false
     id("com.google.firebase.crashlytics") version "2.9.9" apply false
     id("com.google.firebase.firebase-perf") version "1.4.2" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0" apply false
-    id("androidx.navigation.safeargs.kotlin") version "2.7.5" apply false // CORRECTED
-    id("com.google.devtools.ksp") version "1.9.0-1.0.13" apply false // Use the latest stable version of KSP
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0" apply false
+    id("androidx.navigation.safeargs.kotlin") version "2.7.5" apply false
+    id("com.google.devtools.ksp") version "2.0.0-1.0.21" apply false
 }
 
 subprojects {
