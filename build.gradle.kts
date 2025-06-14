@@ -26,7 +26,7 @@ plugins {
 subprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         kotlinOptions {
-            jvmTarget = "1.8" // Common practice for Android, can be adjusted
+            jvmTarget = "21" // Common practice for Android, can be adjusted
             freeCompilerArgs = freeCompilerArgs + listOf(
                 "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
                 "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
