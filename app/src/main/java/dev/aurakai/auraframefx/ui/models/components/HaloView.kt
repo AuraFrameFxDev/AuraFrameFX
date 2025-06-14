@@ -343,7 +343,7 @@ fun HaloView(
                 onClick = { isRotating = !isRotating }
             ) {
                 Icon(
-                    Icons.Default.Pause if isRotating else Icons.Default.PlayArrow,
+                    if (isRotating) Icons.Default.Pause else Icons.Default.PlayArrow,
                     contentDescription = "Toggle rotation",
                     tint = NeonPurple
                 )
