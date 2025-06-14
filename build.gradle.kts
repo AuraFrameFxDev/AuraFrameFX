@@ -14,7 +14,7 @@ buildscript {
 plugins {
     id("com.android.application") version "8.10.1" apply false
     id("org.jetbrains.kotlin.android") version "2.0.0" apply false
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" apply true
     id("com.google.dagger.hilt.android") version "2.56.2" apply false
     id("com.google.gms.google-services") version "4.4.0" apply false
     id("com.google.firebase.crashlytics") version "2.9.9" apply false
