@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services") version "4.4.0"
-    id("com.google.firebase.crashlytics") version "2.9.9"
+    id("com.google.firebase.crashlytics") version "3.0.4"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.firebase-perf") version "1.4.2"
