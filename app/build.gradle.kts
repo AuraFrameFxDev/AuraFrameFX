@@ -91,6 +91,15 @@ android {
 }
 
 dependencies {
+    constraints {
+        implementation("org.tensorflow:tensorflow-lite-api:2.14.0") {
+            because("Align all TensorFlow Lite API versions to 2.14.0")
+        }
+        implementation("org.tensorflow:tensorflow-lite-support-api:0.4.4") {
+            because("Align all TensorFlow Lite Support API versions to 0.4.4")
+        }
+    }
+
     // Core Android dependencies
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -155,10 +164,20 @@ dependencies {
     }
     implementation("org.tensorflow:tensorflow-lite-support:0.4.4") {
         exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
+        // Exclude the older TFLite version it brings to avoid conflicts with the main 2.14.0
+        exclude(group = "org.tensorflow", module = "tensorflow-lite")
     }
     implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite")
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
+    }
+    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite")
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
+    }
     
     // Accompanist for Compose utilities (version 0.32.0 is compatible with Compose 1.5.4)
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")

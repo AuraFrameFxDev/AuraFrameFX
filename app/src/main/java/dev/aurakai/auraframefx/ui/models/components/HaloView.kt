@@ -25,11 +25,6 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-/**
- * Displays an interactive, animated halo interface with agent nodes, task delegation, and task history.
- *
- * Renders a rotating halo with draggable agent nodes arranged in a circle. Users can assign tasks to agents via drag-and-drop, view and manage task history, and control the halo's rotation. Visual effects indicate agent status and task processing in real time.
- */
 @OptIn(
     ExperimentalMaterial3Api::class,
     androidx.compose.foundation.gestures.ExperimentalFoundationApi::class
