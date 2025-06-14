@@ -142,8 +142,8 @@ dependencies {
     implementation("com.google.firebase:firebase-ml-modeldownloader-ktx")
     
     // ML Kit
-    implementation("com.google.firebase:firebase-ml-natural-language-language-id-model:20.0.8")
-    implementation("com.google.firebase:firebase-ml-natural-language-translate-model:20.0.9")
+    implementation("com.google.mlkit:language-id:17.0.6")
+    implementation("com.google.mlkit:translate:17.0.3")
     
     // TensorFlow Lite
     implementation("org.tensorflow:tensorflow-lite:2.14.0")
