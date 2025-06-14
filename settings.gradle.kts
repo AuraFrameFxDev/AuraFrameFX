@@ -18,6 +18,15 @@ pluginManagement {
             if (requested.id.id == "org.jetbrains.kotlin.plugin.compose") {
                 useVersion("2.0.0") // Align with Kotlin version
             }
+            if (requested.id.id == "org.jetbrains.kotlin.kapt") {
+                useVersion("2.0.0") // Align with Kotlin version
+            }
+            if (requested.id.id == "com.google.dagger.hilt.android") {
+                useVersion("2.56.2") // From libs.versions.toml
+            }
+            if (requested.id.id == "androidx.navigation.safeargs.kotlin") {
+                useVersion("2.7.5")
+            }
         }
     }
     repositories {
