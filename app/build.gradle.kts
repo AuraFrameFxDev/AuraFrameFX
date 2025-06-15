@@ -9,13 +9,13 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.firebase-perf")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.devtools.ksp") version "2.1.23-1.0.21"
+    alias(libs.plugins.ksp)
 }
 
 // Repositories are configured in settings.gradle.kts
 
 // Common versions
-val kotlinVersion = "2.1.23"
+val kotlinVersion = libs.versions.kotlin.get()
 val composeVersion = "1.6.7" // Compatible with Kotlin 2.1.23
 val composeBomVersion = composeVersion // Use composeVersion for BOM
 val composeCompilerExtensionVersion = composeVersion // Use composeVersion for compiler extension
@@ -23,7 +23,6 @@ val hiltVersion = "2.56.2"
 val navigationVersion = "2.7.5"
 val firebaseBomVersion = "32.7.0"
 val lifecycleVersion = "2.6.2"
-val kspVersion = "2.1.23-1.0.21" // Match Kotlin version
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 36
@@ -116,7 +115,7 @@ dependencies {
     ksp("com.google.dagger:hilt-android-compiler:$hiltVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     implementation("androidx.hilt:hilt-work:1.2.0")
-    ksp("androidx.hilt:hilt-compiler:$kspVersion")
+    ksp("androidx.hilt:hilt-compiler:${libs.versions.hilt.get()}")
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
