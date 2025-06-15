@@ -8,16 +8,14 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.firebase-perf")
-    id("org.jetbrains.kotlin.plugin.compose")
-
+    alias(libs.plugins.kotlin.compose)
 }
 
 // Repositories are configured in settings.gradle.kts
 
 // Common versions
-val composeVersion = "2025.06.00" // Compatible with Kotlin 2.1.23
-val composeBomVersion = composeVersion // Use composeVersion for BOM
-val composeCompilerExtensionVersion = composeVersion // Use composeVersion for compiler extension
+val composeBomVersion = "2024.02.00"
+val composeCompilerVersion = "1.5.8"
 val hiltVersion = "2.56.2"
 val navigationVersion = "2.9.0"
 val firebaseBomVersion = "33.15.0"
@@ -84,7 +82,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = composeCompilerExtensionVersion
+        kotlinCompilerExtensionVersion = composeCompilerVersion
     }
 
 
@@ -93,7 +91,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    buildToolsVersion = "36.0.0"
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -111,6 +109,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.runtime:runtime-livedata")
 
     // Hilt for dependency injection
     implementation("com.google.dagger:hilt-android:2.56.2")
