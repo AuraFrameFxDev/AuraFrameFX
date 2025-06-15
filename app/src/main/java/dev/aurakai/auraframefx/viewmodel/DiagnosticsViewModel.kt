@@ -113,6 +113,12 @@ class DiagnosticsViewModel @Inject constructor(
         }
     }
 
+    // Example placeholder diagnostics method
+    fun runBasicDiagnostics(): String {
+        // Replace with real diagnostics logic as needed
+        return "Diagnostics check: All systems nominal."
+    }
+
     // TODO: Add methods to:
     // - Read all logs (not just current day)
     // - Filter logs by level or tag

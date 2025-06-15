@@ -32,10 +32,12 @@ open class BaseAgent(
         }
     }
 
-    override suspend fun processRequest(_prompt: String): String {
-        // TODO: Parameter _prompt reported as unused (inherited method).
-        // TODO: Implement base request processing or leave for subclasses.
-        return "BaseAgent response to '$_prompt' for agent $_agentName"
+    override suspend fun processRequest(request: AiRequest): AgentResponse {
+        // Default implementation for base agent, override in subclasses
+        return AgentResponse(
+            content = "BaseAgent response to '${request.query}' for agent $_agentName",
+            confidence = 0.5f
+        )
     }
 
     override fun getCapabilities(): Map<String, Any> {

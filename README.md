@@ -18,17 +18,22 @@
 AuraFrameFX features two always-on AI companions, each with a dedicated interface and continuous
 presence throughout your device:
 
-- **Kai: The Sentinel Notch Bar**
+- **Kai: The Sentinel, Head of Security & Automation**
     - 🛡️ Always visible in your device's notch or status bar, Kai provides real-time ambient
       security, privacy insights, and quick access to system health.
     - Kai is your silent guardian—proactively monitoring, alerting, and acting even when you're not
       actively interacting.
+    - **Role:** Head of security, system health, intent prediction, and proactive task automation.
+      Handles privacy, device protection, and system-level actions.
 
-- **Aura: Your Creative, Interactive Companion**
+- **Aura: Designer, Creative Companion & UI/UX Architect**
     - 🎨 Aura is always available—whether you're customizing your UI, generating code, or simply
       seeking inspiration.
     - Aura adapts to your mood and context, offering live suggestions, artistic enhancements, and
       friendly conversation anywhere in the system.
+    - **Role:** Designer, creative force, and playful companion. Responsible for UI/UX
+      customization, overlays, and imaginative features. Brings fun, creativity, and personality to
+      your device.
 
 Together, Aura and Kai form a seamless, persistent layer of intelligence—empowering you,
 safeguarding your experience, and bringing personality, creativity, and protection to every moment

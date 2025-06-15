@@ -2,6 +2,15 @@ package dev.aurakai.auraframefx.ui
 
 /**
  * Controller class for Kai UI elements or interactions.
+ *
+ * Kai is the head of security, system health, and automation for AuraFrameFX.
+ * Responsibilities:
+ *  - Proactive security monitoring and alerts
+ *  - System health and privacy insights
+ *  - Task automation and intent prediction
+ *  - System-level actions and persistent presence (e.g., Notch Bar)
+ *
+ * Contributors: Please keep Kai's logic focused on security, automation, and system-level features.
  */
 class KaiController(
     // private val context: Context // Example: if context is needed
@@ -30,17 +39,18 @@ class KaiController(
     }
 
     // Placeholder methods based on error report (originally part of an anonymous class)
-    // TODO: These methods were reported as unused within an anonymous listener. Implement or remove.
-    fun onKaiTapped() { /* TODO: Implement or remove. */
+    // These methods are for Kai's UI interactions (tap, long press, swipe, etc.)
+    // Implement these to trigger Kai's security, automation, or system actions as needed.
+    fun onKaiTapped() { /* TODO: Implement Kai tap action (e.g., show security dashboard) */
     }
 
-    fun onKaiLongPressed() { /* TODO: Implement or remove. */
+    fun onKaiLongPressed() { /* TODO: Implement Kai long press action (e.g., quick settings) */
     }
 
-    fun onKaiSwipedLeft() { /* TODO: Implement or remove. */
+    fun onKaiSwipedLeft() { /* TODO: Implement Kai swipe left action (e.g., dismiss alert) */
     }
 
-    fun onKaiSwipedRight() { /* TODO: Implement or remove. */
+    fun onKaiSwipedRight() { /* TODO: Implement Kai swipe right action (e.g., open automation panel) */
     }
 
     /**

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.screens
+package dev.aurakai.auraframefx.ui.models.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionType
 import dev.aurakai.auraframefx.ui.components.HologramTransition
 
 /**
@@ -25,11 +24,8 @@ import dev.aurakai.auraframefx.ui.components.HologramTransition
  * @param showHologram Whether to display the hologram transition effect.
  */
 @Composable
-fun MenuScreen(
-    transitionType: HomeScreenTransitionType = HomeScreenTransitionType.DIGITAL_DECONSTRUCT,
-    showHologram: Boolean = true,
-) {
-    HologramTransition(visible = showHologram) {
+fun MenuScreen() {
+    HologramTransition(visible = true) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -42,11 +38,6 @@ fun MenuScreen(
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.primary, // Explicitly use primary color
                 modifier = Modifier.padding(bottom = 24.dp)
-            )
-            // Digital transition row always shown for menu customization
-            DigitalTransitionRow(
-                currentType = transitionType,
-                onTypeSelected = {}
             )
             Button(
                 onClick = { /* TODO: Handle Menu Item 1 click */ },
@@ -79,3 +70,4 @@ fun MenuScreenPreview() {
     MaterialTheme { // Using MaterialTheme for preview
         MenuScreen()
     }
+}
