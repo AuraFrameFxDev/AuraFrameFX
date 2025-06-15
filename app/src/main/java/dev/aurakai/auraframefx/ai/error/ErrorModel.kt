@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.ai.error
 import dev.aurakai.auraframefx.model.AgentType
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -13,6 +14,7 @@ data class AIError(
     val type: ErrorType,
     val message: String,
     val context: String,
+    @kotlinx.serialization.Contextual
     val metadata: Map<String, Any> = emptyMap(),
     val recoveryAttempts: Int = 0,
     val recoveryStatus: RecoveryStatus = RecoveryStatus.PENDING,
@@ -26,6 +28,7 @@ data class RecoveryAction(
     val actionType: RecoveryActionType,
     val description: String,
     val result: RecoveryResult? = null,
+    @kotlinx.serialization.Contextual
     val metadata: Map<String, Any> = emptyMap(),
 )
 

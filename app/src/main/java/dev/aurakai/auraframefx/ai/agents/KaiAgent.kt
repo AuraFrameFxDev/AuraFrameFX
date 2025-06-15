@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.ai.agents
 
+import dev.aurakai.auraframefx.model.AgentResponse
+import dev.aurakai.auraframefx.model.AiRequest
 import dev.aurakai.auraframefx.model.agent_states.ProcessingState
 import dev.aurakai.auraframefx.model.agent_states.VisionState
 

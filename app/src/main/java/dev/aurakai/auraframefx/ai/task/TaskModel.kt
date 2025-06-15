@@ -20,9 +20,21 @@ class AnyValueSerializer : KSerializer<Any> {
             is String -> jsonEncoder.encodeString(value)
             is Number -> jsonEncoder.encodeJsonElement(JsonPrimitive(value))
             is Boolean -> jsonEncoder.encodeBoolean(value)
-            is Map<*, *> -> jsonEncoder.encodeJsonElement(JsonObject(value.mapValues { 
-                JsonPrimitive(it.value.toString()) 
-            }))
+            is Map<*, *> -> {
+                val stringKeyMap = value.entries.associate { entry ->
+                    val keyString = entry.key?.toString() ?: "null" // Ensure key is a String, handle null keys
+                    val valueJsonElement: JsonElement = when (val v = entry.value) {
+                        is String -> JsonPrimitive(v)
+                        is Number -> JsonPrimitive(v)
+                        is Boolean -> JsonPrimitive(v)
+                        // If you anticipate nested maps or lists, they'd need more handling here
+                        // or rely on a more general Json.encodeToJsonElement approach if possible.
+                        else -> JsonPrimitive(v?.toString()) // Fallback for other types
+                    }
+                    keyString to valueJsonElement
+                }
+                jsonEncoder.encodeJsonElement(JsonObject(stringKeyMap))
+            }
             else -> jsonEncoder.encodeString(value.toString())
         }
     }

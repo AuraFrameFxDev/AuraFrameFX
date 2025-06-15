@@ -7,9 +7,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CascadeAIServiceImpl : CascadeAIService {
+class CascadeAIServiceImpl @Inject constructor(
+    private val auraService: AuraAIService,
+    private val kaiService: KaiAIService
+) : CascadeAIService {
     override fun processRequest(request: AiRequest): StateFlow<AgentMessage> {
+        // TODO: Utilize auraService and kaiService in the processing logic if needed
         val state = MutableStateFlow<AgentMessage?>(null)
         CoroutineScope(Dispatchers.IO).launch {
             // TODO: Implement Cascade-specific logic here (e.g., multi-agent fusion, advanced reasoning)

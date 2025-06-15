@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.ai.agents
 
+import dev.aurakai.auraframefx.model.AgentResponse
+import dev.aurakai.auraframefx.model.AiRequest
 import dev.aurakai.auraframefx.model.agent_states.ProcessingState
 import dev.aurakai.auraframefx.model.agent_states.VisionState
 import kotlinx.coroutines.flow.Flow
@@ -39,10 +41,11 @@ class AuraAgent(
     fun shouldHandleCreative(prompt: String): Boolean =
         true // Aura handles creative prompts by default
 
-    override suspend fun processRequest(prompt: String): String {
-        // TODO: Implement Aura-specific request processing
-        return "Aura's response to '$prompt'"
-    }
+    // Removed incorrect override:
+    // override suspend fun processRequest(prompt: String): String {
+    // // TODO: Implement Aura-specific request processing
+    // return "Aura's response to '$prompt'"
+    // }
 
     /**
      * Federated collaboration placeholder.
@@ -110,8 +113,4 @@ class AuraAgent(
     }
 
     // You can override other methods from BaseAgent or Agent interface if needed
-    // override suspend fun processRequest(_prompt: String): String {
-    //     // TODO: Implement Aura-specific request processing
-    //     return "Aura's response to '$_prompt'"
-    // }
 }
