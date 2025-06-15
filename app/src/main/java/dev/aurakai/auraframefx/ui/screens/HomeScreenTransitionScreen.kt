@@ -2,22 +2,29 @@ package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.system.homescreen.*
-import dev.aurakai.auraframefx.ui.theme.Color
+import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionConfig
+import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionEffect
+import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionType
+import dev.aurakai.auraframefx.system.homescreen.TransitionProperties
+import dev.aurakai.auraframefx.ui.viewmodel.HomeScreenTransitionViewModel
 import java.util.Locale
+import kotlinx.coroutines.flow.collectAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenTransitionScreen(
     viewModel: HomeScreenTransitionViewModel = hiltViewModel(),
 ) {
-    val currentConfig by viewModel.currentConfig.collectAsState()
+    val currentConfig by viewModel.currentConfig.collectAsState(initial = null)
 
     Scaffold(
         topBar = {
@@ -25,7 +32,7 @@ fun HomeScreenTransitionScreen(
                 title = { Text("Home Screen Transitions") },
                 navigationIcon = {
                     IconButton(onClick = { /* TODO: Navigate back */ }) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                     }
                 }
             )
@@ -62,9 +69,43 @@ fun HomeScreenTransitionScreen(
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(8.dp))
+                    // Outgoing effect type picker
+                    Text(
+                        text = "Outgoing Effect",
+                        style = MaterialTheme.typography.titleSmall
+                    )
                     TransitionTypePicker(
-                        currentType = currentConfig?.type ?: HomeScreenTransitionType.GLOBE_ROTATE,
-                        onTypeSelected = { type -> viewModel.updateTransitionType(type) }
+                        currentType = currentConfig?.defaultOutgoingEffect?.type ?: HomeScreenTransitionType.GLOBE_ROTATE.name,
+                        onTypeSelected = { type -> 
+                            val currentEffect = currentConfig?.defaultOutgoingEffect
+                            val newEffect = currentEffect?.copy(type = type) ?: HomeScreenTransitionEffect(
+                                type = type,
+                                properties = TransitionProperties()
+                            )
+                            viewModel.updateTransitionProperties(
+                                mapOf("defaultOutgoingEffect" to newEffect as Any)
+                            )
+                        }
+                    )
+                    
+                    // Incoming effect type picker
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Incoming Effect",
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                    TransitionTypePicker(
+                        currentType = currentConfig?.defaultIncomingEffect?.type ?: HomeScreenTransitionType.GLOBE_ROTATE.name,
+                        onTypeSelected = { type ->
+                            val currentEffect = currentConfig?.defaultIncomingEffect
+                            val newEffect = currentEffect?.copy(type = type) ?: HomeScreenTransitionEffect(
+                                type = type,
+                                properties = TransitionProperties()
+                            )
+                            viewModel.updateTransitionProperties(
+                                mapOf("defaultIncomingEffect" to newEffect as Any)
+                            )
+                        }
                     )
                 }
             }
@@ -86,14 +127,31 @@ fun HomeScreenTransitionScreen(
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    DurationSlider(
-                        currentDuration = currentConfig?.duration ?: 500,
-                        onDurationChanged = { duration ->
-                            viewModel.updateTransitionDuration(
-                                duration
-                            )
-                        }
-                    )
+                    // Duration slider for outgoing effect
+                    currentConfig?.defaultOutgoingEffect?.properties?.let { props ->
+                        DurationSlider(
+                            currentDuration = props.duration.toInt(),
+                            onDurationChanged = { duration ->
+                                val updatedProps = props.copy(duration = duration.toLong())
+                                viewModel.updateTransitionProperties(
+                                    mapOf("defaultOutgoingEffect" to currentConfig.defaultOutgoingEffect?.copy(properties = updatedProps))
+                                )
+                            }
+                        )
+                    }
+                    
+                    // Duration slider for incoming effect
+                    currentConfig?.defaultIncomingEffect?.properties?.let { props ->
+                        DurationSlider(
+                            currentDuration = props.duration.toInt(),
+                            onDurationChanged = { duration ->
+                                val updatedProps = props.copy(duration = duration.toLong())
+                                viewModel.updateTransitionProperties(
+                                    mapOf("defaultIncomingEffect" to currentConfig.defaultIncomingEffect?.copy(properties = updatedProps))
+                                )
+                            }
+                        )
+                    }
                 }
             }
 
@@ -114,14 +172,48 @@ fun HomeScreenTransitionScreen(
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    TransitionPropertiesEditor(
-                        currentProperties = currentConfig?.properties ?: emptyMap(),
-                        onPropertiesChanged = { properties ->
-                            viewModel.updateTransitionProperties(
-                                properties
-                            )
-                        }
-                    )
+                    // Properties editor for outgoing effect
+                    currentConfig?.defaultOutgoingEffect?.properties?.let { props ->
+                        TransitionPropertiesEditor(
+                            currentProperties = mapOf(
+                                "direction" to (props.direction ?: ""),
+                                "interpolator" to props.interpolator
+                            ),
+                            onPropertiesChanged = { properties ->
+                                val updatedProps = props.copy(
+                                    direction = properties["direction"] as? String ?: props.direction,
+                                    interpolator = properties["interpolator"] as? String ?: props.interpolator
+                                )
+                                viewModel.updateTransitionProperties(
+                                    mapOf("defaultOutgoingEffect" to currentConfig.defaultOutgoingEffect?.copy(properties = updatedProps))
+                                )
+                            }
+                        )
+                    }
+                    
+                    // Properties editor for incoming effect
+                    currentConfig?.defaultIncomingEffect?.properties?.let { props ->
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Incoming Effect Properties",
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                        TransitionPropertiesEditor(
+                            currentProperties = mapOf(
+                                "direction" to (props.direction ?: ""),
+                                "interpolator" to props.interpolator
+                            ),
+                            onPropertiesChanged = { properties ->
+                                val updatedProps = props.copy(
+                                    direction = properties["direction"] as? String ?: props.direction,
+                                    interpolator = properties["interpolator"] as? String ?: props.interpolator
+                                )
+                                viewModel.updateTransitionProperties(
+                                    mapOf("defaultIncomingEffect" to currentConfig.defaultIncomingEffect?.copy(properties = updatedProps))
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -132,7 +224,7 @@ fun HomeScreenTransitionScreen(
 fun TransitionTypePicker(
     currentType: HomeScreenTransitionType,
     onTypeSelected: (HomeScreenTransitionType) -> Unit,
-) {
+): Unit {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -196,19 +288,14 @@ fun TransitionTypePicker(
             currentType = currentType,
             onTypeSelected = onTypeSelected
         )
-        // Digital/Deconstruct/Hologram Transitions
+        // Digital/Hologram Transitions
         Text(
             text = "Digital/Hologram Transitions",
             style = MaterialTheme.typography.titleSmall
         )
-        DigitalTransitionRow(
+        DigitalHologramTransitionRow(
             currentType = currentType,
             onTypeSelected = onTypeSelected
-        )
-        TransitionButton(
-            label = "Hologram Forming",
-            isSelected = currentType == HomeScreenTransitionType.HOLOGRAM_FORMING,
-            onClick = { onTypeSelected(HomeScreenTransitionType.HOLOGRAM_FORMING) }
         )
     }
 }
@@ -217,7 +304,7 @@ fun TransitionTypePicker(
 fun DurationSlider(
     currentDuration: Int,
     onDurationChanged: (Int) -> Unit,
-) {
+): Unit {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -244,7 +331,7 @@ fun DurationSlider(
 fun TransitionPropertiesEditor(
     currentProperties: Map<String, Any>,
     onPropertiesChanged: (Map<String, Any>) -> Unit,
-) {
+): Unit {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -327,7 +414,7 @@ fun PropertySlider(
     value: Float,
     onValueChange: (Float) -> Unit,
     valueRange: ClosedFloatingPointRange<Float>,
-) {
+): Unit {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -542,11 +629,36 @@ fun SpreadTransitionRow(
 }
 
 @Composable
+fun DigitalHologramTransitionRow(
+    currentType: HomeScreenTransitionType,
+    onTypeSelected: (HomeScreenTransitionType) -> Unit,
+): Unit {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        // Digital Deconstruct
+        TransitionButton(
+            label = "Digital Deconstruct",
+            isSelected = currentType == HomeScreenTransitionType.DIGITAL_DECONSTRUCT,
+            onClick = { onTypeSelected(HomeScreenTransitionType.DIGITAL_DECONSTRUCT) }
+        )
+
+        // Digital Reconstruct
+        TransitionButton(
+            label = "Digital Reconstruct",
+            isSelected = currentType == HomeScreenTransitionType.DIGITAL_RECONSTRUCT,
+            onClick = { onTypeSelected(HomeScreenTransitionType.DIGITAL_RECONSTRUCT) }
+        )
+    }
+}
+
+@Composable
 fun TransitionButton(
     label: String,
     isSelected: Boolean,
     onClick: () -> Unit,
-) {
+): Unit {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(

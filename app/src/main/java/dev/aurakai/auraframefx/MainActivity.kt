@@ -16,9 +16,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import dev.aurakai.auraframefx.ui.animation.DigitalTransitions
 import dev.aurakai.auraframefx.ui.components.BottomNavigationBar
 import dev.aurakai.auraframefx.ui.navigation.AppNavGraph
+import dev.aurakai.auraframefx.ui.animation.transitions.DigitalTransitions
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXThemeCompat
 
 // Using Jetpack Navigation 3 with built-in animation support
@@ -77,10 +77,7 @@ fun MainScreen() {
                 .then(
                     // Only apply effects while transition is happening
                     if (showDigitalEffects) {
-                        Modifier
-                            .DigitalTransitions.digitalPixelEffect(visible = true)
-                            // Optional: Add scanline effect for more cyberpunk feel
-                            .DigitalTransitions.digitalScanlineEffect(visible = true)
+                        DigitalTransitions.applyDigitalEffects(Modifier)
                     } else {
                         Modifier
                     }

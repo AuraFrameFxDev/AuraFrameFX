@@ -1,15 +1,19 @@
-package com.example.app.ui.screens
+package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.app.viewmodel.OracleDriveControlViewModel
+import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.viewmodel.OracleDriveControlViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -45,7 +49,7 @@ fun OracleDriveControlScreen(
             viewModel.refreshStatus()
         } catch (e: Exception) {
             errorMessage =
-                context.getString(R.string.failed_to_refresh, e.localizedMessage ?: e.toString())
+                "Failed to refresh: ${e.localizedMessage ?: e.toString()}"
         } finally {
             isLoading = false
         }
