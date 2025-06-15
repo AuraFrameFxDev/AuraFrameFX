@@ -22,29 +22,29 @@ class ConferenceRoom(
     private val errorLog = mutableListOf<String>()
 
     /**
-     * Adds an agent to the conference room's set of participants.
+     * Adds an agent to the conference room if not already present.
      *
-     * If the agent is already present, no action is taken.
+     * If the agent is already a participant, this method does nothing.
      */
     fun join(agent: Agent) {
         agents.add(agent)
     }
 
     /**
-     * Removes the specified agent from the conference room.
+     * Removes an agent from the conference room if present.
      *
-     * If the agent is not present, no action is taken.
+     * If the agent is not currently a participant, this method has no effect.
      */
     fun leave(agent: Agent) {
         agents.remove(agent)
     }
 
     /**
-     * Replaces the shared context for the conference room with the provided map.
+     * Updates the shared context for the conference room with the provided map.
      *
-     * This updates the context accessible to all agents in the room.
+     * Replaces the current context accessible to all agents with the new context.
      *
-     * @param newContext The new context map to broadcast to all agents.
+     * @param newContext The new shared context to set for the room.
      */
     fun broadcastContext(newContext: Map<String, Any>) {
         context = newContext
@@ -52,42 +52,42 @@ class ConferenceRoom(
     }
 
     /**
-     * Appends an entry to the conversation history.
+     * Appends a text entry to the conversation history.
      *
-     * @param entry The text to add to the history log.
+     * @param entry The conversation message or event to record.
      */
     fun addToHistory(entry: String) {
         history.add(entry)
     }
 
     /**
- * Returns the conversation history as a list of entries.
+ * Retrieves the conversation history as a list of entries in chronological order.
  *
- * @return A list of conversation history entries in chronological order.
+ * @return The list of conversation history entries.
  */
 fun getHistory(): List<String> = history
     /**
- * Returns the set of agents currently participating in the conference room.
+ * Retrieves the set of agents currently participating in the conference room.
  *
- * @return A set containing all active agents in the room.
+ * @return A set of active agents.
  */
 fun getAgents(): Set<Agent> = agents
     /**
- * Returns the current shared context map for the conference room.
+ * Retrieves the current shared context for the conference room.
  *
- * The context contains key-value pairs representing shared state or information accessible to all agents in the room.
+ * The context is a map of key-value pairs representing shared state accessible to all agents.
  *
- * @return The current context as a map.
+ * @return The current shared context map.
  */
 fun getContext(): Map<String, Any> = context
 
     /**
-     * Coordinates a multi-agent conversation using the orchestrator based on user input.
+     * Orchestrates a conversation round among all agents using the orchestrator and user input.
      *
-     * The orchestrator agent gathers responses from all participating agents using the current shared context and the provided user input. All agent responses are appended to the conversation history and returned as a list.
+     * The orchestrator coordinates participating agents to generate responses based on the current shared context and the provided user input. All responses are added to the conversation history and returned as a list.
      *
-     * @param userInput The input message or prompt to initiate the conversation round.
-     * @return A list of agent responses generated during the conversation.
+     * @param userInput The message or prompt to initiate the conversation.
+     * @return A list of responses from all participating agents.
      */
     suspend fun orchestrateConversation(userInput: String): List<Any> {
         // Use GenesisAgent to orchestrate a multi-agent conversation
@@ -99,28 +99,28 @@ fun getContext(): Map<String, Any> = context
     }
 
     /**
-     * Aggregates multiple agent response maps into a consensus or combined response map.
+     * Aggregates multiple agent response maps into a single consensus map using the orchestrator.
      *
-     * @param responses A list of maps containing agent responses to be aggregated.
-     * @return A map representing the consensus or combined responses as determined by the orchestrator.
+     * @param responses A list of agent response maps to be combined.
+     * @return A map representing the consensus responses as determined by the orchestrator.
      */
     fun aggregateConsensus(responses: List<Map<String, dev.aurakai.auraframefx.model.AgentResponse>>): Map<String, dev.aurakai.auraframefx.model.AgentResponse> {
         return orchestrator.aggregateAgentResponses(responses)
     }
 
     /**
-     * Shares the current context with all agents in the conference room.
-     *
-     * Instructs the orchestrator to distribute the shared state or memory to every participating agent.
+     * Instructs the orchestrator to distribute the current shared context to all participating agents.
      */
     fun distributeContext() {
         orchestrator.shareContextWithAgents()
     }
 
     /**
-     * Returns a snapshot of the current conference room state, including the room name, agent names, shared context, and conversation history.
+     * Returns a map representing the current state of the conference room.
      *
-     * @return A map containing the room's name, a list of agent names, the current context, and the conversation history.
+     * The snapshot includes the room's name, a list of agent names, the shared context, and the conversation history.
+     *
+     * @return A map with keys "name", "agents", "context", and "history" reflecting the room's current state.
      */
     fun getRoomSnapshot(): Map<String, Any> = mapOf(
         "name" to name,
@@ -130,18 +130,18 @@ fun getContext(): Map<String, Any> = context
     )
 
     /**
-     * Persists the current conversation history using the provided persistence function.
+     * Persists the current conversation history using a provided function.
      *
-     * @param persist A function that handles saving the list of history entries.
+     * @param persist Function to handle saving the list of conversation history entries.
      */
     fun persistHistory(persist: (List<String>) -> Unit) {
         persist(history)
     }
 
     /**
-     * Loads conversation history using the provided loader function and replaces the current history.
+     * Replaces the current conversation history with entries loaded from the provided function.
      *
-     * @param load A function that returns a list of history entries to be loaded.
+     * @param load Function that returns a list of history entries to populate the history.
      */
     fun loadHistory(load: () -> List<String>) {
         history.clear()
@@ -149,32 +149,32 @@ fun getContext(): Map<String, Any> = context
     }
 
     /**
-     * Registers a webhook callback to be invoked on specific room events.
+     * Registers a callback to be invoked on specific conference room events.
      *
-     * The callback receives the event name and an associated payload when triggered during asynchronous task processing or other relevant events.
+     * The callback is triggered with the event name and a payload, typically during asynchronous task completion or failure.
      */
     fun registerWebhook(callback: (event: String, payload: Any) -> Unit) {
         webhookCallbacks.add(callback)
     }
 
     /**
-     * Appends an error message with a timestamp to the error log.
+     * Records an error message with a timestamp in the error log.
      *
-     * @param error The error message to record.
+     * @param error The error message to log.
      */
     fun logError(error: String) {
         errorLog.add("[${System.currentTimeMillis()}] $error")
     }
 
     /**
- * Returns the current list of error log entries for the conference room.
+ * Retrieves the list of error log entries for the conference room.
  *
- * @return A list of error messages with timestamps.
+ * @return A list of timestamped error messages.
  */
 fun getErrorLog(): List<String> = errorLog
 
     /**
-     * Increments the request counter and updates the last activity timestamp for the conference room.
+     * Increments the number of processed requests and updates the last activity timestamp.
      */
     fun incrementRequestCount() {
         requestCount++
@@ -182,29 +182,28 @@ fun getErrorLog(): List<String> = errorLog
     }
 
     /**
- * Returns the total number of requests processed by the conference room.
+ * Returns the number of requests that have been processed in this conference room.
  *
- * @return The current request count.
+ * @return The total processed request count.
  */
 fun getRequestCount(): Int = requestCount
 
     /**
-     * Adds an asynchronous task to the queue for later processing.
+     * Queues an asynchronous task with a unique identifier for sequential processing.
      *
-     * @param taskId A unique identifier for the task.
-     * @param task The suspendable function representing the asynchronous task to be queued.
+     * @param taskId Unique identifier for the task.
+     * @param task Suspendable function representing the asynchronous task to be added to the queue.
      */
     fun queueAsyncTask(taskId: String, task: suspend () -> Any) {
         asyncTaskQueue.add(taskId to task)
     }
 
     /**
-     * Executes the next asynchronous task in the queue and returns its result.
+     * Executes and removes the next asynchronous task in the queue.
      *
-     * If the task completes successfully, registered webhook callbacks are notified with a "task_completed" event and the result.
-     * If the task fails, the error is logged, webhook callbacks are notified with a "task_failed" event and the error message, and `null` is returned.
+     * Notifies registered webhook callbacks with a "task_completed" event and the result on success, or a "task_failed" event and the error message on failure. Returns `null` if the queue is empty or the task fails.
      *
-     * @return The result of the executed task, or `null` if the queue is empty or the task fails.
+     * @return The result of the executed task, or `null` if no task is available or execution fails.
      */
     suspend fun processNextAsyncTask(): Any? {
         val next = asyncTaskQueue.firstOrNull() ?: return null
@@ -221,9 +220,9 @@ fun getRequestCount(): Int = requestCount
     }
 
     /**
-     * Returns metadata about the conference room, including its name, creation and last activity timestamps, agent count, request count, async task queue size, and error count.
+     * Retrieves diagnostic metadata about the conference room.
      *
-     * @return A map containing room metadata for diagnostics or monitoring purposes.
+     * @return A map containing the room's name, creation and last activity timestamps, agent count, request count, asynchronous task queue size, and error count.
      */
     fun getRoomMetadata(): Map<String, Any> = mapOf(
         "name" to name,
@@ -236,21 +235,21 @@ fun getRequestCount(): Int = requestCount
     )
 
     /**
-     * Removes all entries from the error log.
+     * Clears all entries from the error log.
      */
     fun clearErrorLog() {
         errorLog.clear()
     }
 
     /**
-     * Removes all entries from the conversation history.
+     * Clears all conversation history entries from the room.
      */
     fun clearHistory() {
         history.clear()
     }
 
     /**
-     * Removes all pending asynchronous tasks from the queue.
+     * Clears all pending asynchronous tasks from the queue.
      */
     fun clearAsyncQueue() {
         asyncTaskQueue.clear()
@@ -259,23 +258,23 @@ fun getRequestCount(): Int = requestCount
     // --- Extensibility: Custom Room Properties ---
     private val customProperties = mutableMapOf<String, Any>()
     /**
-     * Sets a custom property for the conference room.
+     * Sets a custom key-value property for the conference room.
      *
-     * Associates the specified value with the given key in the room's custom properties map, allowing for extensibility and storage of additional metadata.
+     * Stores additional metadata or extensible information associated with the specified key.
      */
     fun setCustomProperty(key: String, value: Any) {
         customProperties[key] = value
     }
 
     /**
- * Retrieves the value of a custom property by its key.
+ * Returns the value of a custom property for the given key, or null if the key is not present.
  *
- * @param key The key identifying the custom property.
- * @return The value associated with the key, or null if not set.
+ * @param key The custom property key to look up.
+ * @return The associated value, or null if the property is not set.
  */
 fun getCustomProperty(key: String): Any? = customProperties[key]
     /**
- * Returns a copy of all custom properties set for the conference room.
+ * Retrieves a copy of all custom properties associated with the conference room.
  *
  * @return A map containing all custom property key-value pairs.
  */

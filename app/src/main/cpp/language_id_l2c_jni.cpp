@@ -11,12 +11,12 @@ extern "C" {
 #endif
 
 /**
- * @brief Initializes the language identification model with the specified model path.
+ * @brief Initializes the native language identification model.
  *
- * Converts the provided Java string model path to a native string and prepares the language identification model for use. Returns the version string of the native module upon successful initialization, or an empty string if the model path is null or conversion fails.
+ * Converts the provided Java string model path to a native string and prepares the language identification model for use. Returns the version string "1.0.0" if initialization is successful, or an empty string if the model path is null or conversion fails.
  *
- * @param modelPath The file system path to the language identification model.
- * @return jstring Version string "1.0.0" if initialization succeeds, or an empty string on failure.
+ * @param modelPath File system path to the language identification model.
+ * @return jstring Version string "1.0.0" on success, or an empty string on failure.
  */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeInitialize(
@@ -37,14 +37,14 @@ Java_com_example_app_language_LanguageIdentifier_nativeInitialize(
 }
 
 /**
- * @brief Detects the language of the provided text.
+ * @brief Returns the detected language code for the given text.
  *
- * Returns a language code (e.g., "en", "es", "fr", "de") based on simple keyword matching in the input text.
- * If the input is null or cannot be processed, returns "und" (undetermined).
+ * Analyzes the input text and returns a language code ("en", "es", "fr", "de") based on simple keyword matching.
+ * Returns "und" if the input is null or cannot be processed.
  *
  * @param handle Opaque handle to the language identification model.
- * @param text The input text to analyze.
- * @return jstring The detected language code as a UTF-8 string.
+ * @param text Input text to analyze.
+ * @return jstring Detected language code as a UTF-8 string, or "und" if undetermined.
  */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeDetectLanguage(
@@ -88,11 +88,11 @@ Java_com_example_app_language_LanguageIdentifier_nativeDetectLanguage(
 }
 
 /**
- * @brief Releases resources associated with the language identifier handle.
+ * @brief Releases native resources associated with a language identifier instance.
  *
- * If the provided handle is non-zero, this function is intended to clean up any native resources allocated for language identification.
+ * Intended to clean up resources allocated for language identification when a valid handle is provided.
  *
- * @param handle Native handle to the language identifier instance.
+ * @param handle Native handle representing the language identifier instance.
  */
 JNIEXPORT void JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeRelease(
@@ -106,9 +106,9 @@ Java_com_example_app_language_LanguageIdentifier_nativeRelease(
 }
 
 /**
- * @brief Returns the version string of the native language identification module.
+ * @brief Retrieves the version string of the native language identification module.
  *
- * @return jstring Version string, e.g., "1.0.0".
+ * @return jstring The version string of the native library.
  */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeGetVersion(

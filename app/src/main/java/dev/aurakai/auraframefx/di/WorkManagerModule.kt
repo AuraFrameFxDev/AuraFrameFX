@@ -20,11 +20,9 @@ import javax.inject.Singleton
 object WorkManagerModule {
 
     /**
-             * Provides a singleton WorkManager Configuration using the specified HiltWorkerFactory.
+             * Provides a singleton WorkManager Configuration that uses the specified HiltWorkerFactory for dependency injection in workers.
              *
-             * The configuration enables WorkManager to use Hilt for dependency injection in workers.
-             *
-             * @return A WorkManager Configuration instance with the custom worker factory set.
+             * @return A WorkManager Configuration instance with Hilt-based worker factory support.
              */
     @Provides
     @Singleton
@@ -36,11 +34,9 @@ object WorkManagerModule {
             .build()
 
     /**
-     * Provides a singleton instance of WorkManager initialized with the application context.
+     * Provides the application's singleton WorkManager instance, ensuring it is initialized with Hilt-provided configuration.
      *
-     * Hilt ensures WorkManager is properly initialized if a Configuration provider is present.
-     *
-     * @return The WorkManager instance for the application.
+     * @return The WorkManager instance associated with the application context.
      */
     @Provides
     @Singleton
