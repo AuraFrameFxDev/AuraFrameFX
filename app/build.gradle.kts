@@ -28,7 +28,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        testInstrumentationRunnerArguments += mapOf()
+        testInstrumentationRunnerArguments += mapOf("clearPackageData" to "true")
         applicationId = "dev.aurakai.auraframefx"
         minSdk = 33
         targetSdk = 36
@@ -36,7 +36,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["clearPackageData"] = "true"
 
         vectorDrawables {
             useSupportLibrary = true

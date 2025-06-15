@@ -38,7 +38,8 @@ object DisplayUtils {
             windowInsets?.getInsets(WindowInsets.Type.statusBars())?.top ?: 0
         } else {
             var result = 0
-            val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+            val resourceId =
+                context.resources.getIdentifier("status_bar_height", "dimen", "android")
             if (resourceId > 0) {
                 result = context.resources.getDimensionPixelSize(resourceId)
             }

@@ -28,7 +28,7 @@ object WorkManagerModule {
     @Provides
     @Singleton
     fun provideWorkManagerConfiguration(
-        workerFactory: HiltWorkerFactory
+        workerFactory: HiltWorkerFactory,
     ): Configuration =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -43,6 +43,7 @@ object WorkManagerModule {
      */
     @Provides
     @Singleton
+    @Suppress("UNUSED_PARAMETER")
     fun provideWorkManager(
         @ApplicationContext _context: Context,
         _configuration: Configuration, // Hilt will provide this from the method above
