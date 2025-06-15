@@ -23,11 +23,16 @@ val firebaseBomVersion = "33.15.0"
 val lifecycleVersion = "2.9.1"
 
 android {
-    // Configure Java 21 compatibility
+    // Configure Java 24 compatibility
     compileSdk = 34
     
+    defaultConfig {
+        targetSdk = 34
+        minSdk = 34  // Required for LSPosed
+    }
+    
     compileOptions {
-        // Enable Java 21 language features
+        // Enable Java 24 language features
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
         isCoreLibraryDesugaringEnabled = true  // For Java 8+ APIs on older Android versions
@@ -47,7 +52,7 @@ android {
     }
     
     kotlin {
-        jvmToolchain(21)
+        jvmToolchain(24)
     }
     
     // NDK version is now managed by Android Gradle Plugin
