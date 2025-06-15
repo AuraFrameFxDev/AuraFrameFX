@@ -18,7 +18,7 @@ class LanguageIdentifier private constructor(context: Context) {
         private var instance: LanguageIdentifier? = null
 
         /**
-         * Returns the singleton instance of LanguageIdentifier, initializing it with the application context if necessary.
+         * Retrieves the singleton instance of LanguageIdentifier, initializing it with the application context if it does not already exist.
          *
          * @return The singleton LanguageIdentifier instance.
          */
@@ -30,30 +30,32 @@ class LanguageIdentifier private constructor(context: Context) {
     }
 
     /**
- * Initializes the native language identifier with the specified model path.
+ * Initializes the native language identifier using the provided model file path.
  *
- * @param modelPath Path to the language identification model file.
- * @return A native handle representing the initialized language identifier.
+ * @param modelPath The file system path to the language identification model.
+ * @return A native handle to the initialized language identifier instance, or 0 if initialization fails.
  */
 private external fun nativeInitialize(modelPath: String): Long
     /**
- * Detects the language of the given text using the native language identification library.
+ * Uses the native language identification library to detect the language of the provided text.
  *
- * @param handle Native handle to the language identifier instance.
- * @param text The input text to analyze.
- * @return The detected language code as a string.
+ * @param handle Native handle referencing the language identifier instance.
+ * @param text The text to analyze for language detection.
+ * @return The ISO language code detected for the input text, or "und" if detection fails.
  */
 private external fun nativeDetectLanguage(handle: Long, text: String): String
     /**
- * Releases native resources associated with the specified handle.
+ * Frees native resources associated with the given native handle.
  *
- * @param handle The native handle to release.
+ * This method should be called to prevent memory leaks when the native language identifier is no longer needed.
+ *
+ * @param handle The native handle whose resources will be released.
  */
 private external fun nativeRelease(handle: Long)
     /**
- * Retrieves the version string of the native language identification library.
+ * Returns the version string of the underlying native language identification library.
  *
- * @return The version of the native library.
+ * @return The native library version.
  */
 private external fun nativeGetVersion(): String
 
@@ -73,11 +75,13 @@ private external fun nativeGetVersion(): String
     }
 
     /**
-     * Detects the language of the provided text using the native language identification model.
+     * Identifies the language of the given text and returns its ISO language code.
      *
-     * @param text The input text to analyze.
-     * @return The ISO language code of the detected language, or "und" if detection fails or is undetermined.
-     * @throws IllegalStateException if the language identifier has not been initialized.
+     * Returns "und" if the language cannot be determined or if detection fails.
+     *
+     * @param text The text to analyze for language identification.
+     * @return The ISO language code of the detected language, or "und" if undetermined.
+     * @throws IllegalStateException if the language identifier is not initialized.
      */
     fun detectLanguage(text: String): String {
         if (!isInitialized) throw IllegalStateException("LanguageIdentifier not initialized")
@@ -89,9 +93,9 @@ private external fun nativeGetVersion(): String
     }
 
     /**
-     * Returns the version string of the native language identification library.
+     * Retrieves the version string of the native language identification library.
      *
-     * @return The version string, or "unknown" if the version cannot be determined.
+     * @return The version string, or "unknown" if retrieval fails.
      */
     fun getVersion(): String {
         return try {
@@ -102,9 +106,9 @@ private external fun nativeGetVersion(): String
     }
 
     /**
-     * Releases native resources associated with the language identifier instance.
+     * Releases native resources held by this language identifier instance.
      *
-     * After calling this method, the instance becomes uninitialized and cannot be used for language detection until reinitialized.
+     * After calling this method, the instance is no longer initialized and cannot perform language detection until reinitialized.
      */
     fun release() {
         if (isInitialized) {
@@ -115,7 +119,10 @@ private external fun nativeGetVersion(): String
     }
 
     /**
-     * Ensures native resources are released when the object is garbage collected.
+     * Releases native resources when the object is garbage collected.
+     *
+     * This method is called by the garbage collector before the object is removed from memory,
+     * ensuring that any associated native resources are properly freed.
      */
     protected fun finalize() {
         release()

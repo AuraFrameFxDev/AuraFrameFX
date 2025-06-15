@@ -25,6 +25,11 @@ import dev.aurakai.auraframefx.ui.theme.*
          *
          * Presents a digital landscape background, animated hexagon grid overlay, and a vertically scrollable column of interactive floating windows. The screen includes a title header, a navigation menu with selectable items, action buttons for profile and configuration, and a system status panel. Navigation to other screens occurs based on menu and button selections.
          */
+        /**
+         * Displays the main home screen UI with a cyberpunk floating window design.
+         *
+         * Presents a digital landscape background, animated hexagon grid overlay, and a vertically scrollable column of interactive floating windows. Includes a title header, a navigation menu with selectable items, action buttons for profile and configuration, and a system status panel. Navigates to different app destinations based on user interaction.
+         */
         @Composable
 fun HomeScreen(navController: NavController) {
     // Track selected menu item
