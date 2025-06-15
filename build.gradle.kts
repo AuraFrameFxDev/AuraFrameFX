@@ -3,6 +3,10 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://api.xposed." +
+                ".0" +
+                "" +
+                "info/") }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.10.1")
