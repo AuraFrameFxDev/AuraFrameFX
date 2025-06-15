@@ -29,6 +29,11 @@ class OracleDriveServiceConnector(
     val serviceVersion: StateFlow<String?> = _serviceVersion.asStateFlow()
 
     private val serviceConnection = object : ServiceConnection {
+        /**
+         * Handles actions when the AuraDriveService is connected.
+         *
+         * Initializes the service interface, registers a callback to receive service events, updates connection state, retrieves the service version, and notifies listeners of the connection status. If a RemoteException occurs during setup, resets the connection state and reports the error via the event callback.
+         */
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             try {
                 auraDriveService = IAuraDriveService.Stub.asInterface(service)
@@ -99,6 +104,11 @@ class OracleDriveServiceConnector(
             }
         }
 
+        /**
+         * Handles the event when the service is unexpectedly disconnected.
+         *
+         * Unregisters the service callback if registered, resets internal state, and notifies listeners of the disconnection event.
+         */
         override fun onServiceDisconnected(name: ComponentName?) {
             try {
                 serviceCallback?.let { callback ->
@@ -112,17 +122,32 @@ class OracleDriveServiceConnector(
             onServiceEvent?.invoke(EVENT_DISCONNECTED, "Service disconnected")
         }
 
+        /**
+         * Handles the event when the service binding dies unexpectedly.
+         *
+         * Cleans up the service connection and notifies the event callback with an error event.
+         */
         override fun onBindingDied(name: ComponentName?) {
             cleanupService()
             onServiceEvent?.invoke(EVENT_ERROR, "Binding died")
         }
 
+        /**
+         * Handles the case when the service binding returns null, indicating the service is unavailable.
+         *
+         * Cleans up internal state and notifies the event callback with an error event.
+         */
         override fun onNullBinding(name: ComponentName?) {
             cleanupService()
             onServiceEvent?.invoke(EVENT_ERROR, "Received null binding")
         }
     }
 
+    /**
+     * Resets the internal service references and connection state to their default values.
+     *
+     * This method clears the service interface, callback, connection status, and service version.
+     */
     private fun cleanupService() {
         auraDriveService = null
         serviceCallback = null
@@ -131,8 +156,11 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Binds to the AuraDriveService
-     * @return true if binding was attempted, false if already bound
+     * Attempts to bind to the AuraDriveService.
+     *
+     * @return `true` if the binding process was initiated, or `false` if already connected.
+     *
+     * If binding fails due to a security or other exception, the internal state is reset and an error event is reported via the event callback.
      */
     fun bindService(): Boolean {
         if (_isServiceConnected.value) return false
@@ -163,7 +191,9 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Unbinds from the AuraDriveService
+     * Unbinds from the AuraDriveService and cleans up internal state.
+     *
+     * If connected, attempts to unregister the service callback and unbinds the service. Cleans up all related resources regardless of success or failure.
      */
     fun unbindService() {
         if (!_isServiceConnected.value) return
@@ -181,10 +211,11 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Execute a command on the service
-     * @param command The command to execute
-     * @param params Optional parameters for the command
-     * @return Result of the command execution
+     * Executes a command on the connected AuraDriveService with optional parameters.
+     *
+     * @param command The command string to execute on the service.
+     * @param params Optional key-value parameters for the command.
+     * @return A [Result] containing the command output on success, or an exception on failure.
      */
     suspend fun executeCommand(
         command: String,
@@ -206,7 +237,9 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Get the current status from Oracle Drive
+     * Retrieves the current status from the connected Oracle Drive service.
+     *
+     * @return The status string from the Oracle Drive service, or null if the request fails or the service is unavailable.
      */
     suspend fun getStatusFromOracleDrive(): String? = withContext(Dispatchers.IO) {
         try {
@@ -218,8 +251,12 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Toggle an LSPosed module on/off
-     */
+         * Enables or disables an LSPosed module on the connected AuraDriveService.
+         *
+         * @param packageName The package name of the module to toggle.
+         * @param enable True to enable the module, false to disable it.
+         * @return The result string from the service, or null if the operation fails.
+         */
     suspend fun toggleModuleOnOracleDrive(packageName: String, enable: Boolean): String? =
         withContext(Dispatchers.IO) {
             try {
@@ -231,7 +268,9 @@ class OracleDriveServiceConnector(
         }
 
     /**
-     * Get detailed internal status from the service
+     * Retrieves detailed internal status information from the connected AuraDriveService.
+     *
+     * @return A string containing the detailed internal status, or null if the request fails or the service is unavailable.
      */
     suspend fun getDetailedInternalStatus(): String? = withContext(Dispatchers.IO) {
         try {
@@ -243,7 +282,9 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Get internal diagnostics log from the service
+     * Retrieves the internal diagnostics log from the connected AuraDriveService.
+     *
+     * @return The diagnostics log as a string, or null if retrieval fails or the service is unavailable.
      */
     suspend fun getInternalDiagnosticsLog(): String? = withContext(Dispatchers.IO) {
         try {

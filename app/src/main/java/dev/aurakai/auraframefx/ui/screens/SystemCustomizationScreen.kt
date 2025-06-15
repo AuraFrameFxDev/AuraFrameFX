@@ -30,6 +30,11 @@ import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsTileConfig
 import dev.aurakai.auraframefx.ui.models.*
 import dev.aurakai.auraframefx.ui.viewmodel.SystemCustomizationViewModel
 
+/**
+ * Displays the main system customization screen, allowing users to configure Quick Settings and Lock Screen appearance.
+ *
+ * Presents sections for customizing Quick Settings tiles and Lock Screen elements, including shape, animation, and background options. Provides a floating action button to reset all settings to their default values.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SystemCustomizationScreen(

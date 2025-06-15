@@ -18,7 +18,9 @@ class LanguageIdentifier private constructor(context: Context) {
         private var instance: LanguageIdentifier? = null
 
         /**
-         * Get the singleton instance of LanguageIdentifier
+         * Returns the singleton instance of LanguageIdentifier, initializing it with the application context if necessary.
+         *
+         * @return The singleton LanguageIdentifier instance.
          */
         fun getInstance(context: Context): LanguageIdentifier {
             return instance ?: synchronized(this) {
@@ -27,10 +29,33 @@ class LanguageIdentifier private constructor(context: Context) {
         }
     }
 
-    private external fun nativeInitialize(modelPath: String): Long
-    private external fun nativeDetectLanguage(handle: Long, text: String): String
-    private external fun nativeRelease(handle: Long)
-    private external fun nativeGetVersion(): String
+    /**
+ * Initializes the native language identifier with the specified model path.
+ *
+ * @param modelPath Path to the language identification model file.
+ * @return A native handle representing the initialized language identifier.
+ */
+private external fun nativeInitialize(modelPath: String): Long
+    /**
+ * Detects the language of the given text using the native language identification library.
+ *
+ * @param handle Native handle to the language identifier instance.
+ * @param text The input text to analyze.
+ * @return The detected language code as a string.
+ */
+private external fun nativeDetectLanguage(handle: Long, text: String): String
+    /**
+ * Releases native resources associated with the specified handle.
+ *
+ * @param handle The native handle to release.
+ */
+private external fun nativeRelease(handle: Long)
+    /**
+ * Retrieves the version string of the native language identification library.
+ *
+ * @return The version of the native library.
+ */
+private external fun nativeGetVersion(): String
 
     private var nativeHandle: Long = 0
     private var isInitialized = false
@@ -48,9 +73,11 @@ class LanguageIdentifier private constructor(context: Context) {
     }
 
     /**
-     * Detect the language of the given text
-     * @param text The text to analyze
-     * @return The detected language code (e.g., "en", "es", "fr")
+     * Detects the language of the provided text using the native language identification model.
+     *
+     * @param text The input text to analyze.
+     * @return The ISO language code of the detected language, or "und" if detection fails or is undetermined.
+     * @throws IllegalStateException if the language identifier has not been initialized.
      */
     fun detectLanguage(text: String): String {
         if (!isInitialized) throw IllegalStateException("LanguageIdentifier not initialized")
@@ -62,7 +89,9 @@ class LanguageIdentifier private constructor(context: Context) {
     }
 
     /**
-     * Get the version of the native library
+     * Returns the version string of the native language identification library.
+     *
+     * @return The version string, or "unknown" if the version cannot be determined.
      */
     fun getVersion(): String {
         return try {
@@ -73,7 +102,9 @@ class LanguageIdentifier private constructor(context: Context) {
     }
 
     /**
-     * Clean up native resources
+     * Releases native resources associated with the language identifier instance.
+     *
+     * After calling this method, the instance becomes uninitialized and cannot be used for language detection until reinitialized.
      */
     fun release() {
         if (isInitialized) {
@@ -83,6 +114,9 @@ class LanguageIdentifier private constructor(context: Context) {
         }
     }
 
+    /**
+     * Ensures native resources are released when the object is garbage collected.
+     */
     protected fun finalize() {
         release()
     }
