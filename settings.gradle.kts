@@ -19,10 +19,10 @@ pluginManagement {
                 useVersion("2.0.21-1.0.20")
             }
             if (requested.id.id == "org.jetbrains.kotlin.plugin.serialization") {
-                useVersion("2.0.21")
+                useVersion("2.1.21")
             }
             if (requested.id.id == "org.jetbrains.kotlin.plugin.compose") {
-                useVersion("2.0.21")
+                useVersion("2.1.21")
             }
             if (requested.id.id == "com.google.dagger.hilt.android") {
                 useVersion("2.56.2")

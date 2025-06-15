@@ -9,13 +9,13 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.firebase-perf")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.devtools.ksp") version "2.1.23-1.0.21"
+
 }
 
 // Repositories are configured in settings.gradle.kts
 
 // Common versions
-val kotlinVersion = "2.1.23"
+val kotlinVersion = libs.versions.kotlin.get()
 val composeVersion = "1.6.7" // Compatible with Kotlin 2.1.23
 val composeBomVersion = composeVersion // Use composeVersion for BOM
 val composeCompilerExtensionVersion = composeVersion // Use composeVersion for compiler extension
@@ -23,7 +23,7 @@ val hiltVersion = "2.56.2"
 val navigationVersion = "2.7.5"
 val firebaseBomVersion = "32.7.0"
 val lifecycleVersion = "2.6.2"
-val kspVersion = "2.1.23-1.0.21" // Match Kotlin version
+val kspVersion = libs.versions.ksp.get() // Match Kotlin version
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 36
@@ -105,18 +105,16 @@ dependencies {
 
     // Compose
     implementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.ui:ui-graphics:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.compose.material3:material3:$composeVersion")
-    implementation("androidx.compose.material:material-icons-extended:$composeVersion")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
 
     // Hilt for dependency injection
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    ksp("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    implementation("com.google.dagger:hilt-android:2.56.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     implementation("androidx.hilt:hilt-work:1.2.0")
-    ksp("androidx.hilt:hilt-compiler:$kspVersion")
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
@@ -156,16 +154,8 @@ dependencies {
     implementation("com.google.mlkit:language-id:17.0.6")
     implementation("com.google.mlkit:translate:17.0.3")
 
-    // TensorFlow Lite
-    implementation("org.tensorflow:tensorflow-lite:2.14.0") {
-        exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
-    }
-    implementation("org.tensorflow:tensorflow-lite-support:0.4.4") {
-        exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
-    }
-    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
+    // TensorFlow Lite BOM
+    implementation(platform("org.tensorflow:tensorflow-lite-bom:2.14.0"))
 
     // Accompanist for Compose utilities (version 0.32.0 is compatible with Compose 1.5.4)
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
@@ -182,7 +172,6 @@ dependencies {
     // Room for local database
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
 
     // WorkManager for background tasks
     implementation("androidx.work:work-runtime-ktx:2.9.0")
