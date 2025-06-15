@@ -26,7 +26,7 @@ class HomeScreenTransitionViewModel @Inject constructor(
             }
         }
     }
-
+    
     fun updateTransitionProperties(properties: Map<String, Any>) {
         viewModelScope.launch {
             val current = _currentConfig.value ?: return@launch
@@ -49,7 +49,7 @@ class HomeScreenTransitionViewModel @Inject constructor(
             // prefs.putString("home_screen_transition", Json.encodeToString(updatedConfig))
         }
     }
-
+    
     fun resetToDefault() {
         viewModelScope.launch {
             transitionManager.resetToDefault()

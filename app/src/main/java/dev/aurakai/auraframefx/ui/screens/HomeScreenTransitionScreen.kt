@@ -6,18 +6,18 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionConfig
-import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionEffect
-import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionType
-import dev.aurakai.auraframefx.system.homescreen.TransitionProperties
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
+import dev.aurakai.auraframefx.system.homescreen.*
 import dev.aurakai.auraframefx.ui.viewmodel.HomeScreenTransitionViewModel
-import java.util.Locale
-import kotlinx.coroutines.flow.collectAsState
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,6 +25,9 @@ fun HomeScreenTransitionScreen(
     viewModel: HomeScreenTransitionViewModel = hiltViewModel(),
 ) {
     val currentConfig by viewModel.currentConfig.collectAsState(initial = null)
+    var currentType by remember { mutableStateOf<HomeScreenTransitionType?>(null) }
+    var currentDuration by remember { mutableStateOf(300) }
+    var currentProperties by remember { mutableStateOf<Map<String, Any>>(emptyMap()) }
 
     Scaffold(
         topBar = {
@@ -38,8 +41,20 @@ fun HomeScreenTransitionScreen(
             )
         },
         floatingActionButton = {
+            LaunchedEffect(currentConfig) {
+                currentConfig?.let { config ->
+                    currentType = config.defaultOutgoingEffect?.type
+                    config.duration?.let { currentDuration = it }
+                    currentProperties = config.defaultOutgoingEffect?.properties ?: emptyMap()
+                }
+            }
             FloatingActionButton(
-                onClick = { viewModel.resetToDefault() }
+                onClick = { 
+                    // Reset to default values
+                    currentType.value = null
+                    currentDuration.value = 300
+                    currentProperties.value = emptyMap()
+                }
             ) {
                 Icon(Icons.Default.Restore, "Reset")
             }
@@ -171,6 +186,9 @@ fun HomeScreenTransitionScreen(
                         text = "Properties",
                         style = MaterialTheme.typography.titleMedium
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Current Transition: ${currentConfig?.defaultOutgoingEffect?.type?.name ?: "None"}")
+                    Text("Duration: ${currentDuration.value}ms")
                     Spacer(modifier = Modifier.height(8.dp))
                     // Properties editor for outgoing effect
                     currentConfig?.defaultOutgoingEffect?.properties?.let { props ->
@@ -438,7 +456,7 @@ fun PropertySlider(
 
 @Composable
 fun BasicTransitionRow(
-    currentType: HomeScreenTransitionType,
+    currentType: HomeScreenTransitionType?,
     onTypeSelected: (HomeScreenTransitionType) -> Unit,
 ) {
     Row(
@@ -456,6 +474,11 @@ fun BasicTransitionRow(
             onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_RIGHT) }
         )
         TransitionButton(
+            label = "Fade",
+            isSelected = currentType == HomeScreenTransitionType.FADE,
+            onClick = { onTypeSelected(HomeScreenTransitionType.FADE) }
+        )
+        TransitionButton(
             label = "Slide Up",
             isSelected = currentType == HomeScreenTransitionType.SLIDE_UP,
             onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_UP) }
@@ -470,7 +493,7 @@ fun BasicTransitionRow(
 
 @Composable
 fun CardStackTransitionRow(
-    currentType: HomeScreenTransitionType,
+    currentType: HomeScreenTransitionType?,
     onTypeSelected: (HomeScreenTransitionType) -> Unit,
 ) {
     Row(
@@ -502,7 +525,7 @@ fun CardStackTransitionRow(
 
 @Composable
 fun ThreeDTransitionRow(
-    currentType: HomeScreenTransitionType,
+    currentType: HomeScreenTransitionType?,
     onTypeSelected: (HomeScreenTransitionType) -> Unit,
 ) {
     Row(
