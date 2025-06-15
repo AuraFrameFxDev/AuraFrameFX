@@ -15,7 +15,7 @@ plugins {
 // Repositories are configured in settings.gradle.kts
 
 // Common versions
-val kotlinVersion = "1.9.0"
+val kotlinVersion = "2.0.0"
 val composeVersion = "1.5.4" // Use a Compose version compatible with Kotlin 1.9.0
 val hiltVersion = "2.56.2"
 val navigationVersion = "2.7.5"
@@ -80,7 +80,7 @@ android {
     }
     
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
+        kotlinCompilerExtensionVersion = "1.5.13"
     }
     
     packaging {
