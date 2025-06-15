@@ -30,11 +30,6 @@ import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsTileConfig
 import dev.aurakai.auraframefx.ui.models.*
 import dev.aurakai.auraframefx.ui.viewmodel.SystemCustomizationViewModel
 
-/**
- * Displays the main screen for customizing system appearance, including Quick Settings and Lock Screen.
- *
- * Shows sections for configuring tile and element shapes, animations, and backgrounds. Provides a floating action button to reset all customizations to default values.
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SystemCustomizationScreen(
@@ -44,17 +39,10 @@ fun SystemCustomizationScreen(
     val quickSettingsConfig by viewModel.quickSettingsConfig.collectAsState(initial = null)
     val lockScreenConfig by viewModel.lockScreenConfig.collectAsState(initial = null)
     
-    /**
-     * Returns the list of Quick Settings tile configurations, or an empty list if the config is null.
-     */
+    // Helper functions to safely access properties
     @Composable
     fun QuickSettingsConfig?.safeTiles(): List<QuickSettingsTileConfig> = this?.tiles ?: emptyList()
     
-    /**
-     * Returns the list of lock screen element configurations, or an empty list if the config is null.
-     *
-     * @return List of lock screen element configurations, or empty if unavailable.
-     */
     @Composable
     fun LockScreenConfig?.safeElements(): List<LockScreenElementConfig> = this?.elements ?: emptyList()
     

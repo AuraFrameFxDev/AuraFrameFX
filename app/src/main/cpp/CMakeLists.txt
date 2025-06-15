@@ -39,8 +39,9 @@ target_compile_definitions(${LIBRARY_NAME} PRIVATE
 )
 
 # Set output directories
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/intermediates/cxx/$<CONFIG>/${ANDROID_ABI})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/intermediates/cxx/$<CONFIG>/${ANDROID_ABI})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/intermediates/cxx/Debug/${ANDROID_ABI})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/intermediates/cxx/Debug/${ANDROID_ABI})
+
 # Set output name to match Android naming conventions
 set_target_properties(${LIBRARY_NAME} PROPERTIES
         OUTPUT_NAME "${LIBRARY_NAME}"

@@ -17,11 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.ui.components.HologramTransition
 
-/**
- * Displays the main menu screen with a headline and four vertically arranged buttons.
- *
- * The menu includes a themed button and three standard buttons, all centered within a holographic transition effect.
- */
 @Composable
 fun MenuScreen() {
     HologramTransition(visible = true) {
@@ -63,11 +58,6 @@ fun MenuScreen() {
     }
 }
 
-/**
- * Displays a preview of the MenuScreen composable within a MaterialTheme.
- *
- * Intended for use in design tools to visualize the MenuScreen UI with theming applied.
- */
 @Preview(showBackground = true)
 @Composable
 fun MenuScreenPreview() {

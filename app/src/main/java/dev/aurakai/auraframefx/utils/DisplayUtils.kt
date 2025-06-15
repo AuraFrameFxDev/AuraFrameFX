@@ -11,9 +11,10 @@ import android.view.WindowManager
 object DisplayUtils {
 
     /**
-     * Retrieves the display metrics for the current device screen.
+     * Gets the display metrics of the current device.
      *
-     * @return A [DisplayMetrics] object containing information such as screen size and density.
+     * @param context The application context.
+     * @return DisplayMetrics object containing screen information.
      */
     fun getDisplayMetrics(context: Context): DisplayMetrics {
         // TODO: Consider if this needs to be more sophisticated, e.g., for specific displays
@@ -24,11 +25,10 @@ object DisplayUtils {
     }
 
     /**
-     * Retrieves the height of the status bar in pixels.
+     * Gets the status bar height.
      *
-     * For Android API level 30 and above, obtains the status bar height using `WindowInsets`. For lower API levels, retrieves the value from system resources. Returns 0 if the height cannot be determined.
-     *
-     * @return The status bar height in pixels, or 0 if unavailable.
+     * @param context The application context.
+     * @return The height of the status bar in pixels, or 0 if it cannot be determined.
      */
     fun getStatusBarHeight(context: Context): Int {
         // Prefer WindowInsets for API 30+; fallback for older APIs

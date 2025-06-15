@@ -18,9 +18,7 @@ class LanguageIdentifier private constructor(context: Context) {
         private var instance: LanguageIdentifier? = null
 
         /**
-         * Retrieves the singleton instance of LanguageIdentifier, initializing it with the application context if it does not already exist.
-         *
-         * @return The singleton LanguageIdentifier instance.
+         * Get the singleton instance of LanguageIdentifier
          */
         fun getInstance(context: Context): LanguageIdentifier {
             return instance ?: synchronized(this) {
@@ -29,35 +27,10 @@ class LanguageIdentifier private constructor(context: Context) {
         }
     }
 
-    /**
- * Initializes the native language identifier using the provided model file path.
- *
- * @param modelPath The file system path to the language identification model.
- * @return A native handle to the initialized language identifier instance, or 0 if initialization fails.
- */
-private external fun nativeInitialize(modelPath: String): Long
-    /**
- * Uses the native language identification library to detect the language of the provided text.
- *
- * @param handle Native handle referencing the language identifier instance.
- * @param text The text to analyze for language detection.
- * @return The ISO language code detected for the input text, or "und" if detection fails.
- */
-private external fun nativeDetectLanguage(handle: Long, text: String): String
-    /**
- * Frees native resources associated with the given native handle.
- *
- * This method should be called to prevent memory leaks when the native language identifier is no longer needed.
- *
- * @param handle The native handle whose resources will be released.
- */
-private external fun nativeRelease(handle: Long)
-    /**
- * Returns the version string of the underlying native language identification library.
- *
- * @return The native library version.
- */
-private external fun nativeGetVersion(): String
+    private external fun nativeInitialize(modelPath: String): Long
+    private external fun nativeDetectLanguage(handle: Long, text: String): String
+    private external fun nativeRelease(handle: Long)
+    private external fun nativeGetVersion(): String
 
     private var nativeHandle: Long = 0
     private var isInitialized = false
@@ -75,13 +48,9 @@ private external fun nativeGetVersion(): String
     }
 
     /**
-     * Identifies the language of the given text and returns its ISO language code.
-     *
-     * Returns "und" if the language cannot be determined or if detection fails.
-     *
-     * @param text The text to analyze for language identification.
-     * @return The ISO language code of the detected language, or "und" if undetermined.
-     * @throws IllegalStateException if the language identifier is not initialized.
+     * Detect the language of the given text
+     * @param text The text to analyze
+     * @return The detected language code (e.g., "en", "es", "fr")
      */
     fun detectLanguage(text: String): String {
         if (!isInitialized) throw IllegalStateException("LanguageIdentifier not initialized")
@@ -93,9 +62,7 @@ private external fun nativeGetVersion(): String
     }
 
     /**
-     * Retrieves the version string of the native language identification library.
-     *
-     * @return The version string, or "unknown" if retrieval fails.
+     * Get the version of the native library
      */
     fun getVersion(): String {
         return try {
@@ -106,9 +73,7 @@ private external fun nativeGetVersion(): String
     }
 
     /**
-     * Releases native resources held by this language identifier instance.
-     *
-     * After calling this method, the instance is no longer initialized and cannot perform language detection until reinitialized.
+     * Clean up native resources
      */
     fun release() {
         if (isInitialized) {
@@ -118,12 +83,6 @@ private external fun nativeGetVersion(): String
         }
     }
 
-    /**
-     * Releases native resources when the object is garbage collected.
-     *
-     * This method is called by the garbage collector before the object is removed from memory,
-     * ensuring that any associated native resources are properly freed.
-     */
     protected fun finalize() {
         release()
     }
