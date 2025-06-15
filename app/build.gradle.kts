@@ -169,7 +169,7 @@ dependencies {
     // Accompanist for Compose utilities (version 0.32.0 is compatible with Compose 1.5.4)
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     implementation("com.google.accompanist:accompanist-pager:0.32.0")
-    implementation("com.google.accompanist:accompanist-flowlayout:0.32.0")
+    implementation("com.google.accompanist:accompanist-flowlayout:0.36.0")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.32.0")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.32.0")
     implementation("com.google.accompanist:accompanist-webview:0.32.0")
