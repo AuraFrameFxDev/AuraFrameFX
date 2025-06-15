@@ -10,6 +10,14 @@
 extern "C" {
 #endif
 
+/**
+ * @brief Initializes the language identification model with the specified model path.
+ *
+ * Converts the provided Java string model path to a native string and prepares the language identification model for use. Returns the version string of the native module upon successful initialization, or an empty string if the model path is null or conversion fails.
+ *
+ * @param modelPath The file system path to the language identification model.
+ * @return jstring Version string "1.0.0" if initialization succeeds, or an empty string on failure.
+ */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeInitialize(
         JNIEnv *env,
@@ -28,6 +36,16 @@ Java_com_example_app_language_LanguageIdentifier_nativeInitialize(
     return env->NewStringUTF("1.0.0");
 }
 
+/**
+ * @brief Detects the language of the provided text.
+ *
+ * Returns a language code (e.g., "en", "es", "fr", "de") based on simple keyword matching in the input text.
+ * If the input is null or cannot be processed, returns "und" (undetermined).
+ *
+ * @param handle Opaque handle to the language identification model.
+ * @param text The input text to analyze.
+ * @return jstring The detected language code as a UTF-8 string.
+ */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeDetectLanguage(
         JNIEnv *env,
@@ -69,6 +87,13 @@ Java_com_example_app_language_LanguageIdentifier_nativeDetectLanguage(
     return env->NewStringUTF(result.c_str());
 }
 
+/**
+ * @brief Releases resources associated with the language identifier handle.
+ *
+ * If the provided handle is non-zero, this function is intended to clean up any native resources allocated for language identification.
+ *
+ * @param handle Native handle to the language identifier instance.
+ */
 JNIEXPORT void JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeRelease(
         JNIEnv *env,
@@ -80,6 +105,11 @@ Java_com_example_app_language_LanguageIdentifier_nativeRelease(
     }
 }
 
+/**
+ * @brief Returns the version string of the native language identification module.
+ *
+ * @return jstring Version string, e.g., "1.0.0".
+ */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeGetVersion(
         JNIEnv *env,

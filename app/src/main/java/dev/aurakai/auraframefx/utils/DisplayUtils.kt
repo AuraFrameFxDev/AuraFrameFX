@@ -25,10 +25,11 @@ object DisplayUtils {
     }
 
     /**
-     * Gets the status bar height.
+     * Returns the height of the status bar in pixels.
      *
-     * @param context The application context.
-     * @return The height of the status bar in pixels, or 0 if it cannot be determined.
+     * Uses `WindowInsets` for devices running Android API level 30 and above; falls back to system resources for lower API levels. Returns 0 if the status bar height cannot be determined.
+     *
+     * @return The status bar height in pixels, or 0 if unavailable.
      */
     fun getStatusBarHeight(context: Context): Int {
         // Prefer WindowInsets for API 30+; fallback for older APIs

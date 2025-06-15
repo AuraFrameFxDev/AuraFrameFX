@@ -58,6 +58,11 @@ fun MenuScreen() {
     }
 }
 
+/**
+ * Displays a preview of the MenuScreen composable within a MaterialTheme.
+ *
+ * Intended for use in design tools to visualize the MenuScreen UI with theming applied.
+ */
 @Preview(showBackground = true)
 @Composable
 fun MenuScreenPreview() {
