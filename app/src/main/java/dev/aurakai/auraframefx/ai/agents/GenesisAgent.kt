@@ -12,6 +12,7 @@ import dev.aurakai.auraframefx.model.AgentType
 import dev.aurakai.auraframefx.model.AiRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -82,17 +83,11 @@ class GenesisAgent @Inject constructor(
 
         // Process through Kai for security analysis
         if (_activeAgents.value.contains(AgentType.KAI)) {
-            val kaiResponse: List<AgentResponse> =
-                kaiService.processRequest(AiRequest(query, "security"))
-            val kaiMessage = kaiResponse.first()
-            responses.add(
-                AgentMessage(
-                    content = kaiMessage.content,
-                    sender = AgentType.KAI,
-                    timestamp = System.currentTimeMillis(),
-                    confidence = kaiMessage.confidence
-                )
-            )
+            // Assuming kaiService.processRequest returns StateFlow<AgentMessage>
+            // as per KaiAIServiceImpl.kt
+            val kaiAgentMessage: AgentMessage =
+                kaiService.processRequest(AiRequest(query, "security")).first()
+            responses.add(kaiAgentMessage)
         }
 
         // Process through Aura for creative response
