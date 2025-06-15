@@ -21,22 +21,18 @@ object WorkManagerModule {
 
     /**
      * Provides WorkManager Configuration.
-     * @param _workerFactory HiltWorkerFactory dependency. Parameter reported as unused.
+     * @param workerFactory HiltWorkerFactory dependency.
      * @return A WorkManager Configuration instance.
      * TODO: Reported as unused. Ensure this is correctly set up if custom WorkManager config is needed.
      */
     @Provides
     @Singleton
     fun provideWorkManagerConfiguration(
-        _workerFactory: HiltWorkerFactory, // Hilt will provide this if WorkerModule is included
-    ): Configuration {
-        // TODO: Parameter _workerFactory reported as unused. (Hilt will provide it).
-        // return Configuration.Builder()
-        //     .setWorkerFactory(_workerFactory)
-        //     .setMinimumLoggingLevel(android.util.Log.INFO) // Example configuration
-        //     .build()
-        return Configuration.Builder().build() // Default configuration as placeholder
-    }
+        workerFactory: HiltWorkerFactory
+    ): Configuration =
+        Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 
     /**
      * Provides the WorkManager instance.

@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ai.services
 
 import android.media.AudioRecord
-import com.google.ai.client.generativeai.GenerativeModel
 import dev.aurakai.auraframefx.model.ConversationState
 import dev.aurakai.auraframefx.model.Emotion
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +17,6 @@ class NeuralWhisper(
     private val sampleRate: Int = 44100,
     private val channels: Int = 1, // e.g., AudioFormat.CHANNEL_IN_MONO
     private val bitsPerSample: Int = 16, // e.g., AudioFormat.ENCODING_PCM_16BIT
-    private val _model: GenerativeModel? = null, // Added constructor parameter // TODO: Reported as unused or needs implementation
 ) {
 
     // TODO: Review hardcoded audio parameters (sampleRate, bitsPerSample, channels).

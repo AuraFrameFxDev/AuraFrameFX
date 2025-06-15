@@ -10,6 +10,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * AuraMoodViewModel manages Aura's mood and creative state.
+ *
+ * Aura is the creative, playful, and design-focused agent in AuraFrameFX.
+ * Responsibilities:
+ *  - UI/UX customization and overlays
+ *  - Mood-adaptive and creative features
+ *  - Artistic enhancements and playful interactions
+ *
+ * Contributors: Please keep Aura's logic focused on creativity, design, and user experience features.
+ */
+
 // Example Mood data class - REMOVED
 // data class MoodData(val description: String = "Neutral", val color: Long = 0xFFFFFFFF)
 
@@ -27,17 +39,15 @@ class AuraMoodViewModel @Inject constructor(
     val moodState: StateFlow<Emotion> = _moodState
 
     // Example function to handle user input
+    // This function can be extended to let Aura respond to user mood, creative prompts, or UI changes.
     fun onUserInput(_input: String) { // Parameter _input marked as unused as per template
-        // TODO: Method reported as unused. Implement or remove.
-        // TODO: Parameter _input reported as unused.
         viewModelScope.launch {
-            // TODO: Implement actual logic based on user input
-            // Example logic:
+            // Use _input consistently (was 'input' in some branches)
             if (_input.contains("happy", ignoreCase = true)) {
                 _moodState.value = Emotion.HAPPY
-            } else if (input.contains("sad", ignoreCase = true)) {
+            } else if (_input.contains("sad", ignoreCase = true)) {
                 _moodState.value = Emotion.SAD
-            } else if (input.contains("angry", ignoreCase = true)) {
+            } else if (_input.contains("angry", ignoreCase = true)) {
                 _moodState.value = Emotion.ANGRY
             } else {
                 _moodState.value = Emotion.NEUTRAL
