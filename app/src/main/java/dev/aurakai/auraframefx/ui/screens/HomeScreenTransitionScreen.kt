@@ -1,58 +1,74 @@
 package dev.aurakai.auraframefx.ui.screens
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.system.homescreen.*
-import android.os.Bundle
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import dev.aurakai.auraframefx.ui.viewmodel.HomeScreenTransitionViewModel
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenTransitionScreen(
-    viewModel: HomeScreenTransitionViewModel = hiltViewModel(),
+    viewModel: HomeScreenTransitionViewModel = hiltViewModel<HomeScreenTransitionViewModel>(),
 ) {
     val currentConfig by viewModel.currentConfig.collectAsState(initial = null)
     val coroutineScope = rememberCoroutineScope()
-    var currentType by remember { mutableStateOf<HomeScreenTransitionType?>(null) }
+    var currentType by remember { mutableStateOf(HomeScreenTransitionType.GLOBE_ROTATE) }
     var currentEffect by remember { mutableStateOf<HomeScreenTransitionEffect?>(null) }
     
-    // Create a local state holder for the effect type
-    val localEffectType = remember { mutableStateOf(currentEffect?.type) }
+
     var currentDuration by remember { mutableStateOf(300) }
     var currentProperties by remember { mutableStateOf<Map<String, Any>>(emptyMap()) }
+    
+    // Function to update transition properties
+    fun updateTransitionProperties(newProperties: Map<String, Any>) {
+        currentProperties = newProperties
+        currentEffect?.let { effect ->
+            val updatedEffect = effect.copy(properties = newProperties)
+            currentEffect = updatedEffect
+            viewModel.updateTransitionProperties(
+                mapOf("defaultOutgoingEffect" to updatedEffect as Any)
+            )
+        }
+    }
+
+    // Helper function to convert TransitionProperties to Map
+    private fun TransitionProperties.toMap(): Map<String, Any> {
+        val map = mutableMapOf<String, Any>()
+        // Add properties to map based on their types
+        // This is a simplified version - you'll need to adjust based on your actual property types
+        return map
+    }
     
     // Update local state when config changes
     LaunchedEffect(currentConfig) {
         currentConfig?.let { config ->
-            currentEffect = config.defaultOutgoingEffect
-            currentType = currentEffect?.type
+            val effect = config.defaultOutgoingEffect ?: HomeScreenTransitionEffect(
+                type = HomeScreenTransitionType.GLOBE_ROTATE,
+                properties = emptyMap()
+            )
+            currentEffect = effect
+            currentType = effect.type
             config.duration?.let { duration ->
                 currentDuration = duration
             }
-            currentProperties = currentEffect?.properties ?: emptyMap()
+            currentProperties = effect.properties
         }
     }
 
@@ -118,18 +134,18 @@ fun HomeScreenTransitionScreen(
                         style = MaterialTheme.typography.titleSmall
                     )
                     TransitionTypePicker(
-                        currentType = currentType ?: HomeScreenTransitionType.GLOBE_ROTATE,
+                        currentType = currentType,
                         onTypeSelected = { type -> 
                             currentType = type
-                            val newEffect = currentEffect?.copy(type = type) ?: 
-                                HomeScreenTransitionEffect(
-                                    type = type, 
-                                    properties = emptyMap()
-                                )
+                            val newEffect = HomeScreenTransitionEffect(
+                                type = type,
+                                properties = currentEffect?.properties ?: emptyMap()
+                            )
                             currentEffect = newEffect
                             viewModel.updateTransitionProperties(
-                                mapOf("defaultOutgoingEffect" to newEffect as Any)
+mapOf("defaultOutgoingEffect" to newEffect)
                             )
+                            updateTransitionProperties(newEffect.properties)
                         }
                     )
                     
@@ -139,13 +155,24 @@ fun HomeScreenTransitionScreen(
                         text = "Incoming Effect",
                         style = MaterialTheme.typography.titleSmall
                     )
+                    IconButton(
+                        onClick = { /* TODO */ },
+                        modifier = Modifier.size(40.dp),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = MaterialTheme.colorScheme.primary
+                        )
+                    )
                     TransitionTypePicker(
-                        currentType = currentConfig?.defaultIncomingEffect?.type ?: HomeScreenTransitionType.GLOBE_ROTATE.name,
+                        currentType = currentConfig?.defaultIncomingEffect?.type ?: HomeScreenTransitionType.GLOBE_ROTATE,
                         onTypeSelected = { type ->
-                            val currentEffect = currentConfig?.defaultIncomingEffect
-                            val newEffect = currentEffect?.copy(type = type) ?: HomeScreenTransitionEffect(
+                            val currentIncomingEffect = currentConfig?.defaultIncomingEffect
+                            val newEffect = currentIncomingEffect?.copy(
                                 type = type,
-                                properties = TransitionProperties()
+                                properties = currentIncomingEffect.properties
+                            ) ?: HomeScreenTransitionEffect(
+                                type = type,
+                                properties = emptyMap()
                             )
                             viewModel.updateTransitionProperties(
                                 mapOf("defaultIncomingEffect" to newEffect as Any)
@@ -272,7 +299,7 @@ fun HomeScreenTransitionScreen(
 fun TransitionTypePicker(
     currentType: HomeScreenTransitionType,
     onTypeSelected: (HomeScreenTransitionType) -> Unit,
-): Unit {
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -352,7 +379,7 @@ fun TransitionTypePicker(
 fun DurationSlider(
     currentDuration: Int,
     onDurationChanged: (Int) -> Unit,
-): Unit {
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -379,7 +406,7 @@ fun DurationSlider(
 fun TransitionPropertiesEditor(
     currentProperties: Map<String, Any>,
     onPropertiesChanged: (Map<String, Any>) -> Unit,
-): Unit {
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -702,7 +729,7 @@ fun SpreadTransitionRow(
 fun DigitalHologramTransitionRow(
     currentType: HomeScreenTransitionType,
     onTypeSelected: (HomeScreenTransitionType) -> Unit,
-): Unit {
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)

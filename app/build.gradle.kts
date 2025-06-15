@@ -23,6 +23,33 @@ val firebaseBomVersion = "33.15.0"
 val lifecycleVersion = "2.9.1"
 
 android {
+    // Configure Java 21 compatibility
+    compileSdk = 34
+    
+    compileOptions {
+        // Enable Java 21 language features
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        isCoreLibraryDesugaringEnabled = true  // For Java 8+ APIs on older Android versions
+    }
+    
+    kotlinOptions {
+        jvmTarget = "21"  // Match Java version
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xjvm-default=all",  // Enable all JVM default methods
+            "-opt-in=kotlin.RequiresOptIn"
+        )
+    }
+    
+    // Configure Java toolchain for consistent build environment
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+    
+    kotlin {
+        jvmToolchain(21)
+    }
+    
     // NDK version is now managed by Android Gradle Plugin
     defaultConfig {
         ndk {
@@ -182,6 +209,7 @@ android {
     }
     compileSdk = 36
     buildToolsVersion = "36.0.0"
+    ndkVersion = "27.0.12077973"
 
     packaging {
         resources {
@@ -310,6 +338,13 @@ dependencies {
     // Room for local database
     implementation("androidx.room:room-runtime:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")
+    
+    // DataStore Preferences
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
+    implementation("androidx.datastore:datastore-preferences-core:1.1.7")
+    
+    // Kotlin serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 
     // WorkManager for background tasks
     implementation("androidx.work:work-runtime-ktx:2.10.1")
@@ -320,6 +355,12 @@ dependencies {
 
     // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.7.0")
+    
+    // DataStore Preferences
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
+    
+    // Kotlin serialization runtime
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 
     // Retrofit for network calls
     implementation("com.squareup.retrofit2:retrofit:3.0.0")

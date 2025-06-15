@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 fun OracleDriveControlScreen(
     viewModel: OracleDriveControlViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
+    LocalContext.current
     val isConnected by viewModel.isServiceConnected.collectAsState()
     val status by viewModel.status.collectAsState()
     val detailedStatus by viewModel.detailedStatus.collectAsState()
