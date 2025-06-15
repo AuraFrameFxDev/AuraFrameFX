@@ -13,15 +13,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.system.homescreen.*
+import android.os.Bundle
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import dev.aurakai.auraframefx.ui.viewmodel.HomeScreenTransitionViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,16 +35,24 @@ fun HomeScreenTransitionScreen(
     viewModel: HomeScreenTransitionViewModel = hiltViewModel(),
 ) {
     val currentConfig by viewModel.currentConfig.collectAsState(initial = null)
+    val coroutineScope = rememberCoroutineScope()
     var currentType by remember { mutableStateOf<HomeScreenTransitionType?>(null) }
+    var currentEffect by remember { mutableStateOf<HomeScreenTransitionEffect?>(null) }
+    
+    // Create a local state holder for the effect type
+    val localEffectType = remember { mutableStateOf(currentEffect?.type) }
     var currentDuration by remember { mutableStateOf(300) }
     var currentProperties by remember { mutableStateOf<Map<String, Any>>(emptyMap()) }
     
     // Update local state when config changes
     LaunchedEffect(currentConfig) {
         currentConfig?.let { config ->
-            currentType = config.defaultOutgoingEffect?.type
-            config.duration?.let { currentDuration = it }
-            currentProperties = config.defaultOutgoingEffect?.properties ?: emptyMap()
+            currentEffect = config.defaultOutgoingEffect
+            currentType = currentEffect?.type
+            config.duration?.let { duration ->
+                currentDuration = duration
+            }
+            currentProperties = currentEffect?.properties ?: emptyMap()
         }
     }
 
@@ -63,7 +77,9 @@ fun HomeScreenTransitionScreen(
             FloatingActionButton(
                 onClick = { 
                     // Reset to default values
-                    viewModel.resetToDefault()
+                    coroutineScope.launch {
+                        viewModel.resetToDefault()
+                    }
                 },
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
@@ -102,13 +118,15 @@ fun HomeScreenTransitionScreen(
                         style = MaterialTheme.typography.titleSmall
                     )
                     TransitionTypePicker(
-                        currentType = currentConfig?.defaultOutgoingEffect?.type ?: HomeScreenTransitionType.GLOBE_ROTATE.name,
+                        currentType = currentType ?: HomeScreenTransitionType.GLOBE_ROTATE,
                         onTypeSelected = { type -> 
-                            val currentEffect = currentConfig?.defaultOutgoingEffect
-                            val newEffect = currentEffect?.copy(type = type) ?: HomeScreenTransitionEffect(
-                                type = type,
-                                properties = TransitionProperties()
-                            )
+                            currentType = type
+                            val newEffect = currentEffect?.copy(type = type) ?: 
+                                HomeScreenTransitionEffect(
+                                    type = type, 
+                                    properties = emptyMap()
+                                )
+                            currentEffect = newEffect
                             viewModel.updateTransitionProperties(
                                 mapOf("defaultOutgoingEffect" to newEffect as Any)
                             )
@@ -444,7 +462,7 @@ fun PropertySlider(
     value: Float,
     onValueChange: (Float) -> Unit,
     valueRange: ClosedFloatingPointRange<Float>,
-): Unit {
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -461,7 +479,8 @@ fun PropertySlider(
         )
         Text(
             text = String.format(Locale.ROOT, "%.2f", value),
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }
