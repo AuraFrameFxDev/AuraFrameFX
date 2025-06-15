@@ -29,6 +29,21 @@ import javax.inject.Inject
 
 private const val PREF_TRANSITION_CONFIG = "home_screen_transition"
 
+// Extension function to get serializer for HomeScreenTransitionConfig
+@OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
+private fun HomeScreenTransitionConfig.toJson(): String {
+    return Json.encodeToString(this)
+}
+
+@OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
+private fun String.toHomeScreenTransitionConfig(): HomeScreenTransitionConfig? {
+    return try {
+        Json.decodeFromString<HomeScreenTransitionConfig>(this)
+    } catch (e: Exception) {
+        null
+    }
+}
+
 @HiltViewModel
 class HomeScreenTransitionViewModel @Inject constructor(
     private val transitionManager: HomeScreenTransitionManager,
@@ -80,8 +95,7 @@ class HomeScreenTransitionViewModel @Inject constructor(
     private suspend fun saveConfigToPreferences(config: HomeScreenTransitionConfig) {
         try {
             dataStore.edit { preferences ->
-                val jsonString = json.encodeToString(HomeScreenTransitionConfig.serializer(), config)
-                preferences[stringPreferencesKey(PREF_TRANSITION_CONFIG)] = jsonString
+                preferences[stringPreferencesKey(PREF_TRANSITION_CONFIG)] = config.toJson()
             }
         } catch (e: IOException) {
             // Handle error, e.g., log it
@@ -101,16 +115,7 @@ class HomeScreenTransitionViewModel @Inject constructor(
                     }
                 }
                 .map { preferences ->
-                    preferences[stringPreferencesKey(PREF_TRANSITION_CONFIG)]?.let { jsonString ->
-                        try {
-                            json.decodeFromString(
-                                HomeScreenTransitionConfig.serializer(), 
-                                jsonString
-                            )
-                        } catch (e: SerializationException) {
-                            null
-                        }
-                    }
+                    preferences[stringPreferencesKey(PREF_TRANSITION_CONFIG)]?.toHomeScreenTransitionConfig()
                 }
                 .first()
         } catch (e: Exception) {
