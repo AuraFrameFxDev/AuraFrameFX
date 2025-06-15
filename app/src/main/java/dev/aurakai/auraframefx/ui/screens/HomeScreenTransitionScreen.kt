@@ -15,9 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.system.homescreen.*
 import dev.aurakai.auraframefx.ui.viewmodel.HomeScreenTransitionViewModel
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,42 +32,50 @@ fun HomeScreenTransitionScreen(
     var currentType by remember { mutableStateOf<HomeScreenTransitionType?>(null) }
     var currentDuration by remember { mutableStateOf(300) }
     var currentProperties by remember { mutableStateOf<Map<String, Any>>(emptyMap()) }
+    
+    // Update local state when config changes
+    LaunchedEffect(currentConfig) {
+        currentConfig?.let { config ->
+            currentType = config.defaultOutgoingEffect?.type
+            config.duration?.let { currentDuration = it }
+            currentProperties = config.defaultOutgoingEffect?.properties ?: emptyMap()
+        }
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Home Screen Transitions") },
                 navigationIcon = {
-                    IconButton(onClick = { /* TODO: Navigate back */ }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
+                    IconButton(onClick = { /* Handle back */ }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                )
             )
         },
         floatingActionButton = {
-            LaunchedEffect(currentConfig) {
-                currentConfig?.let { config ->
-                    currentType = config.defaultOutgoingEffect?.type
-                    config.duration?.let { currentDuration = it }
-                    currentProperties = config.defaultOutgoingEffect?.properties ?: emptyMap()
-                }
-            }
             FloatingActionButton(
                 onClick = { 
                     // Reset to default values
-                    currentType.value = null
-                    currentDuration.value = 300
-                    currentProperties.value = emptyMap()
-                }
+                    viewModel.resetToDefault()
+                },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
-                Icon(Icons.Default.Restore, "Reset")
+                Icon(Icons.Default.Refresh, contentDescription = "Reset to Default")
             }
         }
-    ) { padding ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(paddingValues)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -459,35 +471,51 @@ fun BasicTransitionRow(
     currentType: HomeScreenTransitionType?,
     onTypeSelected: (HomeScreenTransitionType) -> Unit,
 ) {
-    Row(
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        TransitionButton(
-            label = "Slide Left",
-            isSelected = currentType == HomeScreenTransitionType.SLIDE_LEFT,
-            onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_LEFT) }
+        Text(
+            text = "Basic Transitions",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(vertical = 8.dp)
         )
-        TransitionButton(
-            label = "Slide Right",
-            isSelected = currentType == HomeScreenTransitionType.SLIDE_RIGHT,
-            onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_RIGHT) }
-        )
-        TransitionButton(
-            label = "Fade",
-            isSelected = currentType == HomeScreenTransitionType.FADE,
-            onClick = { onTypeSelected(HomeScreenTransitionType.FADE) }
-        )
-        TransitionButton(
-            label = "Slide Up",
-            isSelected = currentType == HomeScreenTransitionType.SLIDE_UP,
-            onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_UP) }
-        )
-        TransitionButton(
-            label = "Slide Down",
-            isSelected = currentType == HomeScreenTransitionType.SLIDE_DOWN,
-            onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_DOWN) }
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            TransitionButton(
+                label = "Slide Left",
+                isSelected = currentType == HomeScreenTransitionType.SLIDE_LEFT,
+                onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_LEFT) }
+            )
+            TransitionButton(
+                label = "Slide Right",
+                isSelected = currentType == HomeScreenTransitionType.SLIDE_RIGHT,
+                onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_RIGHT) }
+            )
+            TransitionButton(
+                label = "Fade",
+                isSelected = currentType == HomeScreenTransitionType.FADE,
+                onClick = { onTypeSelected(HomeScreenTransitionType.FADE) }
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            TransitionButton(
+                label = "Slide Up",
+                isSelected = currentType == HomeScreenTransitionType.SLIDE_UP,
+                onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_UP) }
+            )
+            TransitionButton(
+                label = "Slide Down",
+                isSelected = currentType == HomeScreenTransitionType.SLIDE_DOWN,
+                onClick = { onTypeSelected(HomeScreenTransitionType.SLIDE_DOWN) }
+            )
+        }
     }
 }
 
@@ -680,14 +708,27 @@ fun DigitalHologramTransitionRow(
 fun TransitionButton(
     label: String,
     isSelected: Boolean,
-    onClick: () -> Unit,
-): Unit {
-    Button(
+    onClick: () -> Unit
+) {
+    val containerColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
+    val contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+    
+    OutlinedButton(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) Color(0xFF00FFCC) else Color(0x3300FFCC)
-        )
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
+        border = ButtonDefaults.outlinedButtonBorder.copy(
+            width = if (isSelected) 2.dp else 1.dp
+        ),
+        modifier = Modifier.width(120.dp)
     ) {
-        Text(label)
+        Text(
+            text = label,
+            textAlign = TextAlign.Center,
+            fontSize = 12.sp,
+            maxLines = 1
+        )
     }
 }
