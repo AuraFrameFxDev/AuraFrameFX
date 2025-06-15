@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -117,7 +116,7 @@ dependencies {
     
     // Hilt for dependency injection
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    ksp("com.google.dagger:hilt-android-compiler:$hiltVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     
     // Lifecycle
@@ -220,7 +219,7 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.5")
     
     // Hilt testing
-    kaptTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kspTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
     testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
     
     // AndroidX Test
@@ -231,7 +230,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("io.mockk:mockk-android:1.13.8")
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
     
     // Debug implementations
     debugImplementation("androidx.compose.ui:ui-tooling")
