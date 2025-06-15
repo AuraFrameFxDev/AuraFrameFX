@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.di
 
 // import com.google.cloud.vertexai.VertexAI // Example if using official Vertex AI SDK
-import com.google.ai.client.generativeai.GenerativeModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,29 +42,7 @@ object VertexAIModule {
     @Provides
     @Singleton
     fun provideVertexAIClient(impl: VertexAIClientImpl): VertexAIClient {
-        // TODO: Method reported as unused. Verify necessity.
-        // Hilt will provide VertexAIClientImpl due to its @Inject constructor
-        // and its own dependencies (_config, _generativeModel) being provided in this module.
         return impl
-    }
-
-    /**
-     * Provides a GenerativeModel instance for Vertex AI. Type 'Any' is a placeholder.
-     * @param _vertexAIClient Placeholder for VertexAI client dependency.
-     * @param _config VertexAIConfig dependency for model name.
-     * TODO: Method reported as unused. Implement to provide an actual GenerativeModel.
-     */
-    @Provides
-    @Singleton
-    fun provideGenerativeModel(
-        _vertexAIClient: Any?,
-        _config: VertexAIConfig?,
-    ): GenerativeModel? {
-        // TODO: Parameters _vertexAIClient, _config reported as unused (Hilt will provide them).
-        // Example using official SDK:
-        // if (_vertexAIClient == null || _config == null || _config.modelName == null || _config.apiKey == null) return null
-        // return GenerativeModel(modelName = _config.modelName, apiKey = _config.apiKey) // Simplified
-        return null // Placeholder
     }
 
     /**

@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.system.homescreen.*
 import dev.aurakai.auraframefx.ui.theme.Color
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -342,7 +343,7 @@ fun PropertySlider(
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = String.format("%.2f", value),
+            text = String.format(Locale.ROOT, "%.2f", value),
             style = MaterialTheme.typography.bodySmall
         )
     }

@@ -9,11 +9,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AiGenerationService(
-    private val api: ContentApi
+    private val api: ContentApi,
 ) {
-    suspend fun generateText(prompt: String, maxTokens: Int = 500, temperature: Float = 0.7f): Result<GenerateTextResponse> = withContext(Dispatchers.IO) {
+    suspend fun generateText(
+        prompt: String,
+        maxTokens: Int = 500,
+        temperature: Float = 0.7f,
+    ): Result<GenerateTextResponse> = withContext(Dispatchers.IO) {
         try {
-            val request = GenerateTextRequest(prompt = prompt, maxTokens = maxTokens, temperature = temperature)
+            val request = GenerateTextRequest(
+                prompt = prompt,
+                maxTokens = maxTokens,
+                temperature = temperature
+            )
             val response = api.generateText(request)
             Result.success(response)
         } catch (e: Exception) {
@@ -21,7 +29,10 @@ class AiGenerationService(
         }
     }
 
-    suspend fun generateImageDescription(imageUrl: String, context: String? = null): Result<GenerateImageDescriptionResponse> = withContext(Dispatchers.IO) {
+    suspend fun generateImageDescription(
+        imageUrl: String,
+        context: String? = null,
+    ): Result<GenerateImageDescriptionResponse> = withContext(Dispatchers.IO) {
         try {
             val request = GenerateImageDescriptionRequest(imageUrl = imageUrl, context = context)
             val response = api.generateImageDescription(request)

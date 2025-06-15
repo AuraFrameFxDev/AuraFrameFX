@@ -274,15 +274,16 @@ class LockScreenHooker(
 
             if (effectId != null) {
                 val vibrationEffect: VibrationEffect
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && hapticConfig.effect.lowercase() == "click" && hapticConfig.intensity != 50) {
+                // minSdkVersion is 31, so API >= 26 (O) is always true
+                if (true) {
+                    if (hapticConfig.effect.lowercase() == "click" && hapticConfig.intensity != 50) {
                         val scaledAmplitude =
                             (hapticConfig.intensity / 100f * 255f).toInt().coerceIn(1, 255)
                         vibrationEffect = VibrationEffect.createOneShot(10, scaledAmplitude)
                         XposedBridge.log("[$TAG] Applying custom 'click' with intensity (amplitude ${scaledAmplitude}).")
                     } else {
                         vibrationEffect = VibrationEffect.createPredefined(effectId)
-                        if (hapticConfig.intensity != 50 && hapticConfig.effect.lowercase() != "click") { // Avoid double log for click if intensity was custom
+                        if (hapticConfig.intensity != 50 && hapticConfig.effect.lowercase() != "click") {
                             XposedBridge.log("[$TAG] Note: Custom intensity (${hapticConfig.intensity}) for predefined effect '${hapticConfig.effect}' may not be fully supported on all devices/APIs. Using predefined effect.")
                         }
                     }
