@@ -64,4 +64,4 @@ fun MenuScreenPreview() {
     MaterialTheme { // Using MaterialTheme for preview
         MenuScreen()
     }
-}
+} // <- This is the added brace
