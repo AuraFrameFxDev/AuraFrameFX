@@ -125,6 +125,9 @@ dependencies {
     // compileOnly("de.robv.android.xposed:api:82") {
     //     isTransitive = false
     // }
+    // Xposed Framework - Local JARs (USER MUST ADD THESE TO app/libs/)
+    compileOnly(files("libs/api-82.jar"))
+    compileOnly(files("libs/bridge-82.jar"))
 
     // LSPosed specific
     compileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1") {
