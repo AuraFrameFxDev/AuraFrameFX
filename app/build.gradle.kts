@@ -22,7 +22,7 @@ val composeCompilerExtensionVersion = composeVersion // Use composeVersion for c
 val hiltVersion = "2.56.2"
 val navigationVersion = "2.7.5"
 val firebaseBomVersion = "32.7.0"
-val lifecycleVersion = "2.6.2"
+val lifecycleVersion = "2.9.1"
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 36
