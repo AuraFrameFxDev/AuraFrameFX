@@ -5,24 +5,24 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven("https://plugins.gradle.org/m2/")
+        // maven("https://plugins.gradle.org/m2/") // Redundant with gradlePluginPortal()
     }
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "org.jetbrains.kotlin.android") {
-                useVersion("1.9.0")
+                useVersion("1.9.10") // Downgraded
             }
             if (requested.id.id == "com.android.application") {
                 useVersion("8.1.0")
             }
             if (requested.id.id == "com.google.devtools.ksp") {
-                useVersion("1.9.0-1.0.13")
+                useVersion("1.9.10-1.0.13") // KSP for 1.9.10
             }
             if (requested.id.id == "org.jetbrains.kotlin.plugin.serialization") {
-                useVersion("1.9.0")
+                useVersion("1.9.10") // Downgraded
             }
             if (requested.id.id == "org.jetbrains.kotlin.plugin.compose") {
-                useVersion("1.9.0")
+                useVersion("1.9.10") // Downgraded
             }
             if (requested.id.id == "com.google.dagger.hilt.android") {
                 useVersion("2.56.2")
