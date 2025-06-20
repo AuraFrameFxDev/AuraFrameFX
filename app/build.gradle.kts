@@ -1,8 +1,8 @@
 import java.text.SimpleDateFormat
 import java.util.Date
 
-val kotlinVersion = "1.9.0"
-val kspVersion = "$kotlinVersion-1.0.13"
+val kotlinVersion = "1.9.10" // Downgraded
+val kspVersion = "$kotlinVersion-1.0.13" // KSP for 1.9.10
 val composeBomVersion = "2025.06.00" // Aligned with libs.versions.toml
 plugins {
     id("com.android.application")
@@ -16,7 +16,7 @@ plugins {
     id("com.google.firebase.firebase-perf")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.openapi.generator") version "7.5.0"
-    id("com.google.devtools.ksp") version kspVersion
+    id("com.google.devtools.ksp") // Version is managed by pluginManagement in settings.gradle.kts
 }
 
 // Task to fix Kotlin visibility for LSPosed compatibility
@@ -87,8 +87,8 @@ tasks.register("validateBuildConfig") {
 // Repositories are configured in settings.gradle.kts
 
 // Common versions - Aligned with libs.versions.toml
-val composeVersion = "1.6.7" // Keep for other Compose libs if needed
-val composeCompilerExtensionVersion = composeVersion // Use composeVersion for compiler extension
+val composeVersion = "1.6.7" // This is for androidx.compose.ui etc. Not changing yet.
+val composeCompilerExtensionVersion = "1.5.3" // For Kotlin 1.9.10
 val hiltVersion = "2.56.2"
 val navigationVersion = "2.9.0"
 val firebaseBomVersion = "33.15.0"
@@ -96,13 +96,20 @@ val lifecycleVersion = "2.9.1"
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 34
-    ndkVersion = "28.1.13356709"
+    ndkVersion = "26.2.11394342" // Updated NDK version
     // buildToolsVersion is no longer needed with AGP 8.10.1+
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
     
     defaultConfig {
         testInstrumentationRunnerArguments += mapOf()
         applicationId = "dev.aurakai.auraframefx"
-        minSdk = 33
+        minSdk = 31 // Changed from 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -204,7 +211,11 @@ android {
                 listOf(
                     // Changed from strict to warning to reduce build noise
                     // Can be set back to "strict" once all visibility modifiers are properly set
-                    "-Xexplicit-api=warning"
+                    // Temporarily changed from warning to DISABLED as a fallback
+                    // to selectively disable explicit API for OpenAPI generated code.
+                    // TODO: Refine this to apply explicitApi=warning only to handwritten sources
+                    // and explicitApi=disabled only to OpenAPI generated sources, possibly by separating them into distinct source sets.
+                    "-Xexplicit-api=DISABLED"
                     // Removed "-Xno-source=/dev/aurakai/auraframefx/generated/model"
                 )
             )
@@ -348,7 +359,7 @@ dependencies {
 
     // Testing
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion") // Uses Downgraded kotlinVersion
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1") // Adjusted version
     testImplementation("io.mockk:mockk:1.14.2")
     testImplementation("app.cash.turbine:turbine:1.2.1")

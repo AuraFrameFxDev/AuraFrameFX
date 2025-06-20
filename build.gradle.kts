@@ -2,9 +2,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     // Define versions in a single place
-    val kotlinVersion = "1.9.0"
+    val kotlinVersion = "1.9.10" // Downgraded to known compatible
     val agpVersion = "8.1.0"
-    val hiltVersion = "2.48"
+    val hiltVersion = "2.56.2" // Updated Hilt version
     val navVersion = "2.7.0"
     
     // Android and Kotlin plugins
@@ -13,14 +13,14 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version kotlinVersion apply false
     
     // Hilt
-    id("com.google.dagger.hilt.android") version hiltVersion apply false
+    id("com.google.dagger.hilt.android") version hiltVersion apply false // Uses updated hiltVersion
     
     // KSP (Kotlin Symbol Processing)
-    id("com.google.devtools.ksp") version "${kotlinVersion}-1.0.13" apply false
+    id("com.google.devtools.ksp") version "${kotlinVersion}-1.0.13" apply false // KSP for 1.9.10
     
     // Google Services and Firebase
-    id("com.google.gms.google-services") version "4.4.0" apply false
-    id("com.google.firebase.crashlytics") version "2.9.9" apply false
+    id("com.google.gms.google-services") version "4.4.2" apply false // Updated Google Services
+    id("com.google.firebase.crashlytics") version "3.0.4" apply false // Updated Crashlytics
     id("com.google.firebase.firebase-perf") version "1.4.2" apply false
     
     // Navigation
@@ -39,18 +39,20 @@ buildscript {
     }
     
     dependencies {
-        // Hilt
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48")
-        
-        // Google Services
-        classpath("com.google.gms:google-services:4.4.0")
-        
-        // Firebase
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
-        classpath("com.google.firebase:perf-plugin:1.4.2")
-        
-        // Navigation
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.0")
+        // Dependencies are managed via the plugins {} block and settings.gradle.kts
+        // Classpath dependencies here can conflict.
+        // // Hilt
+        // classpath("com.google.dagger:hilt-android-gradle-plugin:2.48")
+        //
+        // // Google Services
+        // classpath("com.google.gms:google-services:4.4.0")
+        //
+        // // Firebase
+        // classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        // classpath("com.google.firebase:perf-plugin:1.4.2")
+        //
+        // // Navigation
+        // classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.0")
     }
 }
 
