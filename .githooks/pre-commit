@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Pre-commit hook to automatically fix Kotlin visibility issues
+# Place this file in .git/hooks/pre-commit and make it executable
+
+echo "Running Kotlin visibility fixer pre-commit hook..."
+
+# Get the root directory of the repository
+ROOT_DIR=$(git rev-parse --show-toplevel)
+
+# Run the visibility fixer script
+$ROOT_DIR/fix-kotlin-visibility.sh
+
+# Check if the script succeeded
+if [ $? -ne 0 ]; then
+    echo "Error: Visibility fixer failed. Please fix the issues manually before committing."
+    exit 1
+fi
+
+# Add any modified files to the git index
+git diff --name-only --cached | grep '\.kt$' | xargs -r git add
+
+echo "Visibility fixes applied and added to commit."

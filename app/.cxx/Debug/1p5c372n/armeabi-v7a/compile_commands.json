@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "C:/Users/Wehtt/Documents/AuraFrameFx/AuraFrameFx-Beta/AuraFrameFx/app/.cxx/Debug/1p5c372n/armeabi-v7a",
+    "command": "C:\\Users\\Wehtt\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.13113456\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --sysroot=C:/Users/Wehtt/AppData/Local/Android/Sdk/ndk/29.0.13113456/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DANDROID -DDEBUG -D__ANDROID_API__=21 -Dlanguage_id_l2c_jni_EXPORTS -IC:/Users/Wehtt/AppData/Local/Android/Sdk/ndk/29.0.13113456/sources/android/native_app_glue -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -frtti -fexceptions -std=c++17 -fexceptions -frtti -fno-limit-debug-info  -fPIC -std=gnu++17 -o CMakeFiles\\language_id_l2c_jni.dir\\language_id_l2c_jni.cpp.o -c C:\\Users\\Wehtt\\Documents\\AuraFrameFx\\AuraFrameFx-Beta\\AuraFrameFx\\app\\src\\main\\cpp\\language_id_l2c_jni.cpp",
+    "file": "C:\\Users\\Wehtt\\Documents\\AuraFrameFx\\AuraFrameFx-Beta\\AuraFrameFx\\app\\src\\main\\cpp\\language_id_l2c_jni.cpp"
+  }
+]

@@ -1,0 +1,6 @@
+# ninja log v5
+12	233	7717202324100911	build.ninja	f00881f093c09d47
+13	1654	7717201585930411	CMakeFiles/language_id_l2c_jni.dir/language_id_l2c_jni.cpp.o	34912e34b26faf95
+875	983	7717183931142646	C:/Users/Wehtt/Documents/AuraFrameFx/AuraFrameFx-Beta/AuraFrameFx/app/build/intermediates/cxx/Debug/2t573k5j/obj/armeabi-v7a/language_id_l2c_jni.so	7cbc325b40bde707
+0	14	0	clean	bfff2010d6239e2d
+8	190	7717202326724588	C:/Users/Wehtt/Documents/AuraFrameFx/AuraFrameFx-Beta/AuraFrameFx/app/build/intermediates/cxx/Debug/2t573k5j/obj/armeabi-v7a/language_id_l2c_jni.so	7cbc325b40bde707

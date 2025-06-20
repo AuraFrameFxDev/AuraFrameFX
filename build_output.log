@@ -1,0 +1,182 @@
+Initialized native services in: /home/codespace/.gradle/native
+Initialized jansi services in: /home/codespace/.gradle/native
+The client will now receive all logging from the daemon (pid: 48667). The daemon log file: /home/codespace/.gradle/daemon/8.14.2/daemon-48667.out.log
+Starting 2nd build in daemon [uptime: 8 mins 38.843 secs, performance: 98%, GC rate: 0.21/s, heap usage: 1% of 2.6 GiB]
+Using 2 worker leases.
+Not watching /workspaces/AuraFrameFx-Beta since the file system is not supported
+Not watching /workspaces/AuraFrameFx-Beta/buildSrc since the file system is not supported
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Resolved plugin [id: 'org.gradle.toolchains.foojay-resolver-convention', version: '1.0.0']
+Settings evaluated using settings file '/workspaces/AuraFrameFx-Beta/settings.gradle.kts'.
+Using local directory build cache for the root build (location = /home/codespace/.gradle/caches/build-cache-1, remove unused entries = after 7 days).
+Projects loaded. Root project using build file '/workspaces/AuraFrameFx-Beta/build.gradle.kts'.
+Included projects: [root project 'AuraFrameFx', project ':app']
+
+> Configure project :buildSrc
+Evaluating project ':buildSrc' using build file '/workspaces/AuraFrameFx-Beta/buildSrc/build.gradle.kts'.
+Resolved plugin [id: 'org.gradle.kotlin.kotlin-dsl', version: '5.2.0']
+Using Kotlin Gradle Plugin gradle85 variant
+kotlin scripting plugin: created the scripting discovery configuration: kotlinScriptDef
+kotlin scripting plugin: created the scripting discovery configuration: testKotlinScriptDef
+file or directory '/workspaces/AuraFrameFx-Beta/buildSrc/src/main/java', not found
+Resolve mutations for :buildSrc:checkKotlinGradlePluginConfigurationErrors (Thread[#100,included builds,5,main]) started.
+:buildSrc:checkKotlinGradlePluginConfigurationErrors (Thread[#100,included builds,5,main]) started.
+
+> Task :buildSrc:checkKotlinGradlePluginConfigurationErrors SKIPPED
+Skipping task ':buildSrc:checkKotlinGradlePluginConfigurationErrors' as task onlyIf 'errorDiagnostics are present' is false.
+Resolve mutations for :buildSrc:generateExternalPluginSpecBuilders (Thread[#101,Execution worker,5,main]) started.
+:buildSrc:generateExternalPluginSpecBuilders (Thread[#101,Execution worker,5,main]) started.
+
+> Task :buildSrc:generateExternalPluginSpecBuilders UP-TO-DATE
+Build cache key for task ':buildSrc:generateExternalPluginSpecBuilders' is 1909f1eb768ee45f7556326d00cfff69
+Skipping task ':buildSrc:generateExternalPluginSpecBuilders' as it is up-to-date.
+Resolve mutations for :buildSrc:extractPrecompiledScriptPluginPlugins (Thread[#100,included builds,5,main]) started.
+:buildSrc:extractPrecompiledScriptPluginPlugins (Thread[#100,included builds,5,main]) started.
+
+> Task :buildSrc:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+Build cache key for task ':buildSrc:extractPrecompiledScriptPluginPlugins' is cfd85e722637680cb7e420d6366d9932
+Skipping task ':buildSrc:extractPrecompiledScriptPluginPlugins' as it is up-to-date.
+Resolve mutations for :buildSrc:compilePluginsBlocks (Thread[#101,Execution worker,5,main]) started.
+:buildSrc:compilePluginsBlocks (Thread[#101,Execution worker,5,main]) started.
+
+> Task :buildSrc:compilePluginsBlocks UP-TO-DATE
+Custom actions are attached to task ':buildSrc:compilePluginsBlocks'.
+Build cache key for task ':buildSrc:compilePluginsBlocks' is 74922b002dad4fe0c17ddef7ade5c4ed
+Skipping task ':buildSrc:compilePluginsBlocks' as it is up-to-date.
+Resolve mutations for :buildSrc:generatePrecompiledScriptPluginAccessors (Thread[#100,included builds,5,main]) started.
+:buildSrc:generatePrecompiledScriptPluginAccessors (Thread[#100,included builds,5,main]) started.
+
+> Task :buildSrc:generatePrecompiledScriptPluginAccessors
+Caching disabled for task ':buildSrc:generatePrecompiledScriptPluginAccessors' because:
+  Gradle does not know how file 'build/generated-sources/kotlin-dsl-accessors/kotlin/gradle/kotlin/dsl/accessors/_2f6785c9131286d9d1030ac08c37b2f3/Accessorse6ex1mefr8h1znr2ivlnwcx4n.kt' was created (output property 'sourceCodeOutputDir'). Task output caching requires exclusive access to output paths to guarantee correctness (i.e. multiple tasks are not allowed to produce output in the same location).
+Task ':buildSrc:generatePrecompiledScriptPluginAccessors' is not up-to-date because:
+  Output property 'sourceCodeOutputDir' file /workspaces/AuraFrameFx-Beta/buildSrc/build/generated-sources/kotlin-dsl-accessors/kotlin/gradle/kotlin/dsl/accessors/_2f6785c9131286d9d1030ac08c37b2f3/Accessors46nwrg1rs44ofdqpi7vyy3pfc.kt has changed.
+  Output property 'sourceCodeOutputDir' file /workspaces/AuraFrameFx-Beta/buildSrc/build/generated-sources/kotlin-dsl-accessors/kotlin/gradle/kotlin/dsl/accessors/_2f6785c9131286d9d1030ac08c37b2f3/Accessors8lcri9ibgd9oj8dt3t8z8nvfx.kt has changed.
+  Output property 'sourceCodeOutputDir' file /workspaces/AuraFrameFx-Beta/buildSrc/build/generated-sources/kotlin-dsl-accessors/kotlin/gradle/kotlin/dsl/accessors/_2f6785c9131286d9d1030ac08c37b2f3/Accessorsblypoh2ruc9u3bx9djsfqsntg.kt has changed.
+  and more...
+Not watching /workspaces/AuraFrameFx-Beta/buildSrc/build/tmp/generatePrecompiledScriptPluginAccessors/accessors13730237313691296125 since the file system is not supported
+Resolve mutations for :buildSrc:generateScriptPluginAdapters (Thread[#100,included builds,5,main]) started.
+:buildSrc:generateScriptPluginAdapters (Thread[#100,included builds,5,main]) started.
+
+> Task :buildSrc:generateScriptPluginAdapters
+Caching disabled for task ':buildSrc:generateScriptPluginAdapters' because:
+  Gradle does not know how file 'build/generated-sources/kotlin-dsl-plugins/kotlin/FixKotlinVisibilityPlugin.kt' was created (output property 'outputDirectory'). Task output caching requires exclusive access to output paths to guarantee correctness (i.e. multiple tasks are not allowed to produce output in the same location).
+Task ':buildSrc:generateScriptPluginAdapters' is not up-to-date because:
+  Output property 'outputDirectory' file /workspaces/AuraFrameFx-Beta/buildSrc/build/generated-sources/kotlin-dsl-plugins/kotlin/FixKotlinVisibilityPlugin.kt has changed.
+Resolve mutations for :buildSrc:compileKotlin (Thread[#100,included builds,5,main]) started.
+:buildSrc:compileKotlin (Thread[#100,included builds,5,main]) started.
+
+> Task :buildSrc:compileKotlin UP-TO-DATE
+Custom actions are attached to task ':buildSrc:compileKotlin'.
+Build cache key for task ':buildSrc:compileKotlin' is e329b07c23337bad387d56ced48d04ac
+Skipping task ':buildSrc:compileKotlin' as it is up-to-date.
+Resolve mutations for :buildSrc:compileJava (Thread[#101,Execution worker,5,main]) started.
+:buildSrc:compileJava (Thread[#101,Execution worker,5,main]) started.
+
+> Task :buildSrc:compileJava NO-SOURCE
+Skipping task ':buildSrc:compileJava' as it has no source files and no previous output files.
+Resolve mutations for :buildSrc:compileGroovy (Thread[#100,included builds,5,main]) started.
+:buildSrc:compileGroovy (Thread[#100,included builds,5,main]) started.
+
+> Task :buildSrc:compileGroovy NO-SOURCE
+Skipping task ':buildSrc:compileGroovy' as it has no source files and no previous output files.
+Resolve mutations for :buildSrc:pluginDescriptors (Thread[#101,Execution worker,5,main]) started.
+:buildSrc:pluginDescriptors (Thread[#101,Execution worker,5,main]) started.
+
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+Caching disabled for task ':buildSrc:pluginDescriptors' because:
+  Not worth caching
+Skipping task ':buildSrc:pluginDescriptors' as it is up-to-date.
+Resolve mutations for :buildSrc:processResources (Thread[#100,included builds,5,main]) started.
+:buildSrc:processResources (Thread[#100,included builds,5,main]) started.
+
+> Task :buildSrc:processResources UP-TO-DATE
+Caching disabled for task ':buildSrc:processResources' because:
+  Not worth caching
+Skipping task ':buildSrc:processResources' as it is up-to-date.
+Resolve mutations for :buildSrc:classes (Thread[#101,Execution worker,5,main]) started.
+:buildSrc:classes (Thread[#101,Execution worker,5,main]) started.
+
+> Task :buildSrc:classes UP-TO-DATE
+Skipping task ':buildSrc:classes' as it has no actions.
+Resolve mutations for :buildSrc:jar (Thread[#101,Execution worker,5,main]) started.
+:buildSrc:jar (Thread[#101,Execution worker,5,main]) started.
+
+> Task :buildSrc:jar UP-TO-DATE
+Caching disabled for task ':buildSrc:jar' because:
+  Not worth caching
+Skipping task ':buildSrc:jar' as it is up-to-date.
+
+> Configure project :
+Evaluating root project 'AuraFrameFx' using build file '/workspaces/AuraFrameFx-Beta/build.gradle.kts'.
+Resolved plugin [id: 'com.android.application', version: '8.6.0', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.android', version: '2.1.21', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.1.21']
+Resolved plugin [id: 'com.google.dagger.hilt.android', version: '2.56.2', apply: false]
+Resolved plugin [id: 'com.google.devtools.ksp', version: '2.1.21-2.0.1', apply: false]
+Resolved plugin [id: 'com.google.gms.google-services', version: '4.4.2', apply: false]
+Resolved plugin [id: 'com.google.firebase.crashlytics', version: '3.0.4', apply: false]
+Resolved plugin [id: 'com.google.firebase.firebase-perf', version: '1.4.2', apply: false]
+Resolved plugin [id: 'androidx.navigation.safeargs.kotlin', version: '2.9.0', apply: false]
+Resolved plugin [id: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin', version: '2.0.1', apply: false]
+Resolved plugin [id: 'org.openapi.generator', version: '7.5.0', apply: false]
+
+> Configure project :app
+Evaluating project ':app' using build file '/workspaces/AuraFrameFx-Beta/app/build.gradle.kts'.
+Build cache key for Kotlin DSL script compilation (Project/TopLevel/stage1) is 5de81dcf27191c8a80e6ea7ebf9f6ccb
+Stored cache entry for Kotlin DSL script compilation (Project/TopLevel/stage1) with cache key 5de81dcf27191c8a80e6ea7ebf9f6ccb
+Resolved plugin [id: 'com.android.application', version: '8.6.0']
+Resolved plugin [id: 'org.jetbrains.kotlin.android', version: '2.1.21']
+Resolved plugin [id: 'kotlin-kapt']
+Resolved plugin [id: 'com.google.dagger.hilt.android', version: '2.56.2']
+Resolved plugin [id: 'com.google.gms.google-services', version: '4.4.2']
+Resolved plugin [id: 'com.google.firebase.crashlytics', version: '3.0.4']
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.serialization', version: '2.1.21']
+Resolved plugin [id: 'androidx.navigation.safeargs.kotlin', version: '2.9.0']
+Resolved plugin [id: 'com.google.firebase.firebase-perf', version: '1.4.2']
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.1.21']
+Resolved plugin [id: 'org.openapi.generator', version: '7.5.0']
+Resolved plugin [id: 'com.google.devtools.ksp', version: '2.1.21-2.0.1']
+Using default execution profile
+Build d6a30ac1-ff8b-4cf2-8a38-8a32387e2f3b is started
+Using Kotlin Gradle Plugin gradle85 variant
+Build cache key for Kotlin DSL script compilation (Project/TopLevel/stage2) is 6aa31923b62960684fa955d97f62c0f7
+w: file:///workspaces/AuraFrameFx-Beta/app/build.gradle.kts:24:31: 'getter for buildDir: File!' is deprecated. Deprecated in Java
+w: file:///workspaces/AuraFrameFx-Beta/app/build.gradle.kts:31:9: 'exec(Action<ExecSpec>): ExecResult' is deprecated. This method will be removed in Gradle 9.0. Use ExecOperations.exec(Action) or ProviderFactory.exec(Action) instead.
+w: file:///workspaces/AuraFrameFx-Beta/app/build.gradle.kts:36:9: 'exec(Action<ExecSpec>): ExecResult' is deprecated. This method will be removed in Gradle 9.0. Use ExecOperations.exec(Action) or ProviderFactory.exec(Action) instead.
+e: file:///workspaces/AuraFrameFx-Beta/app/build.gradle.kts:42:71: Unresolved reference: time
+Build d6a30ac1-ff8b-4cf2-8a38-8a32387e2f3b is closed
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/workspaces/AuraFrameFx-Beta/app/build.gradle.kts' line: 24
+
+* What went wrong:
+Script compilation errors:
+
+  Line 24:     val outputMarker = file("$buildDir/tmp/fixVisibility.marker")
+                                         ^ 'getter for buildDir: File!' is deprecated. Deprecated in Java
+
+  Line 31:         exec {
+                   ^ 'exec(Action<ExecSpec>): ExecResult' is deprecated. This method will be removed in Gradle 9.0. Use ExecOperations.exec(Action) or ProviderFactory.exec(Action) instead.
+
+  Line 36:         exec {
+                   ^ 'exec(Action<ExecSpec>): ExecResult' is deprecated. This method will be removed in Gradle 9.0. Use ExecOperations.exec(Action) or ProviderFactory.exec(Action) instead.
+
+  Line 42:         outputMarker.writeText("Visibility fixing completed at ${java.time.Instant.now()}")
+                                                                                 ^ Unresolved reference: time
+
+4 errors
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 11s
+9 actionable tasks: 2 executed, 7 up-to-date
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.

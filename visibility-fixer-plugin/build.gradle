@@ -1,0 +1,41 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.20'
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group = 'dev.aurakai.tools'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    implementation gradleApi()
+    testImplementation 'junit:junit:4.13.2'
+}
+
+gradlePlugin {
+    plugins {
+        visibilityFixer {
+            id = 'dev.aurakai.tools.visibility-fixer'
+            implementationClass = 'dev.aurakai.tools.VisibilityFixerPlugin'
+        }
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'localRepo'
+            url = uri("${buildDir}/repo")
+        }
+    }
+}

@@ -1,0 +1,50 @@
+{
+  "configurations": [
+    {
+      "directories": [
+        {
+          "build": ".",
+          "jsonFile": "directory-.-RelWithDebInfo-d0094a50bb2071803777.json",
+          "minimumCMakeVersion": {
+            "string": "3.6.0"
+          },
+          "projectIndex": 0,
+          "source": ".",
+          "targetIndexes": [
+            0
+          ]
+        }
+      ],
+      "name": "RelWithDebInfo",
+      "projects": [
+        {
+          "directoryIndexes": [
+            0
+          ],
+          "name": "language_id_l2c_jni",
+          "targetIndexes": [
+            0
+          ]
+        }
+      ],
+      "targets": [
+        {
+          "directoryIndex": 0,
+          "id": "language_id_l2c_jni::@6890427a1f51a3e7e1df",
+          "jsonFile": "target-language_id_l2c_jni-RelWithDebInfo-4bc839fb44aea053e9d8.json",
+          "name": "language_id_l2c_jni",
+          "projectIndex": 0
+        }
+      ]
+    }
+  ],
+  "kind": "codemodel",
+  "paths": {
+    "build": "C:/Users/Wehtt/Documents/AuraFrameFx/AuraFrameFx-Beta/AuraFrameFx/app/.cxx/RelWithDebInfo/3u3de131/arm64-v8a",
+    "source": "C:/Users/Wehtt/Documents/AuraFrameFx/AuraFrameFx-Beta/AuraFrameFx/app/src/main/cpp"
+  },
+  "version": {
+    "major": 2,
+    "minor": 3
+  }
+}
