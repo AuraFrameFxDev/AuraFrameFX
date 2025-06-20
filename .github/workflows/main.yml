@@ -1,4 +1,4 @@
-name: Android Build with Init Script
+name: Android Build
 
 on:
   push:
@@ -26,9 +26,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # Step 4: Run Gradle tasks with init script
-      - name: Run Gradle app tasks with init script
-        run: ./gradlew -I scripts/init.gradle :app:assembleDebug
+      # Step 4: Run Gradle tasks
+      - name: Run Gradle app tasks
+        run: ./gradlew :app:assembleDebug
 
       # Step 5 (Optional): Upload APK artifact
       - name: Upload APK
