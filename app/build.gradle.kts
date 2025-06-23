@@ -1,15 +1,14 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.kapt") // Using full ID
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.parcelize)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.navigation.safeargs)
+    // id("org.jetbrains.compose") REMOVED - Handled by composeOptions
+    alias(libs.plugins.openapi.generator)
 
-    id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("androidx.navigation.safeargs.kotlin")
-    id("com.google.firebase.firebase-perf")
-    id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.ksp)
 }
 
@@ -209,7 +208,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
 
     }
 
@@ -317,9 +316,9 @@ dependencies {
         exclude(group = "de.robv.android.xposed", module = "api")
     }
 
-    // For Xposed API
-    compileOnly("androidx.annotation:annotation:1.9.1")
-    compileOnly("androidx.core:core:1.16.0")
+kotlin {
+    jvmToolchain(21)
+}
 
     // AndroidX dependencies for Xposed
     implementation("androidx.appcompat:appcompat:1.7.1")
@@ -365,94 +364,121 @@ dependencies {
         exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
     }
     
+    // Protocol Buffers and Netty
+    implementation("com.google.protobuf:protobuf-java:3.25.5")
+    implementation("commons-io:commons-io:2.14.0")
+    implementation("io.netty:netty-codec-http2:4.1.100.Final")
+    implementation("io.netty:netty-handler:4.1.118.Final")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.78")
+    implementation("io.netty:netty-common:4.1.118.Final")
+    implementation("org.apache.commons:commons-compress:1.26.0")
+    implementation(libs.guava)
+    implementation("io.netty:netty-codec-http:4.1.118.Final")
+    implementation(libs.google.material)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
 
-    // Accompanist for Compose utilities (version 0.32.0 is compatible with Compose 1.5.4)
-    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
-    implementation("com.google.accompanist:accompanist-pager:0.36.0")
-    implementation("com.google.accompanist:accompanist-flowlayout:0.36.0")
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.36.0")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
-    implementation("com.google.accompanist:accompanist-webview:0.36.0")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.36.0")
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.36.0")
-    implementation("com.google.accompanist:accompanist-navigation-material:0.36.0")
+    // Kotlinx Serialization
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.xml)
 
+    // Dagger Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.work)
 
-    // Room for local database
-    implementation("androidx.room:room-runtime:2.7.1")
-    implementation("androidx.room:room-ktx:2.7.1")
-    
-    // DataStore Preferences
-    implementation("androidx.datastore:datastore-preferences:1.1.7")
-    implementation("androidx.datastore:datastore-preferences-core:1.1.7")
-    
-    // Kotlin serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
 
-    // WorkManager for background tasks
-    implementation("androidx.work:work-runtime-ktx:2.10.1")
+    // Permissions (use Accompanist)
+    implementation(libs.accompanist.permissions)
 
-    // Navigation
-    implementation("androidx.navigation:navigation-compose:$navigationVersion")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    // Compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.runtime)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // Coil for image loading
-    implementation("io.coil-kt:coil-compose:2.7.0")
-    
-    // DataStore Preferences
-    implementation("androidx.datastore:datastore-preferences:1.1.7")
-    
-    // Kotlin serialization runtime
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+    // Google Cloud
+    implementation(platform(libs.google.cloud.bom))
+    implementation(libs.google.cloud.generativeai)
 
-    // Retrofit for network calls
-    implementation("com.squareup.retrofit2:retrofit:3.0.0")
-    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.junit)
 
-    // SLF4J logging dependencies for LoggerFactory error
-    implementation("org.slf4j:slf4j-api:2.0.13")
-    implementation("org.slf4j:slf4j-simple:2.0.13")
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // Work Manager
+    implementation(libs.androidx.work.runtime.ktx)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
+
+    // UI Components
+    implementation(libs.androidx.cardview)
+    implementation(libs.coil.compose)
+    implementation(libs.accompanist.systemuicontroller)
+
+    // Compose Glance
+    implementation(libs.glance.appwidget)
+    implementation(libs.glance.compose)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.crashlytics)
+
+    // Google Cloud AI - using BOM for version management
+    implementation("com.google.cloud:google-cloud-generativeai")
+
+    // Timber
+    implementation(libs.timber)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
+
+    // Xposed dependencies - using local JARs
+    compileOnly(xposedApiJar)
+    compileOnly(xposedBridgeJar)
+
+    // Xposed hidden API bypass
+    xposedCompileOnly(libs.xposed.hiddenapibypass)
+
+    // For development and documentation
+    compileOnly(xposedApiSourcesJar) // Only needed for development
+    compileOnly(xposedBridgeSourcesJar) // Only needed for development
+
+    // LSPosed API (if using LSPosed specific features)
+    xposedCompileOnly("org.lsposed:libxposed:82")
+    xposedCompileOnly("org.lsposed:libxposed:82:sources") // For development only
 
     // Testing
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.1.21")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
-    testImplementation("io.mockk:mockk:1.14.2")
-    testImplementation("app.cash.turbine:turbine:1.2.1")
-    testImplementation("com.google.truth:truth:1.4.4")
-    testImplementation("org.mockito:mockito-core:5.18.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockk)
 
-    // Hilt testing
-    kspTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
-    testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    androidTestImplementation(libs.androidx.espresso.core)
 
-    // AndroidX Test
-
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.8.2")
-    androidTestImplementation("androidx.test:runner:1.6.2")
-    androidTestImplementation("androidx.test:rules:1.6.1")
-    androidTestImplementation("io.mockk:mockk-android:1.14.2")
-=
-    androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
-    kspAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
-
-    // Debug implementations
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.8.2")
-
-    // Desugar JDK libs for Java 8+ APIs on older Android versions
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
-
-    // Kotlinx Datetime
-
-    // Kotlinx datetime for Instant and Clock
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-}
 
 // KSP and KAPT configuration
 kapt {

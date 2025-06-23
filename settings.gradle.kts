@@ -1,3 +1,4 @@
+// settings.gradle.kts
 @file:Suppress("UnstableApiUsage")
 
 pluginManagement {
@@ -5,55 +6,9 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven("https://plugins.gradle.org/m2/")
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "org.jetbrains.kotlin.android") {
-                useVersion("2.1.21")
-            }
-            if (requested.id.id == "com.android.application") {
-                useVersion("8.6.0")
-            }
-            if (requested.id.id == "com.google.devtools.ksp") {
-                useVersion("2.1.21-2.0.1")
-            }
-            if (requested.id.id == "org.jetbrains.kotlin.plugin.serialization") {
-                useVersion("2.1.21")
-            }
-            if (requested.id.id == "org.jetbrains.kotlin.plugin.compose") {
-                useVersion("2.1.21")
-            }
-            if (requested.id.id == "com.google.dagger.hilt.android") {
-                useVersion("2.56.2")
-            }
-            if (requested.id.id == "com.google.gms.google-services") {
-                useVersion("4.4.2")
-            }
-            if (requested.id.id == "com.google.firebase.crashlytics") {
-                useVersion("3.0.4")
-            }
-            if (requested.id.id == "com.google.firebase.firebase-perf") {
-                useVersion("1.4.2")
-            }
-            if (requested.id.id == "androidx.navigation.safeargs.kotlin") {
-                useVersion("2.9.0")
-            }
-            if (requested.id.id == "org.jetbrains.kotlin.kapt") {
-                useVersion("2.0.0") // Align with Kotlin version
-            }
-            if (requested.id.id == "com.google.dagger.hilt.android") {
-                useVersion("2.56.2") // From libs.versions.toml
-            }
-            if (requested.id.id == "androidx.navigation.safeargs.kotlin") {
-                useVersion("2.7.5")
-            }
-        }
-    }
-}
-
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 dependencyResolutionManagement {
@@ -64,8 +19,7 @@ dependencyResolutionManagement {
         maven { url = uri("https://api.xposed.info/") }
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
-        maven { url = uri("https://androidx.dev/storage/compose-compiler/repository/") }
-        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
+
     }
 }
 

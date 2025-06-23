@@ -11,3 +11,11 @@ updates:
     directory: "/" # Root directory, change if your gradle files are in a subdirectory
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 10
+    target-branch: "main"
+    labels:
+      - "dependencies"
+      - "automerge"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
