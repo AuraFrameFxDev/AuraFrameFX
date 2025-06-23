@@ -1,0 +1,1 @@
+C:\Users\Wehtt\Documents\AuraFrameFx\AuraFrameFx-Beta\AuraFrameFx\app\src\main\cpp\CMakeLists.txt

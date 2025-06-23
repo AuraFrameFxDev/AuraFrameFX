@@ -1,0 +1,70 @@
+[versions]
+androidGradlePlugin = "8.10.1"
+kotlin = "2.1.21"
+ksp = "2.1.21-2.0.2"
+hilt = "2.56.2"
+googleServices = "4.4.2"
+firebaseCrashlyticsPlugin = "3.0.4"
+firebasePerfPlugin = "1.4.2"
+navigationSafeArgs = "2.9.0"
+openApiGenerator = "7.6.0"
+coreKtx = "1.13.1"
+appcompat = "1.7.1"
+lifecycle = "2.8.1"
+activityCompose = "1.9.0"
+navigation = "2.7.7"
+room = "2.6.1"
+workManager = "2.9.0"
+datastore = "1.0.0"
+securityCrypto = "1.1.0-alpha06"
+multidex = "2.0.1"
+composeBom = "2024.05.00"
+hiltNavigationCompose = "1.2.0"
+material = "1.12.0"
+firebaseBom = "33.0.0"
+accompanist = "0.34.0"
+retrofit = "3.0.0"
+okhttp = "4.12.0"
+retrofitSerializationConverter = "1.0.0"
+kotlinxSerializationJson = "1.8.1"
+lsposed = "82"
+[libraries]
+# Hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose"}
+
+# Room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+# Retrofit & OkHttp
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit" }
+retrofit-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitSerializationConverter" }
+okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+
+# Compose
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+
+# OpenAPI
+openapi-generator-cli = { group = "org.openapitools", name = "openapi-generator-cli", version.ref = "openApiGenerator" }
+
+
+lsposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "lsposed" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+firebase-perf = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerfPlugin" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationSafeArgs" }
+openapi-generator = { id = "org.openapi.generator", version.ref = "openApiGenerator" }

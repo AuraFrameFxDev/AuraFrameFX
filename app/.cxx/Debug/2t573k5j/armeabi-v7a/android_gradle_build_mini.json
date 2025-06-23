@@ -1,0 +1,27 @@
+{
+  "buildFiles": [
+    "C:\\Users\\Wehtt\\Documents\\AuraFrameFx\\AuraFrameFx-Beta\\AuraFrameFx\\app\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\Wehtt\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\Wehtt\\Documents\\AuraFrameFx\\AuraFrameFx-Beta\\AuraFrameFx\\app\\.cxx\\Debug\\2t573k5j\\armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\Wehtt\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\Wehtt\\Documents\\AuraFrameFx\\AuraFrameFx-Beta\\AuraFrameFx\\app\\.cxx\\Debug\\2t573k5j\\armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "language_id_l2c_jni::@6890427a1f51a3e7e1df": {
+      "artifactName": "language_id_l2c_jni",
+      "abi": "armeabi-v7a",
+      "output": "C:\\Users\\Wehtt\\Documents\\AuraFrameFx\\AuraFrameFx-Beta\\AuraFrameFx\\app\\build\\intermediates\\cxx\\Debug\\2t573k5j\\obj\\armeabi-v7a\\language_id_l2c_jni.so",
+      "runtimeFiles": []
+    }
+  }
+}

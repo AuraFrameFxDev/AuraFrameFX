@@ -1,0 +1,4 @@
+wrapper {
+    gradleVersion = 'C:\\Users\\Wehtt\\.android\\wrapper\\dists\\gradle-8.11.1-all'
+    distributionType = Wrapper.DistributionType.BIN
+}
