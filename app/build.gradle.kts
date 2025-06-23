@@ -1,23 +1,18 @@
-@file:Suppress("UNUSED_VARIABLE", "UnstableApiUsage", "DEPRECATION")
-
-// Xposed JAR files configuration
-val xposedApiJar = files("libs/api-82.jar")
-val xposedBridgeJar = files("libs/bridge-82.jar")
-val xposedApiSourcesJar = files("libs/api-82-sources.jar")
-val xposedBridgeSourcesJar = files("libs/bridge-82-sources.jar")
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("plugin.serialization") version "1.9.22"
-    id("org.jetbrains.kotlin.plugin.parcelize")
-    id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin") // Apply by ID
     id("org.jetbrains.compose")
-    id("org.openapi.generator")
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
+
 }
+
+// Common versions
+val composeVersion = "1.5.4"
+val firebaseBomVersion = "32.7.0"
+val lifecycleVersion = "2.6.2"
 
 android {
     namespace = "dev.aurakai.auraframefx"
@@ -25,29 +20,15 @@ android {
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
-        minSdk = 33
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        // Xposed configuration
-        buildConfigField("String", "XPOSED_API_VERSION", "\"82\"")
-        buildConfigField("String", "LSPOSED_PACKAGE_NAME", "\"de.robv.android.xposed\"")
-        buildConfigField("int", "LSPOSED_API_VERSION", "82")
-
-        // Room schema location for annotation processing
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true",
-                    "dagger.fastInit" to "enabled"
-                )
-            }
+        vectorDrawables {
+            useSupportLibrary = true
         }
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -58,9 +39,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        debug {
-            isDebuggable = true
         }
     }
 
@@ -90,23 +68,24 @@ android {
 
     testOptions {
         unitTests.isReturnDefaultValues = true
+
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+
     }
 
     kotlinOptions {
-        jvmTarget = "21"
-        languageVersion = "1.9"
-        apiVersion = "1.9"
-        freeCompilerArgs = listOf(
-            "-Xjvm-default=all",
+        jvmTarget = "17"
+        freeCompilerArgs += listOf(
             "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
-            "-opt-in=kotlin.time.ExperimentalTime",
-            "-opt-in=kotlin.experimental.ExperimentalTypeInference",
-            "-opt-in=kotlin.ExperimentalStdlibApi",
-            "-opt-in=kotlin.concurrent.ExperimentalAtomicApi",
-            "-opt-in=kotlin.experimental.ExperimentalNativeApi",
-            "-Xcontext-receivers"
+            "-opt-in=kotlinx.coroutines.FlowPreview",
+            "-opt-in=com.google.accompanist.pager.ExperimentalPagerApi",
+            "-Xjvm-default=all"
         )
     }
 
@@ -114,49 +93,60 @@ android {
         compose = true
         buildConfig = true
         viewBinding = true
+        aidl = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompilerVer.get()
+
     }
 
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes.add("META-INF/LICENSE.md")
-            excludes.add("META-INF/LICENSE-notice.md")
-            excludes.add("META-INF/licenses/**")
-            excludes.add("META-INF/LICENSE*")
-        }
-        jniLibs {
-            useLegacyPackaging = true
         }
     }
+    buildToolsVersion = "36.0.3"
+}
 
-    sourceSets {
-        getByName("main") {
-            java.srcDir("build/generated/src/main/kotlin")
-        }
-    }
-    buildToolsVersion = "36.0.0"
+// OpenAPI Generator configuration
+val generatedSourcesDir = layout.buildDirectory.dir("generated")
 
-    hilt {
-        enableAggregatingTask = true
-    }
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateOpenApi") {
+    generatorName.set("kotlin")
+    inputSpec.set("${project.projectDir}/src/main/resources/auraframefx_ai_api.yaml")
+    outputDir.set(generatedSourcesDir.get().asFile.absolutePath)
+    apiPackage.set("dev.aurakai.auraframefx.api")
+    modelPackage.set("dev.aurakai.auraframefx.model")
+    configOptions.set(
+        mapOf(
+            "dateLibrary" to "java8",
+            "serializationLibrary" to "kotlinx_serialization",
+            "useCoroutines" to "true",
+            "enumPropertyNaming" to "UPPERCASE",
+            "serializableModel" to "true"
+        )
+    )
+    ignoreFileOverride.set("${project.projectDir}/.openapi-generator-ignore")
 }
 
 kotlin {
     jvmToolchain(21)
+
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
-    jvmTargetValidationMode.set(org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode.ERROR)
+// Ensure the OpenAPI generation happens before compilation
+tasks.named("preBuild") {
+    dependsOn("generateOpenApi")
 }
 
-// Xposed framework configuration - must be compileOnly as it's provided by the Xposed framework at runtime
+// Xposed framework configurations
+val xposedApiJar = files("${project.rootDir}/libs/api-82.jar")
+val xposedBridgeJar = files("${project.rootDir}/libs/bridge-82.jar")
 val xposedCompileOnly = configurations.create("xposedCompileOnly")
 
 dependencies {
+
     // Core Android
     coreLibraryDesugaring(libs.desugarJdkLibs)
     implementation(libs.androidx.core.ktx)
@@ -170,30 +160,31 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.xmlutil.serialization) // Changed to community XML library
 
+
     // Dagger Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.hilt.work)
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    ksp("com.google.dagger:hilt-compiler:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-work:1.1.0")
 
     // Kotlin Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services)
-
-    // Permissions (use Accompanist)
-    implementation(libs.accompanist.permissions)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
     // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.runtime)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    val composeBom = platform("androidx.compose:compose-bom:$composeVersion")
+    implementation(composeBom)
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3-window-size-class")
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.runtime:runtime")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 
     // Firebase AI (Gemini)
     implementation(libs.firebase.ai)
@@ -204,27 +195,32 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     testImplementation(libs.junit)
 
+    // Google Cloud
+    implementation(platform("com.google.cloud:libraries-bom:26.25.0"))
+    implementation("com.google.cloud:google-cloud-generativeai")
+
+
     // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
 
     // Work Manager
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.hilt.work)
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
     // DataStore
-    implementation(libs.androidx.datastore.preferences)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // UI Components
-    implementation(libs.androidx.cardview)
-    implementation(libs.coil.compose)
-    implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.permissions)
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     // Compose Glance
-    implementation(libs.glance.appwidget)
-    implementation(libs.glance.compose)
+    implementation("androidx.glance:glance-appwidget:1.0.0")
+    implementation("androidx.glance:glance-compose:1.0.0")
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -247,6 +243,7 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit.converter.kotlinx.serialization)
 
+
     // Xposed dependencies - using local JARs
     compileOnly(xposedApiJar)
     compileOnly(xposedBridgeJar)
@@ -263,63 +260,28 @@ dependencies {
     // xposedCompileOnly("org.lsposed:libxposed:82:sources") // Commented out to isolate build issues
 
     // Testing
-    testImplementation(libs.junit)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.androidx.arch.core.testing)
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockk)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.mockito:mockito-core:5.7.0")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("app.cash.turbine:turbine:1.0.0")
+    testImplementation("com.google.truth:truth:1.1.5")
 
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    // AndroidX Test
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("io.mockk:mockk-android:1.13.8")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-}
+    // Debug implementations
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-openApiGenerate {
-    generatorName.set("kotlin")
-    inputSpec.set("$projectDir/src/main/resources/auraframefx_ai_api.yaml")
-    outputDir.set(layout.buildDirectory.dir("generated/openapi").map { it.asFile.absolutePath })
-    apiPackage.set("dev.aurakai.auraframefx.generated.api.auraframefxai")
-    modelPackage.set("dev.aurakai.auraframefx.generated.model.auraframefxai")
-    configOptions.set(
-        mapOf(
-            "library" to "jvm-retrofit2",
-            "serializationLibrary" to "kotlinx_serialization",
-            "useCoroutines" to "true",
-            "dateLibrary" to "java8",
-            "enumPropertyNaming" to "UPPERCASE"
-        )
-    )
-}
-
-tasks.register("validateOpenApiSpec") {
-    val specFile = file("$projectDir/src/main/resources/auraframefx_ai_api.yaml")
-    doLast {
-        if (!specFile.exists()) {
-            logger.warn("API spec file not found at: ${specFile.absolutePath}")
-            logger.warn("OpenAPI code generation may fail or use stale code.")
-        } else {
-            logger.lifecycle("OpenAPI spec file found at: ${specFile.absolutePath}")
-        }
-    }
-}
-
-tasks.named("openApiGenerate") {
-    dependsOn("validateOpenApiSpec")
-    mustRunAfter(tasks.named("clean"))
-}
-
-tasks.register<Delete>("cleanOpenApiGenerated") {
-    delete(layout.buildDirectory.dir("generated/openapi"))
-}
-
-tasks.named("clean") {
-    finalizedBy("cleanOpenApiGenerated")
-}
-
-tasks.named("preBuild") {
-    dependsOn("openApiGenerate")
+    // Desugar JDK libs for Java 8+ APIs on older Android versions
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }

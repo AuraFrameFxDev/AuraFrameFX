@@ -1,7 +1,26 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-// buildscript {} block and project.extra {} removed as versions are now managed by libs.versions.toml
 
-// These plugin declarations make the plugins available to subprojects
+@file:Suppress("UNUSED_VARIABLE", "UnstableApiUsage", "DEPRECATION")
+
+// Xposed JAR files configuration
+val xposedApiJar = files("libs/api-82.jar")
+val xposedBridgeJar = files("libs/bridge-82.jar")
+val xposedApiSourcesJar = files("libs/api-82-sources.jar")
+val xposedBridgeSourcesJar = files("libs/bridge-82-sources.jar")
+
+buildscript {
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.10.1") // Matched with Kotlin 1.9.0
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48")
+        classpath("com.google.gms:google-services:4.4.0")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath("com.google.firebase:perf-plugin:1.4.2")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
+    }
+}
+
+
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
@@ -11,13 +30,8 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.androidx.navigation.safeargs.kotlin) apply false // Corrected alias
-}
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.layout.buildDirectory)
-}
 
-// Add dependency resolutions for consistent dependency versions
 subprojects {
     configurations.all {
         resolutionStrategy {
@@ -64,7 +78,17 @@ allprojects {
         sourceCompatibility = JavaVersion.VERSION_21.toString()
         targetCompatibility = JavaVersion.VERSION_21.toString()
     }
+
 }
 
-// Better approach for handling Gradle warnings
-gradle.startParameter.warningMode = org.gradle.api.logging.configuration.WarningMode.All
+// Xposed framework configuration - must be compileOnly as it's provided by the Xposed framework at runtime
+val xposedCompileOnly = configurations.create("xposedCompileOnly")
+
+tasks.register<Delete>("clean") {
+    delete(rootProject.buildDir)
+    delete("$projectDir/build")
+}
+
+tasks.register("cleanOpenApiGenerated", Delete::class) {
+    delete("$projectDir/app/build/generated")
+}
