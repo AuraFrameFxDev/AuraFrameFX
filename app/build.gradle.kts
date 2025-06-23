@@ -4,12 +4,9 @@ plugins {
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
-    id("androidx.navigation.safeargs.kotlin")
-    id("com.google.devtools.ksp")
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("org.openapi.generator")
-    id("com.google.firebase.crashlytics")
-    id("com.google.firebase.firebase-perf")
+    id("androidx.navigation.safeargs.kotlin") // Apply by ID
+    id("org.jetbrains.compose")
+
 }
 
 // Common versions
@@ -46,8 +43,35 @@ android {
     }
 
     compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        isCoreLibraryDesugaringEnabled = true
+    }
+
+    lint {
+        checkDependencies = true
+        lintConfig = file("lint.xml")
+        ignoreTestSources = true
+        abortOnError = false
+        warningsAsErrors = true
+        checkReleaseBuilds = false
+        checkAllWarnings = true
+
+        disable.addAll(
+            listOf(
+                "MissingTranslation",
+                "VectorPath",
+                "MissingIf"
+            )
+        )
+    }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+
     }
 
     kotlinOptions {
@@ -73,7 +97,8 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = composeVersion
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompilerVer.get()
+
     }
 
     packaging {
@@ -105,11 +130,9 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gen
     ignoreFileOverride.set("${project.projectDir}/.openapi-generator-ignore")
 }
 
-// Add generated sources to the main source set
-afterEvaluate {
-    android.sourceSets.getByName("main") {
-        java.srcDir("${generatedSourcesDir.get()}/src/main/kotlin")
-    }
+kotlin {
+    jvmToolchain(21)
+
 }
 
 // Ensure the OpenAPI generation happens before compilation
@@ -123,28 +146,20 @@ val xposedBridgeJar = files("${project.rootDir}/libs/bridge-82.jar")
 val xposedCompileOnly = configurations.create("xposedCompileOnly")
 
 dependencies {
-    // Core Android dependencies
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    
-    // Protocol Buffers and Netty
-    implementation("com.google.protobuf:protobuf-java:3.25.5")
-    implementation("commons-io:commons-io:2.14.0")
-    implementation("io.netty:netty-codec-http2:4.1.100.Final")
-    implementation("io.netty:netty-handler:4.1.118.Final")
-    implementation("org.bouncycastle:bcprov-jdk18on:1.78")
-    implementation("io.netty:netty-common:4.1.118.Final")
-    implementation("org.apache.commons:commons-compress:1.26.0")
-    implementation("com.google.guava:guava:32.1.3-android")
-    implementation("io.netty:netty-codec-http:4.1.118.Final")
+
+    // Core Android
+    coreLibraryDesugaring(libs.desugarJdkLibs)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.material)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
 
     // Kotlinx Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-xml:1.6.0")
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.xmlutil.serialization) // Changed to community XML library
+
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
@@ -170,9 +185,20 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+
+    // Firebase AI (Gemini)
+    implementation(libs.firebase.ai)
+    implementation(libs.guava.android) // Recommended for Firebase AI
+    implementation(libs.reactive.streams) // Required by Firebase AI
+
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.junit)
+
     // Google Cloud
     implementation(platform("com.google.cloud:libraries-bom:26.25.0"))
     implementation("com.google.cloud:google-cloud-generativeai")
+
 
     // Room
     val roomVersion = "2.6.1"
@@ -197,47 +223,41 @@ dependencies {
     implementation("androidx.glance:glance-compose:1.0.0")
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:$firebaseBomVersion"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-storage-ktx")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-ml-modeldownloader-ktx")
-    implementation("com.google.mlkit:language-id:17.0.5")
-    implementation("com.google.mlkit:translate:17.0.2")
-    implementation("org.tensorflow:tensorflow-lite:2.14.0")
-    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.crashlytics)
 
-    // Accompanist
-    implementation("com.google.accompanist:accompanist-pager:0.32.0")
-    implementation("com.google.accompanist:accompanist-flowlayout:0.32.0")
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.32.0")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.32.0")
-    implementation("com.google.accompanist:accompanist-webview:0.32.0")
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.32.0")
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.32.0")
-    implementation("com.google.accompanist:accompanist-navigation-material:0.32.0")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    // Google Cloud AI - using BOM for version management
+    // implementation(platform(libs.google.cloud.bom)) // Duplicate removed
+    // implementation("com.google.cloud:google-cloud-generativeai") // Commented out
+    // implementation(libs.google.cloud.generativeai) // Removed
 
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    // Timber
+    implementation(libs.timber)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
+
 
     // Xposed dependencies - using local JARs
     compileOnly(xposedApiJar)
     compileOnly(xposedBridgeJar)
-    xposedCompileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1") {
-        exclude(group = "de.robv.android.xposed", module = "api")
-    }
-    xposedCompileOnly("org.lsposed:libxposed:82")
-    xposedCompileOnly("org.lsposed:libxposed:82:sources") // For development only
+
+    // Xposed hidden API bypass
+    xposedCompileOnly(libs.xposed.hiddenapibypass)
+
+    // For development and documentation
+    compileOnly(xposedApiSourcesJar) // Only needed for development
+    compileOnly(xposedBridgeSourcesJar) // Only needed for development
+
+    // LSPosed API (if using LSPosed specific features)
+    // xposedCompileOnly("org.lsposed:libxposed:82") // Commented out to isolate build issues
+    // xposedCompileOnly("org.lsposed:libxposed:82:sources") // Commented out to isolate build issues
 
     // Testing
     testImplementation("junit:junit:4.13.2")

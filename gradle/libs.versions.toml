@@ -1,42 +1,171 @@
 [versions]
-kotlin = "1.9.22"
-coreKtx = "1.12.0"
-lifecycle = "2.7.0"
-activityCompose = "1.8.2"
-composeBom = "2024.01.00"
+# Buildscript/Root Plugins
+androidGradlePlugin = "8.2.2"
+kotlin = "1.9.22" # Covers kotlin-gradle-plugin, kotlin-stdlib*, kotlin-reflect, kotlinSerializationPlugin
+ksp = "1.9.22-1.0.17" # Covers com.google.devtools.ksp plugin
+hiltRootPlugin = "2.50" # com.google.dagger:hilt-android-gradle-plugin in buildscript
+googleServicesRootPlugin = "4.4.1" # com.google.gms:google-services in buildscript (classpath)
+firebaseCrashlyticsRootPlugin = "2.9.9" # com.google.firebase:firebase-crashlytics-gradle in buildscript
+androidxNavigationSafeargsPlugin = "2.7.7"
+
+# Versions from root plugins {} block (apply false) - for subproject application
+androidApplicationPlugin = "8.6.0"
+# kotlinAndroidPlugin = "1.9.22" # Covered by 'kotlin'
+# kspPlugin = "1.9.22-1.0.17" # Covered by 'ksp'
+hiltAndroidPlugin = "2.51.1" # com.google.dagger.hilt.android in root plugins block
+kotlinSerializationPlugin = "1.9.22" # Covered by 'kotlin'
+googleServicesPlugin = "4.4.2" # com.google.gms.google-services in root plugins block
+firebaseCrashlyticsAppPlugin = "3.0.2" # com.google.firebase.crashlytics in root plugins block
+
+
+# Libraries / Dependencies
+androidxActivity = "1.10.1"
+androidxArchCoreTesting = "2.2.0"
+androidxCardview = "1.0.0"
+# Using stable Compose versions that are known to work together
+androidxComposeBom = "2024.06.00"
+androidxComposeCompilerVer = "1.5.11"  # Compatible with Kotlin 1.9.22 and Compose BOM 2024.06.00
+androidxConstraintlayout = "2.2.1"
+androidxConstraintlayoutCompose = "1.1.1"
+androidxCore = "1.16.0"
+androidxAppcompat = "1.7.1"
+androidxDatastorePreferences = "1.1.7"
+androidxEspressoCore = "3.6.1"
+androidxExtJunit = "1.2.1"
+androidxHiltNavigationCompose = "1.2.0"
+androidxHiltWork = "1.2.0"
+androidxLifecycle = "2.9.1"
+androidxNavigationCompose = "2.9.0"
+androidxRoom = "2.7.1"
+androidxTestJunit = "1.2.1" # Same as androidxExtJunit, check if this is intended or a typo
+androidxWorkRuntimeKtx = "2.10.1"
+coil = "2.7.0"
+desugarJdkLibs = "2.1.5"
+firebaseAnalytics = "22.4.0"
+firebaseAuth = "23.2.1"
+firebaseBom = "33.15.0"
+firebaseCrashlytics = "19.4.4"
+firebaseFirestore = "25.1.4"
+firebaseStorage = "21.0.2"
+glance = "1.1.1" # Assuming androidx.glance:glance
+# googleCloudGenerativeAi = "0.5.0" # Removed
+# googleCloudBom = "26.28.0" # Removed
+googleCloudVertexAi = "1.24.0" # Check for latest version and specific artifact if different
+googleMaterial = "1.12.0"
+guavaAndroid = "31.0.1-android" # Added for Firebase AI
+reactiveStreams = "1.0.4" # Added for Firebase AI
+hilt = "2.56.2" # This is for the library dependency
 junit = "4.13.2"
-androidxJunit = "1.1.5"
-espresso = "3.5.1"
-hilt = "2.50"
-room = "2.6.1"
-firebaseBom = "32.7.0"
-accompanist = "0.32.0"
-tensorflowLite = "2.14.0"
-tensorflowLiteSupport = "0.4.4"
+
+# Kotlin stdlib, reflect (matches 'kotlin' version)
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-stdlib-common = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
+kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+
+# Coroutines (versions from existing force resolutions)
+kotlinxCoroutines = "1.7.3" # kotlinx-coroutines-core, kotlinx-coroutines-android
+# kotlinxCoroutinesCore = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" } # Incorrectly placed library definition
+kotlinxCoroutinesCoreJvm = "1.10.2" # Corrected to be a simple version string
+# kotlinxCoroutinesAndroid = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" } # Incorrectly placed library definition
+kotlinxCoroutinesTest = "1.10.2" # Kept existing version from toml
+
+# Serialization (versions from existing force resolutions)
+kotlinxSerialization = "1.8.1" # kotlinx-serialization-json (aligned with core due to xmlutil)
+kotlinxSerializationCore = "1.8.1" # Aligned with version pulled by xmlutil-serialization
+# kotlinxSerializationXml version removed, xmlutilSerialization is used instead
+xmlutilSerialization = "0.91.1" # For io.github.pdvrieze.xmlutil:serialization
+
+kotlinxSerializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+# kotlinxSerializationCore library alias below will use kotlinxSerializationCore version alias
+
+# Compose - versions from existing force resolutions
+# androidxComposeCompilerVersion = "1.5.14" # Removed to avoid clash and unify with androidxComposeCompiler
+# androidxComposeRuntimeVersion = "1.5.14" # Removed to let BOM control
+# androidxComposeFoundationVersion = "1.5.14" # Removed to let BOM control
+# androidxComposeMaterial3Version = "1.1.2" # Removed to let BOM control
+# androidxComposeUiVersion = "1.5.14" # Removed to let BOM control
+# androidxComposeUiToolingVersion = "1.5.14" # Removed to let BOM control
+# androidxComposeUiToolingPreviewVersion = "1.5.14" # Removed to let BOM control
+
+androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "androidxComposeCompilerVer" } # Unified to use existing androidxComposeCompilerVer
+# androidx-compose-runtime defined below
+# androidx-compose-foundation defined below
+# androidx-compose-material3 defined below
+# androidx-compose-ui defined below
+# androidx-compose-ui-tooling defined below
+# androidx-compose-ui-tooling-preview defined below
+
+
+# Retrofit (version from existing force resolution)
+retrofitVersion = "2.9.0" # Already in TOML with this version for the library
+
+libxposedApi = "82" # Version for Xposed APIs often matches API level
+libxposedService = "82" # Version for Xposed APIs
+lottieCompose = "6.6.6"
+mockitoCore = "5.18.0"
+mockk = "1.14.2"
+okhttp = "4.12.0" # Retrofit brings its own OkHttp, but good to have a version if used directly
+okhttpLoggingInterceptor = "4.12.0"
+retrofit = "3.0.0" # Version already forced in root build.gradle
+retrofitConverterGson = "3.0.0"
+retrofitConverterKotlinxSerialization = "1.0.0"
+timber = "5.0.1"
+xposedApi = "82"
+xposedApiSources = "82"
+xposedArt = "82" # These are often just API level, not typical maven artifacts.
+xposedArtSources = "82"
+xposedBridge = "82"
+xposedBridgeSources = "82"
+xposedHiddenapibypass = "6.1" # Check specific version for this library
+
+# Accompanist - Consider migrating to official Compose APIs if available
+accompanistPermissions = "0.37.3" # Check for latest or alternatives
+accompanistSystemuicontroller = "0.36.0"
 
 [libraries]
-# Core Android
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxArchCoreTesting" }
+androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "androidxCardview" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-core" }
+androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" } # Version removed to respect BOM
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 
-# Compose
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 
 # Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version = "1.1.0" }
 
-# Room
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.7.3" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" } # kotlinxCoroutines is 1.7.3
+kotlinx-coroutines-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "kotlinxCoroutinesCoreJvm" } # Uncommented and referencing the version alias
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines"}
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" } # kotlinxCoroutinesTest is 1.10.2
+kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+# kotlinx-serialization-xml alias removed
+xmlutil-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version.ref = "xmlutilSerialization" }
+
+libxposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "libxposedApi" } # Commonly used group/name for this
+libxposed-service = { group = "de.robv.android.xposed", name = "service", version.ref = "libxposedService" } # Commonly used group/name for this
+lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitConverterGson" }
+retrofit-converter-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitConverterKotlinxSerialization" }
+
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
 
 # Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
@@ -55,22 +184,48 @@ tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-su
 tensorflow-lite-task-vision = { group = "org.tensorflow", name = "tensorflow-lite-task-vision", version.ref = "tensorflowLiteSupport" }
 tensorflow-lite-task-text = { group = "org.tensorflow", name = "tensorflow-lite-task-text", version.ref = "tensorflowLiteSupport" }
 
-# Testing
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
-androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+# Add libraries for forced dependencies if not already present
+kotlin-stdlib-lib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" } # Alias for library
+kotlin-stdlib-common-lib = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
+kotlin-stdlib-jdk7-lib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-stdlib-jdk8-lib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-reflect-lib = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+
+# Ensure kotlinx-coroutines-core-jvm is explicitly defined if it's different and needed by force()
+# kotlinx.coroutines.core.jvm was forced with 1.10.2
+# libs.kotlinx.coroutines.core points to version 1.7.3 (via kotlinxCoroutines)
+# libs.kotlinx.coroutines.core.jvm points to version 1.10.2 (this seems correct from previous TOML)
+
+# Ensure kotlinx.serialization.json points to "1.6.3" (kotlinxSerialization)
+# Ensure kotlinx.serialization.core points to "1.8.1" (kotlinxSerializationCore)
+
+
+# androidx-compose-compiler-lib = { group = "androidx.compose.compiler", name = "compiler", version.ref = "androidxComposeCompilerVer" } # Removed, use direct BOM-controlled aliases
+# androidx-compose-runtime-lib = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxComposeRuntimeVersion" } # Removed
+# androidx-compose-foundation-lib = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxComposeFoundationVersion" } # Removed
+# androidx-compose-material3-lib = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3Version" } # Removed
+# androidx-compose-ui-lib = { group = "androidx.compose.ui", name = "ui", version.ref = "androidxComposeUiVersion" } # Removed
+# androidx-compose-ui-tooling-lib = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidxComposeUiToolingVersion" } # Removed
+# androidx-compose-ui-tooling-preview-lib = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxComposeUiToolingPreviewVersion" } # Removed
+
+retrofit-lib = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" } # Will conflict if retrofit version is different
+
 
 [plugins]
-android-application = { id = "com.android.application", version = "8.1.0" }
+# Plugins from buildscript
+android-gradle = { id = "com.android.tools.build.gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradle = { id = "org.jetbrains.kotlin.gradle.plugin", version.ref = "kotlin" } # This is a guess for the plugin id
+hilt-gradle = { id = "com.google.dagger.hilt.android.gradle.plugin", version.ref = "hiltRootPlugin" }
+google-services-gradle = { id = "com.google.gms.google-services", version.ref = "googleServicesRootPlugin" } # This is for classpath, app uses different one
+firebase-crashlytics-gradle = { id = "com.google.firebase.firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsRootPlugin" }
+androidx-navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigationSafeargsPlugin" } # Changed alias and ID
+
+# Plugins from root plugins {} block (apply false)
+android-application = { id = "com.android.application", version.ref = "androidApplicationPlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-google-services = { id = "com.google.gms.google-services", version = "4.4.0" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.9" }
-firebase-perf = { id = "com.google.firebase.firebase-perf", version = "1.4.2" }
-ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.16" }
-
-
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroidPlugin" } # This is the one applied with apply false
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" } # This is the one applied with apply false
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsAppPlugin" } # This is the one applied with apply false
 

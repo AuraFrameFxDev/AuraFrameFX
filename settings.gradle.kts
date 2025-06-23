@@ -22,8 +22,18 @@ pluginManagement {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+    }
+    
+    plugins {
+        id("org.jetbrains.compose") version "1.6.11"
+        id("org.openapi.generator") version "7.5.0"
+        id("androidx.navigation.safeargs.kotlin") version "2.7.7" // Added for safeargs kotlin
+        // Removed invalid plugin entries which were actually libraries
+        // androidx.navigation.navigation-safe-args-gradle-plugin will be handled by root build.gradle.kts
+
         maven { url = uri("https://androidx.dev/storage/compose-compiler/repository/") }
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
+
     }
 }
 

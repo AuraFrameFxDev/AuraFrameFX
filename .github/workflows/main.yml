@@ -22,14 +22,9 @@ jobs:
           distribution: 'temurin'
           java-version: '23'
 
-      - name: Set JAVA_HOME env variable
-        run: echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v2
 
-      - name: Print JAVA_HOME
-        run: echo "JAVA_HOME is $JAVA_HOME"
-
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
