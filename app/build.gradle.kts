@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -14,9 +13,10 @@ plugins {
 
 // Repositories are configured in settings.gradle.kts
 
-val composeBomVersion = "2025.06.00"
-val composeCompilerVersion = "1.5.8" // This should match the Kotlin version
-val composeVersion = "1.6.7" // This should match the BOM version
+// Common versions
+val kotlinVersion = "2.0.0"
+val composeVersion = "1.5.4" // Use a Compose version compatible with Kotlin 1.9.0
+
 val hiltVersion = "2.56.2"
 val navigationVersion = "2.9.0"
 val firebaseBomVersion = "33.15.0"
@@ -207,7 +207,8 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = composeCompilerVersion
+        kotlinCompilerExtensionVersion = "1.5.13"
+
     }
 
     lint {
@@ -225,6 +226,15 @@ android {
 }
 
 dependencies {
+    constraints {
+        implementation("org.tensorflow:tensorflow-lite-api:2.14.0") {
+            because("Align all TensorFlow Lite API versions to 2.14.0")
+        }
+        implementation("org.tensorflow:tensorflow-lite-support-api:0.4.4") {
+            because("Align all TensorFlow Lite Support API versions to 0.4.4")
+        }
+    }
+
     // Core Android dependencies
     implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.appcompat:appcompat:1.7.1")
@@ -275,12 +285,10 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.37.3")
 
     // Hilt for dependency injection
-    implementation("com.google.dagger:hilt-android:2.56.2")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    implementation("androidx.hilt:hilt-work:1.2.0")
-
-    ksp("androidx.hilt:hilt-compiler:${libs.versions.hilt.get()}")
-
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    ksp("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
@@ -330,7 +338,26 @@ dependencies {
     implementation("com.google.mlkit:translate:17.0.3")
 
     // TensorFlow Lite
-    implementation("org.tensorflow:tensorflow-lite:2.17.0")
+    implementation("org.tensorflow:tensorflow-lite:2.14.0") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
+    }
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
+        // Exclude the older TFLite version it brings to avoid conflicts with the main 2.14.0
+        exclude(group = "org.tensorflow", module = "tensorflow-lite")
+    }
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite")
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
+    }
+    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite")
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
+    }
+    
 
     // Accompanist for Compose utilities (version 0.32.0 is compatible with Compose 1.5.4)
     implementation("com.google.accompanist:accompanist-permissions:0.37.3")
@@ -392,7 +419,7 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 
     // Hilt testing
-    kaptTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kspTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
     testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
 
     // AndroidX Test
@@ -405,7 +432,7 @@ dependencies {
     androidTestImplementation("io.mockk:mockk-android:1.14.2")
 =
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Debug implementations
     debugImplementation("androidx.compose.ui:ui-tooling")

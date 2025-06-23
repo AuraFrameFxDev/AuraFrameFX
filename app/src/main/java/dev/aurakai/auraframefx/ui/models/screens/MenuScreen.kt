@@ -17,12 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.ui.components.HologramTransition
 
-/**
- * Displays the main menu screen with a customizable transition effect and menu options.
- *
- * @param transitionType The visual transition type to use for the menu screen.
- * @param showHologram Whether to display the hologram transition effect.
- */
 @Composable
 fun MenuScreen() {
     HologramTransition(visible = true) {
@@ -70,4 +64,6 @@ fun MenuScreenPreview() {
     MaterialTheme { // Using MaterialTheme for preview
         MenuScreen()
     }
-} // <- This is the added brace
+
+}
+
