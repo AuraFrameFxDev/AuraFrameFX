@@ -84,8 +84,8 @@ fun HomeScreen(navController: NavController) {
             FloatingCyberWindow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .DigitalTransitions.cyberEdgeGlow(),
-                title = "VIRTUAL MONITORZATION",
+                    .then(DigitalTransitions.cyberEdgeGlow())
+                        title = "VIRTUAL MONITORZATION",
                 cornerStyle = CornerStyle.Angled
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {

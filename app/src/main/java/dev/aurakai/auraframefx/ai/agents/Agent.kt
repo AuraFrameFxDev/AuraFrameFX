@@ -1,6 +1,8 @@
 package dev.aurakai.auraframefx.ai.agents
 
+import dev.aurakai.auraframefx.model.AgentResponse
 import dev.aurakai.auraframefx.model.AgentType
+import dev.aurakai.auraframefx.model.AiRequest
 
 /**
  * Interface representing an AI agent.
@@ -22,14 +24,10 @@ interface Agent {
 
     /**
      * Processes a given request (prompt) and returns a response.
-     * @param _prompt The input prompt or request.
-     * @return The agent's response as a String.
-     * TODO: Parameter _prompt reported as unused.
+     * @param request The input AiRequest.
+     * @return The agent's response as an AgentResponse.
      */
-    suspend fun processRequest(_prompt: String): String {
-        // TODO: Implement actual request processing logic.
-        return "Placeholder response to '$_prompt'"
-    }
+    suspend fun processRequest(request: AiRequest): AgentResponse
 
     /**
      * Retrieves the capabilities of the agent.

@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.ai.task.execution
 import dev.aurakai.auraframefx.model.AgentType
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,7 +16,8 @@ data class TaskExecution(
     val status: ExecutionStatus = ExecutionStatus.PENDING,
     val progress: Float = 0.0f,
     val result: ExecutionResult? = null,
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
     val executionPlan: ExecutionPlan? = null,
     val checkpoints: List<Checkpoint> = emptyList(),
 )
@@ -26,7 +28,8 @@ data class ExecutionPlan(
     val steps: List<ExecutionStep>,
     val estimatedDuration: Long,
     val requiredResources: Set<String>,
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
 )
 
 @Serializable
@@ -37,7 +40,8 @@ data class ExecutionStep(
     val priority: Float = 0.5f,
     val estimatedDuration: Long = 0,
     val dependencies: Set<String> = emptySet(),
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
 )
 
 @Serializable
@@ -47,9 +51,11 @@ data class Checkpoint(
     val stepId: String,
     val status: CheckpointStatus,
     val progress: Float = 0.0f,
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
 )
 
+@Serializable
 enum class ExecutionStatus {
     PENDING,
     INITIALIZING,
@@ -61,6 +67,7 @@ enum class ExecutionStatus {
     TIMEOUT
 }
 
+@Serializable
 enum class ExecutionResult {
     SUCCESS,
     PARTIAL_SUCCESS,
@@ -70,6 +77,7 @@ enum class ExecutionResult {
     UNKNOWN
 }
 
+@Serializable
 enum class StepType {
     COMPUTATION,
     COMMUNICATION,
@@ -81,6 +89,7 @@ enum class StepType {
     REPORTING
 }
 
+@Serializable
 enum class CheckpointStatus {
     PENDING,
     STARTED,

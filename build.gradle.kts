@@ -1,3 +1,4 @@
+
 // This file is intentionally left blank or with minimal content.
 // Plugin versions and project configurations are managed in:
 // - settings.gradle.kts (for settings plugins and plugin management)

@@ -1,16 +1,48 @@
 package dev.aurakai.auraframefx.ui.components
 
-import androidx.compose.foundation.gestures.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.input.pointer.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.model.AgentType
 import dev.aurakai.auraframefx.ui.theme.NeonBlue
@@ -18,17 +50,23 @@ import dev.aurakai.auraframefx.ui.theme.NeonPink
 import dev.aurakai.auraframefx.ui.theme.NeonPurple
 import dev.aurakai.auraframefx.ui.theme.NeonTeal
 import dev.aurakai.auraframefx.viewmodel.GenesisAgentViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlinx.coroutines.launch
+import java.util.Locale
+
 
 @OptIn(
     ExperimentalMaterial3Api::class,
     androidx.compose.foundation.gestures.ExperimentalFoundationApi::class
 )
+
+// Helper extension for Dp to Px
+fun Dp.toPx(density: androidx.compose.ui.unit.Density): Float = with(density) { this@toPx.toPx() }
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HaloView(
     viewModel: GenesisAgentViewModel = androidx.hilt.navigation.compose.hiltViewModel(),
@@ -343,7 +381,7 @@ fun HaloView(
                 onClick = { isRotating = !isRotating }
             ) {
                 Icon(
-                    Icons.Default.Pause if isRotating else Icons.Default.PlayArrow,
+                    if (isRotating) Icons.Default.Pause else Icons.Default.PlayArrow,
                     contentDescription = "Toggle rotation",
                     tint = NeonPurple
                 )
