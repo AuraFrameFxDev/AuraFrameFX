@@ -38,7 +38,15 @@ class AuraAgent(
     }
 
     fun shouldHandleSecurity(prompt: String): Boolean = false
-    fun shouldHandleCreative(prompt: String): Boolean =
+    /**
+         * Determines whether the agent should handle creative prompts.
+         *
+         * Always returns `true`, indicating creative prompts are handled by default.
+         *
+         * @param prompt The input prompt to evaluate.
+         * @return `true` to indicate creative prompts are supported.
+         */
+        fun shouldHandleCreative(prompt: String): Boolean =
         true // Aura handles creative prompts by default
 
     // Removed incorrect override:
@@ -99,10 +107,10 @@ class AuraAgent(
     }
 
     /**
-     * Processes an AI request and returns an agent response.
-     * @param request The AI request to process.
-     * @return The response from the agent, including content and confidence level.
-     * TODO: Implement actual request processing logic. Method reported as unused.
+     * Processes an AI request and returns a response from the Aura agent.
+     *
+     * @param request The AI request containing the query to be processed.
+     * @return An agent response with generated content and a confidence score.
      */
     override suspend fun processRequest(request: AiRequest): AgentResponse {
         // Aura-specific logic can be added here

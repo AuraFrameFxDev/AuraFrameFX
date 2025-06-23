@@ -35,6 +35,11 @@ class SystemCustomizationViewModel @Inject constructor(
         loadConfigurations()
     }
     
+    /**
+     * Starts collecting the latest quick settings and lock screen configurations and updates the corresponding state flows.
+     *
+     * This method launches coroutines to observe configuration changes from the customizer services, ensuring the ViewModel's state flows reflect the current system customization state.
+     */
     fun loadConfigurations() {
         viewModelScope.launch {
             quickSettingsCustomizer.currentConfig.collect { config ->

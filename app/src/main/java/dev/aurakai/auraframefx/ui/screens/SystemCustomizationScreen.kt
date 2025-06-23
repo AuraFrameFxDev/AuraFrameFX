@@ -39,18 +39,32 @@ data class LockScreenElement(
     val customText: String? = null,
     val animation: LockScreenAnimation = LockScreenAnimation()
 ) {
-    // Create a copy with updated visibility
+    /**
+     * Returns a copy of this lock screen element with the specified visibility.
+     *
+     * @param visible Whether the element should be visible.
+     * @return A new instance with updated visibility.
+     */
     fun withVisibility(visible: Boolean): LockScreenElement {
         return copy(isVisible = visible)
     }
     
-    // Create a copy with updated custom text
+    /**
+     * Returns a copy of this lock screen element with the specified custom text.
+     *
+     * @param text The new custom text, or null to remove it.
+     * @return A new instance with the updated custom text.
+     */
     fun withCustomText(text: String?): LockScreenElement {
         return copy(customText = text)
     }
 }
 
-// Extension to convert LockScreenElement to LockScreenElementConfig
+/**
+ * Converts this LockScreenElement to a LockScreenElementConfig instance.
+ *
+ * @return A LockScreenElementConfig with the same element ID, visibility, and custom text as this element.
+ */
 private fun LockScreenElement.toConfig(): LockScreenElementConfig {
     return LockScreenElementConfig(
         elementId = this.elementId,
@@ -66,12 +80,21 @@ private val QuickSettingsConfig?.safeTiles: List<QuickSettingsTileConfig>
 private val LockScreenConfig?.safeElements: List<LockScreenElementConfig>
     get() = this?.elements ?: emptyList()
 
-// Helper function to get background from config
+/**
+ * Returns the background image source from the lock screen configuration, or null if not set.
+ *
+ * @return The background image source string, or null if unavailable.
+ */
 private fun LockScreenConfig?.safeBackground(): String? {
     return this?.backgroundConfig?.source
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Displays the main system customization screen for configuring Quick Settings and Lock Screen options.
+ *
+ * Collects configuration state from the provided ViewModel and presents UI sections for customizing quick settings tiles and lock screen elements, including shape, animation, visibility, custom text, and background images. Provides actions to reset settings to defaults and handles initial configuration loading.
+ */
 @Composable
 fun SystemCustomizationScreen(
     viewModel: SystemCustomizationViewModel = hiltViewModel(),
@@ -182,6 +205,16 @@ fun SystemCustomizationScreen(
     }
 }
 
+/**
+ * Displays the customization UI for quick settings tiles and background.
+ *
+ * Allows users to modify the shape and animation of each quick settings tile and to change the background image if available.
+ *
+ * @param config The current quick settings configuration, or null if not loaded.
+ * @param onTileShapeChange Callback invoked when a tile's shape is changed, receiving the tile ID and new shape.
+ * @param onTileAnimationChange Callback invoked when a tile's animation is changed, receiving the tile ID and new animation.
+ * @param onBackgroundChange Callback invoked when the background image is changed.
+ */
 @Composable
 internal fun QuickSettingsCustomization(
     config: QuickSettingsConfig?,
@@ -228,6 +261,15 @@ internal fun QuickSettingsCustomization(
     }
 }
 
+/**
+ * Displays the lock screen customization UI, allowing users to modify lock screen elements and background.
+ *
+ * Shows a list of lock screen elements for visibility toggling and custom text editing, and provides background image customization if available.
+ *
+ * @param config The current lock screen configuration, or null to display sample elements.
+ * @param onElementChange Callback invoked when a lock screen element is changed.
+ * @param onBackgroundChange Callback invoked when the background image is changed.
+ */
 @Composable
 internal fun LockScreenCustomization(
     config: LockScreenConfig?,
@@ -329,6 +371,13 @@ internal fun LockScreenCustomization(
 // Helper class for LockScreen background
 private class LockScreenBackground(val image: Any?)
 
+/**
+ * Displays customization options for a quick settings tile, allowing the user to select its shape and animation.
+ *
+ * @param tile The configuration for the quick settings tile to be customized.
+ * @param onShapeChange Callback invoked when the tile shape is changed.
+ * @param onAnimationChange Callback invoked when the tile animation is changed.
+ */
 @Composable
 private fun TileCustomization(
     tile: QuickSettingsTileConfig,
@@ -375,6 +424,12 @@ private fun TileCustomization(
     }
 }
 
+/**
+ * Displays customization options for a lock screen element, allowing visibility toggling and custom text editing.
+ *
+ * @param element The lock screen element to customize.
+ * @param onElementChange Callback invoked when the element's visibility or custom text is updated.
+ */
 @Composable
 private fun ElementCustomization(
     element: LockScreenElement,
@@ -428,6 +483,12 @@ private fun ElementCustomization(
     }
 }
 
+/**
+ * Displays a UI card for customizing the background image, allowing the user to select or change the background.
+ *
+ * @param background The currently selected background image, or null if none is set.
+ * @param onChange Callback invoked when the background image selection changes.
+ */
 @Composable
 private fun BackgroundCustomization(
     background: ImageResource?,
@@ -459,6 +520,14 @@ private fun BackgroundCustomization(
     }
 }
 
+/**
+ * Displays a placeholder UI for selecting an overlay shape.
+ *
+ * Invokes the shape selection callback with the current shape when composed.
+ *
+ * @param currentShape The currently selected overlay shape.
+ * @param onShapeSelected Callback invoked with the selected shape.
+ */
 @Composable
 private fun ShapePicker(
     currentShape: OverlayShape,
@@ -489,6 +558,14 @@ private fun ShapePicker(
     }
 }
 
+/**
+ * Displays a placeholder UI for selecting a quick settings animation.
+ *
+ * Invokes the provided callback with the current animation when composed.
+ *
+ * @param currentAnimation The currently selected animation.
+ * @param onAnimationSelected Callback invoked with the selected animation.
+ */
 @Composable
 private fun AnimationPicker(
     currentAnimation: QuickSettingsAnimation,
@@ -519,6 +596,12 @@ private fun AnimationPicker(
     }
 }
 
+/**
+ * Displays a placeholder UI for selecting a background image and notifies when an image is selected.
+ *
+ * @param currentImage The currently selected image, or null if none is selected.
+ * @param onImageSelected Callback invoked with the current image when the composable is composed.
+ */
 @Composable
 private fun ImagePicker(
     currentImage: Any?,

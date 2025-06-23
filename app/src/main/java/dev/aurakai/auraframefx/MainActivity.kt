@@ -58,6 +58,11 @@ class MainActivity : ComponentActivity() {
  * Applies cyberpunk-style digital transition effects between screens.
  */
 @OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Displays the main UI scaffold with bottom navigation and animated digital transition effects.
+ *
+ * Sets up navigation and conditionally applies custom digital effects to the content area.
+ */
 @Composable
 fun MainScreen() {
     // Use Jetpack Navigation 3's nav controller for digital transitions

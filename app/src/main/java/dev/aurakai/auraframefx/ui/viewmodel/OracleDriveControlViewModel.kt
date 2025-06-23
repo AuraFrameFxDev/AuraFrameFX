@@ -24,7 +24,11 @@ class OracleDriveControlViewModel @Inject constructor() : ViewModel() {
     private val _diagnosticsLog = MutableStateFlow("")
     val diagnosticsLog: StateFlow<String> = _diagnosticsLog.asStateFlow()
 
-    // Service binding methods
+    /**
+     * Establishes a connection to the service and updates the connection status and logs.
+     *
+     * Sets the service connection state to connected, updates status messages, and appends a log entry indicating the service has been bound.
+     */
     fun bindService() {
         viewModelScope.launch {
             _isServiceConnected.value = true
@@ -34,6 +38,11 @@ class OracleDriveControlViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    /**
+     * Updates the state to reflect that the service has been unbound.
+     *
+     * Sets the service connection status to disconnected, updates status messages, and appends an unbound event to the diagnostics log.
+     */
     fun unbindService() {
         viewModelScope.launch {
             _isServiceConnected.value = false
@@ -43,7 +52,11 @@ class OracleDriveControlViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    // Status refresh
+    /**
+     * Refreshes the current status, updating status messages and appending a log entry.
+     *
+     * Simulates a refresh operation with a delay, then updates the status, detailed status with the current time, and logs the refresh event.
+     */
     fun refreshStatus() {
         viewModelScope.launch {
             _status.value = "Refreshing..."
@@ -55,7 +68,14 @@ class OracleDriveControlViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    // Package control
+    /**
+     * Enables or disables the specified package and updates the status and diagnostics log.
+     *
+     * Simulates the operation with a delay, then updates the status message to reflect the action taken.
+     *
+     * @param packageName The name of the package to enable or disable.
+     * @param enable If true, the package is enabled; if false, it is disabled.
+     */
     fun toggleForPackage(packageName: String, enable: Boolean) {
         viewModelScope.launch {
             val action = if (enable) "Enabling" else "Disabling"
@@ -67,7 +87,11 @@ class OracleDriveControlViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    // Helper method to append to log
+    /**
+     * Appends a timestamped message to the diagnostics log.
+     *
+     * @param message The message to append to the log.
+     */
     private fun appendToLog(message: String) {
         _diagnosticsLog.value += "[${java.text.SimpleDateFormat("HH:mm:ss").format(java.util.Date())}] $message\n"
     }
