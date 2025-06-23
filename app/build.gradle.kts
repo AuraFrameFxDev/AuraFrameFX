@@ -1,22 +1,20 @@
-// app/build.gradle.kts - CORRECTED AND FINAL
+// app/build.gradle.kts - CLEANED & CORRECTED
 
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
-    // Apply the Android application plugin
+    // Android application plugin via version catalog
     alias(libs.plugins.android.application)
-    
-    // Apply the Kotlin Android plugin
+    // Kotlin Android plugin via version catalog
     alias(libs.plugins.kotlin.android)
-    
-    // Apply other plugins
+    // Kotlin Serialization plugin via version catalog
     alias(libs.plugins.kotlin.serialization)
-    // alias(libs.plugins.ksp) // Temporarily disabled
-    // alias(libs.plugins.hilt) // Temporarily disabled
-    // alias(libs.plugins.openapi.generator) // Temporarily disabled
+    // Uncomment these as needed:
+    // alias(libs.plugins.ksp)
+    // alias(libs.plugins.hilt)
+    // alias(libs.plugins.openapi.generator)
 }
 
-// The 'android' block starts here...
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 34
@@ -25,7 +23,7 @@ android {
     buildToolsVersion = "35.0.0"
 
     defaultConfig {
-        applicationId = "dev.aurakai.auraframefx" // Let's make this match the namespace for consistency
+        applicationId = "dev.aurakai.auraframefx"
         minSdk = 33
         targetSdk = 34
         versionCode = 1
@@ -65,24 +63,27 @@ android {
         jvmTarget = "21"
     }
 
-    sourceSets {
-        getByName("main").java.srcDir("${layout.buildDirectory.get()}/generated/openapi/src/main/kotlin")
-    }
-} // <-- ...and the 'android' block correctly ends HERE.
+    // If you enable OpenAPI generator, uncomment the following sourceSets line
+    // sourceSets {
+    //     getByName("main").java.srcDir("${layout.buildDirectory.get()}/generated/openapi/src/main/kotlin")
+    // }
+}
 
 dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlinx.serialization.converter)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.hilt.android) // Temporarily disabled
-    ksp(libs.hilt.compiler) // Temporarily disabled
-
-    // Using your local JAR file for the Xposed API
+    // Uncomment for Hilt support:
+    // implementation(libs.hilt.android)
+    // Uncomment for KSP support:
+    // ksp(libs.hilt.compiler)
+    // Local JAR for Xposed API
     compileOnly(files("libs/xposed-api-82.jar"))
 }
 
-/*  Temporarily disabled OpenAPI task configuration
+// Uncomment and configure for OpenAPI code generation
+/*
 tasks.withType<GenerateTask> {
     generatorName.set("kotlin")
     inputSpec.set("$projectDir/src/main/resources/api/genesis-api.yaml")
@@ -100,10 +101,14 @@ tasks.withType<GenerateTask> {
     )
 }
 */
+
+// Uncomment when enabling OpenAPI Generator
+/*
 androidComponents {
     onVariants { variant ->
-         tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
-             dependsOn(tasks.named("openApiGenerate")) // Temporarily disabled
-     }
+        tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
+            dependsOn(tasks.named("openApiGenerate"))
+        }
     }
 }
+*/
