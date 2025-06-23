@@ -7,15 +7,15 @@ val xposedApiSourcesJar = files("libs/api-82-sources.jar")
 val xposedBridgeSourcesJar = files("libs/bridge-82-sources.jar")
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.parcelize)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.navigationSafeargs)
     // id("org.jetbrains.compose") REMOVED - Handled by composeOptions
-    alias(libs.plugins.openapi.generator)
+    alias(libs.plugins.openapiGenerator)
     alias(libs.plugins.ksp)
 }
 
