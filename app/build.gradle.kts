@@ -74,14 +74,14 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization.converter)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
-    // implementation(libs.hilt.android) // Temporarily disabled
-    // ksp(libs.hilt.compiler) // Temporarily disabled
+    implementation(libs.hilt.android) // Temporarily disabled
+    ksp(libs.hilt.compiler) // Temporarily disabled
 
     // Using your local JAR file for the Xposed API
     compileOnly(files("libs/xposed-api-82.jar"))
 }
 
-/* // Temporarily disabled OpenAPI task configuration
+/*  Temporarily disabled OpenAPI task configuration
 tasks.withType<GenerateTask> {
     generatorName.set("kotlin")
     inputSpec.set("$projectDir/src/main/resources/api/genesis-api.yaml")
@@ -101,8 +101,8 @@ tasks.withType<GenerateTask> {
 */
 androidComponents {
     onVariants { variant ->
-        // tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
-        //     dependsOn(tasks.named("openApiGenerate")) // Temporarily disabled
-        // }
+         tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
+             dependsOn(tasks.named("openApiGenerate")) // Temporarily disabled
+     }
     }
 }
