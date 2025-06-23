@@ -14,7 +14,9 @@ data class AIError(
     val type: ErrorType,
     val message: String,
     val context: String,
-    val metadata: Map<String, @Contextual Any> = emptyMap(),
+    @kotlinx.serialization.Contextual
+    val metadata: Map<String, Any> = emptyMap(),
+
     val recoveryAttempts: Int = 0,
     val recoveryStatus: RecoveryStatus = RecoveryStatus.PENDING,
     val recoveryActions: List<RecoveryAction> = emptyList(),
@@ -27,7 +29,8 @@ data class RecoveryAction(
     val actionType: RecoveryActionType,
     val description: String,
     val result: RecoveryResult? = null,
-    val metadata: Map<String, @Contextual Any> = emptyMap(),
+    @kotlinx.serialization.Contextual
+    val metadata: Map<String, Any> = emptyMap(),
 )
 
 enum class ErrorType {
