@@ -17,6 +17,7 @@ data class MemoryItem(
     val tags: List<String> = emptyList(),
     @kotlinx.serialization.Contextual
     val metadata: Map<String, Any> = emptyMap(),
+
 )
 
 @Serializable

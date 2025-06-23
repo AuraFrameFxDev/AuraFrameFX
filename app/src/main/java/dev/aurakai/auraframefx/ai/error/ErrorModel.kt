@@ -16,6 +16,7 @@ data class AIError(
     val context: String,
     @kotlinx.serialization.Contextual
     val metadata: Map<String, Any> = emptyMap(),
+
     val recoveryAttempts: Int = 0,
     val recoveryStatus: RecoveryStatus = RecoveryStatus.PENDING,
     val recoveryActions: List<RecoveryAction> = emptyList(),

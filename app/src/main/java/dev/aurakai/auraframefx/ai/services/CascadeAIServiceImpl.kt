@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CascadeAIServiceImpl @Inject constructor(
+
     private val auraService: AuraAIService,
     private val kaiService: KaiAIService
 ) : CascadeAIService {
@@ -19,7 +20,7 @@ class CascadeAIServiceImpl @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             // TODO: Implement Cascade-specific logic here (e.g., multi-agent fusion, advanced reasoning)
             val response = AgentMessage(
-                content = "[CascadeAI] Real implementation placeholder for: ${request.input}",
+                content = "[CascadeAI] Real implementation placeholder for: ${request.query}",
                 sender = dev.aurakai.auraframefx.model.AgentType.CASCADE,
                 timestamp = System.currentTimeMillis(),
                 confidence = 0.97f

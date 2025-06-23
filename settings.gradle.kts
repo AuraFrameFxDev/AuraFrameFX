@@ -16,7 +16,7 @@ pluginManagement {
                 useVersion("8.6.0")
             }
             if (requested.id.id == "com.google.devtools.ksp") {
-                useVersion("2.0.21-1.0.20")
+                useVersion("2.1.21-2.0.1")
             }
             if (requested.id.id == "org.jetbrains.kotlin.plugin.serialization") {
                 useVersion("2.1.21")

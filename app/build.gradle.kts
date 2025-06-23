@@ -8,12 +8,12 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.firebase-perf")
-    alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.ksp)
 }
 
 // Repositories are configured in settings.gradle.kts
 
-// Common versions
 val composeBomVersion = "2025.06.00"
 val composeCompilerVersion = "1.5.8" // This should match the Kotlin version
 val composeVersion = "1.6.7" // This should match the BOM version
@@ -21,6 +21,7 @@ val hiltVersion = "2.56.2"
 val navigationVersion = "2.9.0"
 val firebaseBomVersion = "33.15.0"
 val lifecycleVersion = "2.9.1"
+
 
 android {
     // Configure Java 24 compatibility
@@ -278,6 +279,9 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("androidx.hilt:hilt-work:1.2.0")
 
+    ksp("androidx.hilt:hilt-compiler:${libs.versions.hilt.get()}")
+
+
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
@@ -340,6 +344,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-placeholder-material:0.36.0")
     implementation("com.google.accompanist:accompanist-navigation-material:0.36.0")
 
+
     // Room for local database
     implementation("androidx.room:room-runtime:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")
@@ -391,12 +396,14 @@ dependencies {
     testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
 
     // AndroidX Test
+
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.8.2")
     androidTestImplementation("androidx.test:runner:1.6.2")
     androidTestImplementation("androidx.test:rules:1.6.1")
     androidTestImplementation("io.mockk:mockk-android:1.14.2")
+=
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
@@ -408,6 +415,8 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
     // Kotlinx Datetime
+
+    // Kotlinx datetime for Instant and Clock
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 }
 
