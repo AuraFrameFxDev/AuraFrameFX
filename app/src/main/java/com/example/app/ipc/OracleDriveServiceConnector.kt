@@ -29,6 +29,11 @@ class OracleDriveServiceConnector(
     val serviceVersion: StateFlow<String?> = _serviceVersion.asStateFlow()
 
     private val serviceConnection = object : ServiceConnection {
+        /**
+         * Handles actions upon successful connection to the AuraDriveService.
+         *
+         * Initializes the service interface, updates connection state, registers a callback to receive service events, retrieves the service version, and notifies listeners of the connection event. If a RemoteException occurs during setup, resets the connection state and reports the error via the event callback.
+         */
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             try {
                 auraDriveService = IAuraDriveService.Stub.asInterface(service)
@@ -99,6 +104,11 @@ class OracleDriveServiceConnector(
             }
         }
 
+        /**
+         * Handles the event when the service is disconnected.
+         *
+         * Unregisters the service callback, cleans up service references and state, and notifies listeners of the disconnection event.
+         */
         override fun onServiceDisconnected(name: ComponentName?) {
             try {
                 serviceCallback?.let { callback ->
@@ -112,17 +122,30 @@ class OracleDriveServiceConnector(
             onServiceEvent?.invoke(EVENT_DISCONNECTED, "Service disconnected")
         }
 
+        /**
+         * Handles the event when the service binding dies unexpectedly.
+         *
+         * Cleans up the service connection and notifies the event callback with an error event.
+         */
         override fun onBindingDied(name: ComponentName?) {
             cleanupService()
             onServiceEvent?.invoke(EVENT_ERROR, "Binding died")
         }
 
+        /**
+         * Handles the event when the service binding returns null.
+         *
+         * Cleans up the service connection and notifies the event callback with an error.
+         */
         override fun onNullBinding(name: ComponentName?) {
             cleanupService()
             onServiceEvent?.invoke(EVENT_ERROR, "Received null binding")
         }
     }
 
+    /**
+     * Resets the service interface, callback, connection status, and service version to their default states.
+     */
     private fun cleanupService() {
         auraDriveService = null
         serviceCallback = null
@@ -131,8 +154,9 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Binds to the AuraDriveService
-     * @return true if binding was attempted, false if already bound
+     * Attempts to bind to the AuraDriveService.
+     *
+     * @return `true` if the binding process was initiated, or `false` if already connected.
      */
     fun bindService(): Boolean {
         if (_isServiceConnected.value) return false
@@ -163,7 +187,9 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Unbinds from the AuraDriveService
+     * Unbinds from the AuraDriveService and cleans up service state.
+     *
+     * If connected, this method unregisters the service callback, unbinds from the service, and resets internal state. Errors during unbinding are reported via the event callback if provided.
      */
     fun unbindService() {
         if (!_isServiceConnected.value) return
@@ -181,10 +207,11 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Execute a command on the service
-     * @param command The command to execute
-     * @param params Optional parameters for the command
-     * @return Result of the command execution
+     * Executes a command on the connected AuraDriveService asynchronously.
+     *
+     * @param command The command string to execute on the service.
+     * @param params Optional parameters to include with the command.
+     * @return A [Result] containing the command's output string on success, or an exception on failure.
      */
     suspend fun executeCommand(
         command: String,
@@ -206,7 +233,9 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Get the current status from Oracle Drive
+     * Retrieves the current status string from the connected AuraDriveService.
+     *
+     * @return The status string if available, or null if the service is not connected or an error occurs.
      */
     suspend fun getStatusFromOracleDrive(): String? = withContext(Dispatchers.IO) {
         try {
@@ -218,8 +247,12 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Toggle an LSPosed module on/off
-     */
+         * Enables or disables an LSPosed module via the AuraDriveService.
+         *
+         * @param packageName The package name of the LSPosed module to toggle.
+         * @param enable True to enable the module, false to disable it.
+         * @return The result string from the service, or null if the operation fails.
+         */
     suspend fun toggleModuleOnOracleDrive(packageName: String, enable: Boolean): String? =
         withContext(Dispatchers.IO) {
             try {
@@ -231,7 +264,9 @@ class OracleDriveServiceConnector(
         }
 
     /**
-     * Get detailed internal status from the service
+     * Retrieves the detailed internal status from the AuraDriveService.
+     *
+     * @return The detailed internal status string, or null if the service is unavailable or an error occurs.
      */
     suspend fun getDetailedInternalStatus(): String? = withContext(Dispatchers.IO) {
         try {
@@ -243,7 +278,9 @@ class OracleDriveServiceConnector(
     }
 
     /**
-     * Get internal diagnostics log from the service
+     * Retrieves the internal diagnostics log from the AuraDriveService.
+     *
+     * @return The diagnostics log as a string, or null if retrieval fails.
      */
     suspend fun getInternalDiagnosticsLog(): String? = withContext(Dispatchers.IO) {
         try {

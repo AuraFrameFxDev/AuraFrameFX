@@ -19,11 +19,14 @@ import kotlin.math.roundToInt
 object DigitalTransitions {
     
     /**
-     * Applies digital effects to the composable.
-     * @param modifier The modifier to apply the effects to.
-     * @param pixelationEnabled Whether to apply pixelation effect.
-     * @param scanlineEnabled Whether to apply scanline effect.
-     * @return A modified modifier with the digital effects applied.
+     * Returns a Modifier that conditionally applies pixelation and scanline digital effects.
+     *
+     * Combines pixelation and scanline visual effects as modifiers based on the provided flags, enabling a cyberpunk digital aesthetic for composables.
+     *
+     * @param modifier The base Modifier to which effects will be applied.
+     * @param pixelationEnabled If true, applies a pixelation overlay effect.
+     * @param scanlineEnabled If true, applies a moving scanline overlay effect.
+     * @return A Modifier with the selected digital effects applied.
      */
     fun applyDigitalEffects(
         modifier: Modifier = Modifier,
@@ -36,7 +39,12 @@ object DigitalTransitions {
     )
 
     /**
-     * Creates a pixelation effect that makes the content appear digitized.
+     * Applies a pixelation overlay effect to the composable, simulating a digitized appearance.
+     *
+     * The effect overlays a grid of semi-transparent rectangles to create a pixelated look. The visibility of the effect is animated with a fade-in/out transition.
+     *
+     * @param visible Whether the pixelation effect is visible.
+     * @return The modifier with the pixelation effect applied if visible; otherwise, the original modifier.
      */
     fun Modifier.digitalPixelEffect(visible: Boolean = true): Modifier = composed {
         val pixelSize = 4.dp
@@ -85,7 +93,12 @@ object DigitalTransitions {
     }
 
     /**
-     * Creates a scanline effect that moves down the screen.
+     * Applies an animated digital scanline effect overlay to the composable.
+     *
+     * When enabled, overlays moving horizontal cyan scanlines across the composable area, simulating a digital display. The scanlines animate vertically in a continuous loop and fade in or out based on the `visible` parameter.
+     *
+     * @param visible Whether the scanline effect is visible and animated.
+     * @return The modifier with the scanline effect applied if visible; otherwise, the original modifier.
      */
     fun Modifier.digitalScanlineEffect(visible: Boolean = true): Modifier = composed {
         val scanlineHeight = 1.dp

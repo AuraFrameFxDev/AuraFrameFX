@@ -31,11 +31,21 @@ private const val PREF_TRANSITION_CONFIG = "home_screen_transition"
 
 // Extension function to get serializer for HomeScreenTransitionConfig
 @OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
+/**
+ * Serializes this HomeScreenTransitionConfig instance to a JSON string.
+ *
+ * @return The JSON representation of the configuration.
+ */
 private fun HomeScreenTransitionConfig.toJson(): String {
     return Json.encodeToString(this)
 }
 
 @OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
+/**
+ * Attempts to deserialize this JSON string into a HomeScreenTransitionConfig object.
+ *
+ * @return The deserialized HomeScreenTransitionConfig, or null if deserialization fails.
+ */
 private fun String.toHomeScreenTransitionConfig(): HomeScreenTransitionConfig? {
     return try {
         Json.decodeFromString<HomeScreenTransitionConfig>(this)
@@ -62,6 +72,14 @@ class HomeScreenTransitionViewModel @Inject constructor(
         }
     }
     
+    /**
+     * Updates the current home screen transition configuration based on the provided properties map.
+     *
+     * If the map contains "defaultOutgoingEffect" or "defaultIncomingEffect", updates the corresponding effect in the configuration.
+     * The updated configuration is persisted to DataStore preferences.
+     *
+     * @param properties A map containing transition property keys and their new values.
+     */
     fun updateTransitionProperties(properties: Map<String, Any>) {
         viewModelScope.launch {
             val current = _currentConfig.value ?: return@launch
@@ -85,6 +103,9 @@ class HomeScreenTransitionViewModel @Inject constructor(
         }
     }
     
+    /**
+     * Resets the home screen transition configuration to its default values and persists the updated configuration to preferences.
+     */
     fun resetToDefault() {
         viewModelScope.launch {
             transitionManager.resetToDefault()
@@ -92,6 +113,11 @@ class HomeScreenTransitionViewModel @Inject constructor(
         }
     }
     
+    /**
+     * Saves the provided home screen transition configuration to DataStore preferences as a JSON string.
+     *
+     * Handles IO exceptions by printing the stack trace.
+     */
     private suspend fun saveConfigToPreferences(config: HomeScreenTransitionConfig) {
         try {
             dataStore.edit { preferences ->
@@ -103,6 +129,11 @@ class HomeScreenTransitionViewModel @Inject constructor(
         }
     }
     
+    /**
+     * Loads the home screen transition configuration from DataStore preferences.
+     *
+     * @return The deserialized HomeScreenTransitionConfig if available and valid, or null if not found or deserialization fails.
+     */
     suspend fun loadConfigFromPreferences(): HomeScreenTransitionConfig? {
         return try {
             dataStore.data

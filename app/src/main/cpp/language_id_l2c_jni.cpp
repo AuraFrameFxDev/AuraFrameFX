@@ -10,6 +10,14 @@
 extern "C" {
 #endif
 
+/**
+ * @brief Initializes the native language identification model with the specified model path.
+ *
+ * If the provided model path is null, returns an empty string. Otherwise, performs initialization (placeholder) and returns the version string "1.0.0".
+ *
+ * @param modelPath Path to the language identification model as a Java string.
+ * @return jstring Version string "1.0.0" if initialization is successful, or an empty string if the model path is null.
+ */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeInitialize(
         JNIEnv *env,
@@ -28,6 +36,15 @@ Java_com_example_app_language_LanguageIdentifier_nativeInitialize(
     return env->NewStringUTF("1.0.0");
 }
 
+/**
+ * @brief Detects the language of the provided text string.
+ *
+ * Returns a language code based on simple keyword heuristics: "en" for English (default), "es" for Spanish, "fr" for French, "de" for German, or "und" if the input is null or cannot be processed.
+ *
+ * @param handle Native handle to the language identification model.
+ * @param text Input text to analyze.
+ * @return jstring Language code as a UTF-8 string.
+ */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeDetectLanguage(
         JNIEnv *env,
@@ -69,6 +86,13 @@ Java_com_example_app_language_LanguageIdentifier_nativeDetectLanguage(
     return env->NewStringUTF(result.c_str());
 }
 
+/**
+ * @brief Releases resources associated with the given native handle.
+ *
+ * Intended to clean up any native resources allocated for language identification.
+ *
+ * @param handle Native handle referencing allocated resources.
+ */
 JNIEXPORT void JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeRelease(
         JNIEnv *env,
@@ -80,6 +104,11 @@ Java_com_example_app_language_LanguageIdentifier_nativeRelease(
     }
 }
 
+/**
+ * @brief Returns the version string of the native language identifier implementation.
+ *
+ * @return jstring Version string, e.g., "1.0.0".
+ */
 JNIEXPORT jstring JNICALL
 Java_com_example_app_language_LanguageIdentifier_nativeGetVersion(
         JNIEnv *env,

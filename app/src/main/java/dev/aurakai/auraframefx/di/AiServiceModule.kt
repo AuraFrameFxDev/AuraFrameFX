@@ -17,12 +17,23 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AiServiceModule {
     // AuraAIServiceImpl has an @Inject constructor, so Hilt can provide it directly.
-    // No need for a @Provides method here if its dependencies are also provided.
+    /**
+         * Provides a singleton instance of KaiAIService using the given SecurityContext.
+         *
+         * @param securityContext The security context required to construct the KaiAIService implementation.
+         * @return A singleton KaiAIService instance.
+         */
 
     @Provides
     @Singleton
     fun provideKaiAIService(securityContext: SecurityContext): KaiAIService =
-        KaiAIServiceImpl(securityContext) // Assuming KaiAIServiceImpl also has @Inject or is provided elsewhere if it has deps
+        KaiAIServiceImpl(securityContext) /**
+     * Provides a singleton instance of CascadeAIService using the supplied AuraAIService and KaiAIService implementations.
+     *
+     * @param auraService The AuraAIService implementation to be used by CascadeAIServiceImpl.
+     * @param kaiService The KaiAIService implementation to be used by CascadeAIServiceImpl.
+     * @return A singleton CascadeAIService instance.
+     */
 
     @Provides
     @Singleton

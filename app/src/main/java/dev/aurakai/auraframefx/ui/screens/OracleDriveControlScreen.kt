@@ -19,6 +19,11 @@ import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.ui.viewmodel.OracleDriveControlViewModel
 import kotlinx.coroutines.launch
 
+/**
+ * Displays a UI screen for monitoring and controlling the Oracle Drive service.
+ *
+ * Shows the service connection status, current and detailed status, and diagnostics log. Provides controls to enable or disable the Oracle Drive module for a specified package, with loading and error feedback. The screen binds to the service on entry and unbinds on exit.
+ */
 @Composable
 fun OracleDriveControlScreen(
     viewModel: OracleDriveControlViewModel = hiltViewModel(),
@@ -174,6 +179,11 @@ fun OracleDriveControlScreen(
     }
 }
 
+/**
+ * Provides a composable scope with helper functions for refreshing Oracle Drive service status and toggling package enable state.
+ *
+ * This composable does not render UI elements but exposes local functions for use within its scope.
+ */
 @Composable
 fun OracleDriveControlScreenScope(
     viewModel: OracleDriveControlViewModel = hiltViewModel()

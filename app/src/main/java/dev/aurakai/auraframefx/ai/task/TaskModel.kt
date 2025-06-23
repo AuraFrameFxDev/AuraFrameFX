@@ -14,6 +14,13 @@ import kotlinx.serialization.json.*
 class AnyValueSerializer : KSerializer<Any> {
     override val descriptor = JsonPrimitive.serializer().descriptor
 
+    /**
+     * Serializes an arbitrary value to JSON, supporting strings, numbers, booleans, and maps with string keys.
+     *
+     * Strings, numbers, and booleans are encoded as their respective JSON primitives. Maps are encoded as JSON objects with string keys and primitive values. Other types are serialized as their string representation.
+     *
+     * @throws IllegalStateException if the encoder is not a JsonEncoder.
+     */
     override fun serialize(encoder: Encoder, value: Any) {
         val jsonEncoder = encoder as? JsonEncoder ?: throw IllegalStateException("This encoder is not a JsonEncoder")
         when (value) {
@@ -40,6 +47,14 @@ class AnyValueSerializer : KSerializer<Any> {
     }
 
 
+    /**
+     * Deserializes a JSON element into a Kotlin value of type `Any`.
+     *
+     * Converts JSON primitives to their corresponding Kotlin types (`String`, `Boolean`, `Double`, or `Long`), JSON objects to maps with stringified values, and other JSON elements to their string representation.
+     *
+     * @return The deserialized value as a Kotlin `Any` type.
+     * @throws IllegalStateException if the provided decoder is not a `JsonDecoder`.
+     */
     override fun deserialize(decoder: Decoder): Any {
         val jsonDecoder = decoder as? JsonDecoder ?: throw IllegalStateException("This decoder is not a JsonDecoder")
         val element = jsonDecoder.decodeJsonElement()

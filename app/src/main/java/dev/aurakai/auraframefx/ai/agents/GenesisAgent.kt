@@ -54,6 +54,14 @@ class GenesisAgent @Inject constructor(
         }
     }
 
+    /**
+     * Processes a user query by coordinating active AI agents and aggregating their responses.
+     *
+     * The query is routed through the Cascade agent for state management, the Kai agent for security analysis (if active), and the Aura agent for creative response (if active). Each agent's response is collected, and a final combined response is generated and appended as a message from the Genesis agent. The function updates the internal state and context accordingly.
+     *
+     * @param query The user query to be processed.
+     * @return A list of agent messages, including individual agent responses and the final Genesis response.
+     */
     suspend fun processQuery(query: String): List<AgentMessage> {
         _state.update { "processing_query: $query" }
 

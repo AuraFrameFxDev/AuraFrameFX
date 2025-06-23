@@ -30,6 +30,21 @@ class TaskScheduler @Inject constructor(
     private val _activeTasks = mutableMapOf<String, Task>()
     private val _completedTasks = mutableMapOf<String, Task>()
 
+    /**
+     * Creates a new task with the specified parameters and schedules it for execution.
+     *
+     * The task is added to the internal task registry, task statistics are updated, and the task is prioritized and enqueued for processing.
+     *
+     * @param content The main content or description of the task.
+     * @param context The context or environment in which the task should be executed.
+     * @param priority The priority level assigned to the task.
+     * @param urgency The urgency level assigned to the task.
+     * @param importance The importance level assigned to the task.
+     * @param requiredAgents The set of agent types required to execute the task.
+     * @param dependencies The set of task IDs that must be completed before this task can be executed.
+     * @param metadata Additional metadata associated with the task.
+     * @return The created Task object.
+     */
     fun createTask(
         content: String,
         context: String,

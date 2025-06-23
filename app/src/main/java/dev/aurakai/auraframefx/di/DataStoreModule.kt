@@ -19,6 +19,11 @@ private val Context.dataStore by preferencesDataStore(name = "aura_preferences")
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
+    /**
+     * Provides the singleton instance of the application's preferences DataStore.
+     *
+     * @return The DataStore used for storing and retrieving key-value preferences.
+     */
     @Provides
     @Singleton
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {

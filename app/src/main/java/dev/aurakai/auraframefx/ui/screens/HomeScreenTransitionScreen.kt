@@ -22,6 +22,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 
+/**
+ * Displays a screen for configuring home screen transition effects, allowing users to select, preview, and edit outgoing and incoming transition types, durations, and properties.
+ *
+ * The screen provides categorized pickers for transition types, sliders for adjusting effect durations, and editors for modifying effect properties. Changes are synchronized with the provided ViewModel, and users can reset all settings to their default values.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenTransitionScreen(
@@ -295,6 +300,14 @@ mapOf("defaultOutgoingEffect" to newEffect)
     }
 }
 
+/**
+ * Displays a categorized picker for selecting a home screen transition type.
+ *
+ * Groups available transition types into labeled sections and highlights the currently selected type. Invokes the provided callback when a new type is selected.
+ *
+ * @param currentType The currently selected transition type.
+ * @param onTypeSelected Callback invoked when a transition type is selected.
+ */
 @Composable
 fun TransitionTypePicker(
     currentType: HomeScreenTransitionType,
@@ -483,6 +496,16 @@ fun TransitionPropertiesEditor(
     }
 }
 
+/**
+ * Displays a labeled slider for adjusting a float property within a specified range.
+ *
+ * Shows the current value formatted below the slider.
+ *
+ * @param label The label describing the property being adjusted.
+ * @param value The current value of the property.
+ * @param onValueChange Callback invoked when the slider value changes.
+ * @param valueRange The allowed range for the slider value.
+ */
 @Composable
 fun PropertySlider(
     label: String,
@@ -512,6 +535,14 @@ fun PropertySlider(
     }
 }
 
+/**
+ * Displays a row of selectable buttons for basic home screen transition types.
+ *
+ * Highlights the currently selected transition type and invokes the callback when a type is selected.
+ *
+ * @param currentType The currently selected transition type, or null if none is selected.
+ * @param onTypeSelected Callback invoked when a transition type is selected.
+ */
 @Composable
 fun BasicTransitionRow(
     currentType: HomeScreenTransitionType?,
@@ -565,6 +596,14 @@ fun BasicTransitionRow(
     }
 }
 
+/**
+ * Displays a row of selectable buttons for card stack transition types.
+ *
+ * Highlights the currently selected transition type and invokes the callback when a type is selected.
+ *
+ * @param currentType The currently selected card stack transition type, or null if none is selected.
+ * @param onTypeSelected Callback invoked with the selected transition type when a button is clicked.
+ */
 @Composable
 fun CardStackTransitionRow(
     currentType: HomeScreenTransitionType?,
@@ -597,6 +636,14 @@ fun CardStackTransitionRow(
     }
 }
 
+/**
+ * Displays a horizontal row of buttons for selecting 3D transition effects.
+ *
+ * Highlights the currently selected 3D transition type and invokes the callback when a button is selected.
+ *
+ * @param currentType The currently selected 3D transition type, or null if none is selected.
+ * @param onTypeSelected Callback invoked when a transition type is selected.
+ */
 @Composable
 fun ThreeDTransitionRow(
     currentType: HomeScreenTransitionType?,
@@ -693,6 +740,11 @@ fun FanTransitionRow(
     }
 }
 
+/**
+ * Displays a row of selectable buttons for spread transition types.
+ *
+ * Highlights the currently selected spread transition and invokes the callback when a different type is selected.
+ */
 @Composable
 fun SpreadTransitionRow(
     currentType: HomeScreenTransitionType,
@@ -725,6 +777,11 @@ fun SpreadTransitionRow(
     }
 }
 
+/**
+ * Displays a row of selectable buttons for digital deconstruct and reconstruct transition types.
+ *
+ * Highlights the currently selected transition type and invokes the callback when a type is selected.
+ */
 @Composable
 fun DigitalHologramTransitionRow(
     currentType: HomeScreenTransitionType,
@@ -750,6 +807,15 @@ fun DigitalHologramTransitionRow(
     }
 }
 
+/**
+ * Displays a selectable button representing a transition type.
+ *
+ * The button visually indicates selection state and triggers the provided callback when clicked.
+ *
+ * @param label The text label displayed on the button.
+ * @param isSelected Whether the button is currently selected.
+ * @param onClick Callback invoked when the button is clicked.
+ */
 @Composable
 fun TransitionButton(
     label: String,

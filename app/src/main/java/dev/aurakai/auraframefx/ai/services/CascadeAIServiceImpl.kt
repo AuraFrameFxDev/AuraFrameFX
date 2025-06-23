@@ -14,6 +14,15 @@ class CascadeAIServiceImpl @Inject constructor(
     private val auraService: AuraAIService,
     private val kaiService: KaiAIService
 ) : CascadeAIService {
+    /**
+     * Processes an AI request and returns a stream containing a placeholder agent message response.
+     *
+     * The returned [StateFlow] emits a single [AgentMessage] with placeholder content based on the input.
+     * Future implementations will incorporate cascade logic using multiple AI services.
+     *
+     * @param request The AI request to process.
+     * @return A [StateFlow] emitting the generated [AgentMessage].
+     */
     override fun processRequest(request: AiRequest): StateFlow<AgentMessage> {
         // TODO: Utilize auraService and kaiService in the processing logic if needed
         val state = MutableStateFlow<AgentMessage?>(null)

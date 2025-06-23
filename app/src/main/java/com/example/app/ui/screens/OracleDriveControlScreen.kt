@@ -19,6 +19,11 @@ import com.example.app.R
 import dev.aurakai.auraframefx.ui.viewmodel.OracleDriveControlViewModel
 import kotlinx.coroutines.launch
 
+/**
+ * Displays the Oracle Drive control screen for monitoring service status and managing modules.
+ *
+ * Presents connection status, service status, diagnostics log, and controls for refreshing status and toggling modules. UI elements are enabled or disabled based on connection and loading states.
+ */
 @Composable
 fun OracleDriveControlScreen(
     viewModel: OracleDriveControlViewModel = hiltViewModel(),
@@ -167,6 +172,11 @@ fun OracleDriveControlScreen(
     }
 }
 
+/**
+ * Safely refreshes the Oracle Drive service status, updating loading and error states as needed.
+ *
+ * Displays an error message if the refresh operation fails.
+ */
 private suspend fun OracleDriveControlScreenScope.safeRefresh() {
     isLoading = true
     errorMessage = null
@@ -179,6 +189,11 @@ private suspend fun OracleDriveControlScreenScope.safeRefresh() {
     }
 }
 
+/**
+ * Toggles the enabled state of a module for the specified package name, updating loading and error states as needed.
+ *
+ * If the package name is blank, the operation is skipped. Displays an error message if the toggle operation fails.
+ */
 private suspend fun OracleDriveControlScreenScope.safeToggle() {
     if (packageName.text.isBlank()) return
     isLoading = true
@@ -192,6 +207,9 @@ private suspend fun OracleDriveControlScreenScope.safeToggle() {
     }
 }
 
+/**
+ * Provides a composable scope for accessing the screen's state and ViewModel within extension functions.
+ */
 @Composable
 private fun OracleDriveControlScreenScope.OracleDriveControlScreenScope() {
     // This scope provides access to the screen's state and viewModel
