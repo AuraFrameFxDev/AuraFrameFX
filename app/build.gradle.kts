@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt") // Using full ID
+
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -302,8 +304,13 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 
     // Xposed Framework
-    compileOnly("de.robv.android.xposed:api:82")
-    compileOnly("de.robv.android.xposed:api:82:sources")
+    // compileOnly("de.robv.android.xposed:api:82") {
+    //     isTransitive = false
+    // }
+    // Xposed Framework - Local JARs (USER MUST ADD THESE TO app/libs/)
+    compileOnly(files("libs/api-82.jar"))
+    compileOnly(files("libs/bridge-82.jar"))
+
 
     // LSPosed specific
     compileOnly("org.lsposed.hiddenapibypass:hiddenapibypass:6.1") {
