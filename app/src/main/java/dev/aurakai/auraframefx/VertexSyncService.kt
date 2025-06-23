@@ -7,16 +7,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class VertexSyncService @Inject constructor() : Service() {
-    // TODO: If this service has dependencies to be injected, add them to the constructor.
-
-    override fun onBind(intent: Intent?): IBinder? {
-        // TODO: Parameter intent should be _intent if not used.
-        return null // TODO: Implement if binding is needed
+class VertexSyncService @Inject constructor(
+    // Example dependency injection (add real dependencies as needed)
+    // private val syncManager: SyncManager
+) : Service() {
+    override fun onBind(_intent: Intent?): IBinder? {
+        // Not designed for binding; implement if needed
+        return null
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // TODO: Implement service logic
+    override fun onStartCommand(_intent: Intent?, _flags: Int, _startId: Int): Int {
+        // Implement service logic here (e.g., start sync tasks)
         return START_NOT_STICKY
     }
 }

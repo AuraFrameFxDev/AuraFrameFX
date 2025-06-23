@@ -5,8 +5,6 @@ package dev.aurakai.auraframefx.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import com.google.ai.client.generativeai.GenerativeModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -101,105 +99,56 @@ object AppModule {
 
     /**
      * Provides AuraAIService.
-     * @param _config AIConfig dependency.
-     * TODO: Method reported as unused. Implement if AuraAIService is used.
-     */
-    @Provides
-    @Singleton
-    fun provideGenerativeModel(securePreferences: SecurePreferences): GenerativeModel? {
-        // This assumes SecurePreferences has a method like getApiKey(): String?
-        // User needs to implement this in SecurePreferences.kt
-        val apiKey = securePreferences.getApiKey() // Placeholder for actual method call
-
-        return if (apiKey != null && apiKey.isNotBlank() && apiKey != "TODO_load_api_key_securely") {
-            try {
-                Log.i("AppModule", "GenerativeModel API Key found, initializing GenerativeModel.")
-                GenerativeModel(modelName = "gemini-pro", apiKey = apiKey)
-            } catch (e: Exception) {
-                Log.e(
-                    "AppModule",
-                    "Exception during GenerativeModel initialization: ${e.message}",
-                    e
-                )
-                null
-            }
-        } else {
-            Log.e(
-                "AppModule",
-                "Gemini API Key not found, is empty, or is a placeholder in SecurePreferences. GenerativeModel will be null."
-            )
-            null
-        }
-    }
-
-    /**
-     * Provides a singleton instance of `AuraAIService` configured with core AI, task management, memory, error handling, context, offline data, and logging dependencies.
      *
-     * Constructs and returns an `AuraAIServiceImpl` using the supplied dependencies.
+     * Constructs and returns an AuraAIServiceImpl using the supplied dependencies.
      *
-     * @return A configured `AuraAIService` implementation.
+     * @return A configured AuraAIService implementation.
      */
     @Provides
     @Singleton
     fun provideAuraAIService(
-        generativeModel: GenerativeModel?,
         taskScheduler: TaskScheduler,
         taskExecutionManager: TaskExecutionManager,
         memoryManager: MemoryManager,
         errorHandler: ErrorHandler,
         contextManager: ContextManager,
-        offlineDataManager: OfflineDataManager, // Assuming OfflineDataManager is already provided or Hilt can find it
-        auraFxLogger: AuraFxLogger, // NEW param for provider
+        cloudStatusMonitor: CloudStatusMonitor,
+        auraFxLogger: AuraFxLogger,
     ): AuraAIService = AuraAIServiceImpl(
-        generativeModel,
         taskScheduler,
         taskExecutionManager,
         memoryManager,
         errorHandler,
         contextManager,
-        cloudStatusMonitor = cloudStatusMonitor, // This dependency was missing from the original list but present in AuraAIServiceImpl constructor
-        offlineDataManager = offlineDataManager,
-        auraFxLogger = auraFxLogger // Pass to constructor
+        cloudStatusMonitor,
+        auraFxLogger
     )
-    // Note: Need to ensure CloudStatusMonitor is also passed to provideAuraAIService if it's a dependency of AuraAIServiceImpl
-    // The constructor for AuraAIServiceImpl was previously updated to:
-    // constructor(generativeModel, taskScheduler, taskExecutionManager, memoryManager, errorHandler, contextManager, cloudStatusMonitor, offlineDataManager)
+
     /**
      * Provides a singleton instance of KaiAIService with all required dependencies.
-     *
-     * Constructs and supplies a KaiAIService configured with generative model, task management, memory, error handling, context management, application context, cloud status monitoring, offline data management, and logging capabilities.
-     *
-     * @return A fully initialized KaiAIService instance.
      */
-
     @Provides
     @Singleton
     fun provideKaiAIService(
-        generativeModel: GenerativeModel?,
         taskScheduler: TaskScheduler,
         taskExecutionManager: TaskExecutionManager,
         memoryManager: MemoryManager,
         errorHandler: ErrorHandler,
         contextManager: ContextManager,
-        @ApplicationContext applicationContext: Context,
-        cloudStatusMonitor: CloudStatusMonitor, // Assuming this is needed by KaiAIService constructor
-        offlineDataManager: OfflineDataManager, // Assuming this is needed
-        auraFxLogger: AuraFxLogger, // NEW param for provider
+        applicationContext: Context,
+        cloudStatusMonitor: CloudStatusMonitor,
+        auraFxLogger: AuraFxLogger,
     ): KaiAIService = KaiAIService(
-        generativeModel,
         taskScheduler,
         taskExecutionManager,
         memoryManager,
         errorHandler,
         contextManager,
         applicationContext,
-        cloudStatusMonitor = cloudStatusMonitor, // This dependency was missing from the original list but present in KaiAIService constructor
-        offlineDataManager = offlineDataManager,
-        auraFxLogger = auraFxLogger // Pass to constructor
+        cloudStatusMonitor,
+        auraFxLogger
     )
-    // Note: Similar to AuraAIService, ensure all constructor params for KaiAIService are correctly passed.
-    // KaiAIService constructor was:
-    // constructor(generativeModel, taskScheduler, taskExecutionManager, memoryManager, errorHandler, contextManager, applicationContext, cloudStatusMonitor, offlineDataManager)
+
     /**
      * Provides a singleton instance of KeystoreManager initialized with the application context.
      *
@@ -233,10 +182,9 @@ object AppModule {
     fun provideTaskExecutionManager(
         @ApplicationContext context: Context,
         kaiService: KaiAIService,
-        offlineDataManager: OfflineDataManager, // Added as per TaskExecutionManager's constructor in previous step
-        auraFxLogger: AuraFxLogger, // NEW param for provider
+        auraFxLogger: AuraFxLogger,
     ): TaskExecutionManager {
-        return TaskExecutionManager(context, kaiService, offlineDataManager, auraFxLogger)
+        return TaskExecutionManager(context, kaiService, auraFxLogger)
     }
     // TaskExecutionManager constructor was updated to:
     /**

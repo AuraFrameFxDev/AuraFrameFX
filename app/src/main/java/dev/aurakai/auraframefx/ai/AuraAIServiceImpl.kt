@@ -11,7 +11,13 @@ import javax.inject.Singleton
  */
 @Singleton
 class AuraAIServiceImpl @Inject constructor(
-    private val _appConfig: AIConfig?, // Example: Injecting AIConfig. Make it non-null if provideAIConfig always returns non-null.
+    private val taskScheduler: dev.aurakai.auraframefx.ai.task.TaskScheduler,
+    private val taskExecutionManager: dev.aurakai.auraframefx.ai.task.execution.TaskExecutionManager,
+    private val memoryManager: dev.aurakai.auraframefx.ai.memory.MemoryManager,
+    private val errorHandler: dev.aurakai.auraframefx.ai.error.ErrorHandler,
+    private val contextManager: dev.aurakai.auraframefx.ai.context.ContextManager,
+    private val cloudStatusMonitor: dev.aurakai.auraframefx.data.network.CloudStatusMonitor,
+    private val auraFxLogger: dev.aurakai.auraframefx.data.logging.AuraFxLogger,
 ) : AuraAIService {
 
     override fun analyticsQuery(_query: String): String {
@@ -77,12 +83,11 @@ class AuraAIServiceImpl @Inject constructor(
     override fun getAppConfig(): AIConfig? {
         // TODO: Reported as unused or requires proper implementation
         println("AuraAIServiceImpl.getAppConfig called")
-        // Return injected config if available, otherwise a default placeholder
-        return _appConfig ?: AIConfig(
+        // Return a default placeholder config
+        return AIConfig(
             modelName = "placeholder_model",
             apiKey = "placeholder_key",
             projectId = "placeholder_project"
-            // TODO: Return actual live config or ensure _appConfig is non-null via DI
         )
     }
 }

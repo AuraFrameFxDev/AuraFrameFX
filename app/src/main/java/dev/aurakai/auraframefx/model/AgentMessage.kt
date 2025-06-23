@@ -14,5 +14,6 @@ enum class AgentType {
     AURA,
     KAI,
     CASCADE,
-    USER
+    USER,
+    GENESIS // Added
 }

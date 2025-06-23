@@ -5,8 +5,17 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.system.lockscreen.LockScreenCustomizer
 import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsCustomizer
+import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsConfig
+import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsAnimation
+import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsTileConfig
+import dev.aurakai.auraframefx.system.lockscreen.LockScreenConfig
+import dev.aurakai.auraframefx.system.lockscreen.LockScreenElementType
+import dev.aurakai.auraframefx.system.lockscreen.LockScreenAnimation
+import dev.aurakai.auraframefx.system.overlay.OverlayShape
+import dev.aurakai.auraframefx.system.overlay.OverlayImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,18 +24,25 @@ class SystemCustomizationViewModel @Inject constructor(
     private val quickSettingsCustomizer: QuickSettingsCustomizer,
     private val lockScreenCustomizer: LockScreenCustomizer,
 ) : ViewModel() {
+    
     private val _quickSettingsConfig = MutableStateFlow<QuickSettingsConfig?>(null)
     val quickSettingsConfig: StateFlow<QuickSettingsConfig?> = _quickSettingsConfig
-
+    
     private val _lockScreenConfig = MutableStateFlow<LockScreenConfig?>(null)
     val lockScreenConfig: StateFlow<LockScreenConfig?> = _lockScreenConfig
-
+    
     init {
+        loadConfigurations()
+    }
+    
+    fun loadConfigurations() {
         viewModelScope.launch {
             quickSettingsCustomizer.currentConfig.collect { config ->
                 _quickSettingsConfig.value = config
             }
-
+        }
+        
+        viewModelScope.launch {
             lockScreenCustomizer.currentConfig.collect { config ->
                 _lockScreenConfig.value = config
             }
