@@ -1,9 +1,8 @@
-// app/build.gradle.kts - ADVANCED VERSION
+// app/build.gradle.kts - ADVANCED & CORRECTED
 
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
-    // Version catalog aliases
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
@@ -60,7 +59,6 @@ android {
         jvmTarget = "21"
     }
 
-    // Include OpenAPI-generated sources
     sourceSets {
         getByName("main").java.srcDir("${layout.buildDirectory.get()}/generated/openapi/src/main/kotlin")
     }
@@ -73,7 +71,6 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    // Local JAR for Xposed API
     compileOnly(files("libs/xposed-api-82.jar"))
 }
 
@@ -94,7 +91,6 @@ tasks.withType<GenerateTask> {
     )
 }
 
-// Ensure OpenAPI code generation runs before Kotlin compilation
 androidComponents {
     onVariants { variant ->
         tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
