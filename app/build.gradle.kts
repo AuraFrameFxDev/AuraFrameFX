@@ -11,22 +11,22 @@ plugins {
     
     // Apply other plugins
     alias(libs.plugins.kotlin.serialization)
-    // alias(libs.plugins.ksp) // Temporarily disabled
-    // alias(libs.plugins.hilt) // Temporarily disabled
-    // alias(libs.plugins.openapi.generator) // Temporarily disabled
+    alias(libs.plugins.ksp) // Temporarily disabled
+    alias(libs.plugins.hilt) // Temporarily disabled
+    alias(libs.plugins.openapi.generator) // Temporarily disabled
 }
 
 // The 'android' block starts here...
 android {
     namespace = "dev.aurakai.auraframefx"
-    compileSdk = 35
+    compileSdk = 34
     ndkVersion = "29.0.13113456"
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx" // Let's make this match the namespace for consistency
-        minSdk = 34
-        targetSdk = 35
+        minSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
