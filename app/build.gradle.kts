@@ -24,6 +24,38 @@ val lifecycleVersion = "2.9.1"
 
 
 android {
+    // Configure Java 24 compatibility
+    compileSdk = 34
+    
+    defaultConfig {
+        targetSdk = 34
+        minSdk = 34  // Required for LSPosed
+    }
+    
+    compileOptions {
+        // Enable Java 24 language features
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        isCoreLibraryDesugaringEnabled = true  // For Java 8+ APIs on older Android versions
+    }
+    
+    kotlinOptions {
+        jvmTarget = "21"  // Match Java version
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xjvm-default=all",  // Enable all JVM default methods
+            "-opt-in=kotlin.RequiresOptIn"
+        )
+    }
+    
+    // Configure Java toolchain for consistent build environment
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+    
+    kotlin {
+        jvmToolchain(24)
+    }
+    
     // NDK version is now managed by Android Gradle Plugin
     defaultConfig {
         ndk {
@@ -181,6 +213,9 @@ android {
     lint {
         lintConfig = file("lint.xml")
     }
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
+    ndkVersion = "27.0.12077973"
 
     packaging {
         resources {
@@ -197,43 +232,43 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.activity:activity-compose:1.10.1")
 
-    // Compose
-    implementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
+    // Compose BOM (Bill of Materials) - manages all Compose library versions
+    val composeBom = platform("androidx.compose:compose-bom:$composeBomVersion")
+    implementation(composeBom)
 
-    // Choose one of the following:
-    // Material3 (recommended)
-    implementation("androidx.compose.material3:material3")
-    // or Material2
-    // implementation("androidx.compose.material:material")
-
-    // Android Studio Preview support
+    // Core Compose dependencies
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-util")
+    implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.8.2")
 
-    // UI Tests
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.8.2")
+    // Material3
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3-window-size-class")
 
-    // Optional - Integration with activities
+    // Integration with activities
     implementation("androidx.activity:activity-compose:1.10.1")
 
-    // Optional - Integration with ViewModels
+    // Integration with ViewModels and LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
-
-    // Optional - Integration with LiveData
     implementation("androidx.compose.runtime:runtime-livedata:1.8.2")
 
-    // Optional - Animation
+    // Animations
     implementation("androidx.compose.animation:animation")
     implementation("androidx.compose.animation:animation-graphics")
 
-    // Optional - Icons
+    // Icons
     implementation("androidx.compose.material:material-icons-extended")
 
-    // Optional - Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.foundation:foundation-layout")
+
+    // UI Tests
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation(composeBom)
 
     // Accompanist for Compose utilities
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
@@ -313,6 +348,13 @@ dependencies {
     // Room for local database
     implementation("androidx.room:room-runtime:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")
+    
+    // DataStore Preferences
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
+    implementation("androidx.datastore:datastore-preferences-core:1.1.7")
+    
+    // Kotlin serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 
     // WorkManager for background tasks
     implementation("androidx.work:work-runtime-ktx:2.10.1")
@@ -323,11 +365,21 @@ dependencies {
 
     // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.7.0")
+    
+    // DataStore Preferences
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
+    
+    // Kotlin serialization runtime
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
 
     // Retrofit for network calls
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // SLF4J logging dependencies for LoggerFactory error
+    implementation("org.slf4j:slf4j-api:2.0.13")
+    implementation("org.slf4j:slf4j-simple:2.0.13")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
@@ -361,6 +413,9 @@ dependencies {
 
     // Desugar JDK libs for Java 8+ APIs on older Android versions
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+
+    // Kotlinx datetime for Instant and Clock
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 }
 
 // KSP and KAPT configuration

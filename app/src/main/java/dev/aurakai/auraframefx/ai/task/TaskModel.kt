@@ -3,7 +3,49 @@ package dev.aurakai.auraframefx.ai.task
 import dev.aurakai.auraframefx.model.AgentType
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.*
+
+@Serializable
+class AnyValueSerializer : KSerializer<Any> {
+    override val descriptor = JsonPrimitive.serializer().descriptor
+
+    override fun serialize(encoder: Encoder, value: Any) {
+        val jsonEncoder = encoder as? JsonEncoder ?: throw IllegalStateException("This encoder is not a JsonEncoder")
+        when (value) {
+            is String -> jsonEncoder.encodeString(value)
+            is Number -> jsonEncoder.encodeJsonElement(JsonPrimitive(value))
+            is Boolean -> jsonEncoder.encodeBoolean(value)
+            is Map<*, *> -> jsonEncoder.encodeJsonElement(JsonObject(value.mapValues { 
+                JsonPrimitive(it.value.toString()) 
+            }))
+            else -> jsonEncoder.encodeString(value.toString())
+        }
+    }
+
+
+    override fun deserialize(decoder: Decoder): Any {
+        val jsonDecoder = decoder as? JsonDecoder ?: throw IllegalStateException("This decoder is not a JsonDecoder")
+        val element = jsonDecoder.decodeJsonElement()
+        return when (element) {
+            is JsonPrimitive -> {
+                when {
+                    element.isString -> element.content
+                    element.booleanOrNull != null -> element.boolean
+                    element.doubleOrNull != null -> element.double
+                    element.longOrNull != null -> element.long
+                    else -> element.content
+                }
+            }
+            is JsonObject -> element.mapValues { it.value.toString() }
+            else -> element.toString()
+        }
+    }
+}
 
 @Serializable
 data class Task(
@@ -14,7 +56,8 @@ data class Task(
     val importance: TaskImportance = TaskImportance.MEDIUM,
     val context: String,
     val content: String,
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
     val status: TaskStatus = TaskStatus.PENDING,
     val assignedAgents: Set<AgentType> = emptySet(),
     val requiredAgents: Set<AgentType> = emptySet(),
@@ -29,14 +72,16 @@ data class TaskDependency(
     val dependencyId: String,
     val type: DependencyType,
     val priority: TaskPriority,
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
 )
 
 @Serializable
 data class TaskPriority(
     val value: Float,
     val reason: String,
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
 ) {
     companion object {
         val CRITICAL = TaskPriority(1.0f, "Critical system task")
@@ -51,7 +96,8 @@ data class TaskPriority(
 data class TaskUrgency(
     val value: Float,
     val reason: String,
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
 ) {
     companion object {
         val IMMEDIATE = TaskUrgency(1.0f, "Immediate attention required")
@@ -66,7 +112,8 @@ data class TaskUrgency(
 data class TaskImportance(
     val value: Float,
     val reason: String,
-    val metadata: Map<String, Any> = emptyMap(),
+    @Contextual
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
 ) {
     companion object {
         val CRITICAL = TaskImportance(1.0f, "Critical system task")
@@ -77,6 +124,7 @@ data class TaskImportance(
     }
 }
 
+@Serializable
 enum class TaskStatus {
     PENDING,
     IN_PROGRESS,
@@ -87,6 +135,7 @@ enum class TaskStatus {
     WAITING
 }
 
+@Serializable
 enum class DependencyType {
     BLOCKING,
     SEQUENTIAL,

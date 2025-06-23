@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.ai.memory
 import dev.aurakai.auraframefx.model.AgentType
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,7 +15,7 @@ data class MemoryItem(
     val context: String? = null,
     val priority: Float = 0.5f,
     val tags: List<String> = emptyList(),
-    val metadata: Map<String, Any> = emptyMap(),
+    val metadata: Map<String, @Contextual Any> = emptyMap(),
 )
 
 @Serializable

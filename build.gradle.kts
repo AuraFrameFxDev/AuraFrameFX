@@ -3,14 +3,15 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://api.xposed." +
-                ".0" +
-                "" +
-                "info/") }
+        maven { url = uri("https://api.xposed.info/") }
+        maven { url = uri("https://jitpack.io") }
     }
+    
     dependencies {
+        classpath("com.android.tools.build:gradle:8.10.1") // Recommended by Android Studio
 
         classpath("com.android.tools.build:gradle:8.10.1")
+
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
 
 
@@ -23,8 +24,9 @@ buildscript {
 }
 
 plugins {
+    id("com.android.application") version "8.10.1" apply false
+    id("com.android.library") version "8.10.1" apply false
 
-    id("com.android.application") version "8.2.2" apply false
     id("org.jetbrains.kotlin.android") version "1.9.22" apply false
     id("com.google.dagger.hilt.android") version "2.56.2" apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
@@ -36,13 +38,14 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
 }
 
+// Configure all projects with Java 21 compatibility
 subprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        // Use the new compilerOptions DSL for Kotlin 2.0+
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
             freeCompilerArgs.addAll(
                 listOf(
+                    "-Xjvm-default=all",
                     "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
                     "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
                     "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
@@ -51,6 +54,16 @@ subprojects {
                     "-opt-in=kotlinx.coroutines.FlowPreview"
                 )
             )
+        }
+    }
+    
+    // Configure Java compatibility
+    plugins.withType<com.android.build.gradle.BasePlugin> {
+        extensions.configure<com.android.build.gradle.BaseExtension> {
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_21
+                targetCompatibility = JavaVersion.VERSION_21
+            }
         }
     }
 }

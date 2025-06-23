@@ -9,12 +9,12 @@ data class TaskResult(
     val message: String? = null,
     val timestamp: Long = System.currentTimeMillis(),
     val durationMs: Long? = null, // How long the task took
-)
-
-@Serializable
-enum class TaskStatus {
-    SUCCESS,
-    FAILED,
-    PENDING,
-    CANCELLED
+) {
+    companion object {
+        fun success(taskId: String, message: String? = null, durationMs: Long? = null) =
+            TaskResult(taskId, TaskStatus.COMPLETED, message, System.currentTimeMillis(), durationMs)
+            
+        fun failed(taskId: String, message: String? = null, durationMs: Long? = null) =
+            TaskResult(taskId, TaskStatus.FAILED, message, System.currentTimeMillis(), durationMs)
+    }
 }
