@@ -1,18 +1,15 @@
-// app/build.gradle.kts - CLEANED & CORRECTED
+// app/build.gradle.kts - ADVANCED VERSION
 
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
-    // Android application plugin via version catalog
+    // Version catalog aliases
     alias(libs.plugins.android.application)
-    // Kotlin Android plugin via version catalog
     alias(libs.plugins.kotlin.android)
-    // Kotlin Serialization plugin via version catalog
     alias(libs.plugins.kotlin.serialization)
-    // Uncomment these as needed:
-    // alias(libs.plugins.ksp)
-    // alias(libs.plugins.hilt)
-    // alias(libs.plugins.openapi.generator)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.openapi.generator)
 }
 
 android {
@@ -63,10 +60,10 @@ android {
         jvmTarget = "21"
     }
 
-    // If you enable OpenAPI generator, uncomment the following sourceSets line
-    // sourceSets {
-    //     getByName("main").java.srcDir("${layout.buildDirectory.get()}/generated/openapi/src/main/kotlin")
-    // }
+    // Include OpenAPI-generated sources
+    sourceSets {
+        getByName("main").java.srcDir("${layout.buildDirectory.get()}/generated/openapi/src/main/kotlin")
+    }
 }
 
 dependencies {
@@ -74,16 +71,12 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization.converter)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
-    // Uncomment for Hilt support:
-    // implementation(libs.hilt.android)
-    // Uncomment for KSP support:
-    // ksp(libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
     // Local JAR for Xposed API
     compileOnly(files("libs/xposed-api-82.jar"))
 }
 
-// Uncomment and configure for OpenAPI code generation
-/*
 tasks.withType<GenerateTask> {
     generatorName.set("kotlin")
     inputSpec.set("$projectDir/src/main/resources/api/genesis-api.yaml")
@@ -100,10 +93,8 @@ tasks.withType<GenerateTask> {
         )
     )
 }
-*/
 
-// Uncomment when enabling OpenAPI Generator
-/*
+// Ensure OpenAPI code generation runs before Kotlin compilation
 androidComponents {
     onVariants { variant ->
         tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
@@ -111,4 +102,3 @@ androidComponents {
         }
     }
 }
-*/
