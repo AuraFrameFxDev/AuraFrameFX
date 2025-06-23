@@ -1,31 +1,46 @@
 package dev.aurakai.auraframefx.ai.services
 
-import dev.aurakai.auraframefx.model.AgentMessage
-import dev.aurakai.auraframefx.model.requests.AiRequest
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import dev.aurakai.auraframefx.ai.AuraAIService
+import dev.aurakai.auraframefx.ai.context.ContextManager
+import dev.aurakai.auraframefx.ai.error.ErrorHandler
+import dev.aurakai.auraframefx.ai.memory.MemoryManager
+import dev.aurakai.auraframefx.ai.task.TaskScheduler
+import dev.aurakai.auraframefx.ai.task.execution.TaskExecutionManager
+import dev.aurakai.auraframefx.data.logging.AuraFxLogger
+import dev.aurakai.auraframefx.data.network.CloudStatusMonitor
+import java.io.File
+import javax.inject.Inject
 
-class AuraAIServiceImpl : AuraAIService {
-    override fun processRequest(request: AiRequest): StateFlow<AgentMessage> {
-        val state = MutableStateFlow<AgentMessage?>(null)
-        CoroutineScope(Dispatchers.IO).launch {
-            // TODO: Integrate with Vertex AI here.
-            // Example: Use VertexAIClientImpl to send the request and parse the response.
-            // val vertexResponse = vertexAIClient.sendRequest(...)
-            // val agentMessage = parseVertexResponse(vertexResponse)
-            // state.value = agentMessage
-            val response = AgentMessage(
-                content = "[AuraAI] Real implementation placeholder for: ${request.input}",
-                sender = dev.aurakai.auraframefx.model.AgentType.AURA,
-                timestamp = System.currentTimeMillis(),
-                confidence = 0.95f
-            )
-            state.value = response
-        }
-        // For now, return a StateFlow with a placeholder response
-        return state as StateFlow<AgentMessage>
+class AuraAIServiceImpl @Inject constructor(
+    private val taskScheduler: TaskScheduler,
+    private val taskExecutionManager: TaskExecutionManager,
+    private val memoryManager: MemoryManager,
+    private val errorHandler: ErrorHandler,
+    private val contextManager: ContextManager,
+    private val cloudStatusMonitor: CloudStatusMonitor,
+    private val auraFxLogger: AuraFxLogger,
+) : AuraAIService {
+    override fun analyticsQuery(_query: String): String {
+        return "Analytics response placeholder"
+    }
+
+    override suspend fun downloadFile(_fileId: String): File? {
+        return null
+    }
+
+    override suspend fun generateImage(_prompt: String): ByteArray? {
+        return null
+    }
+
+    override suspend fun generateText(_prompt: String): String {
+        return "Generated text placeholder"
+    }
+
+    override fun getAIResponse(_prompt: String, _options: Map<String, Any>?): String? {
+        return "AI response placeholder"
+    }
+
+    override fun getMemory(_memoryKey: String): String? {
+        return null
     }
 }

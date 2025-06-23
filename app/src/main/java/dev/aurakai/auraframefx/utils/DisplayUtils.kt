@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.utils
 
 import android.content.Context
 import android.util.DisplayMetrics
+import android.view.WindowInsets
 import android.view.WindowManager
 
 /**
@@ -30,14 +31,20 @@ object DisplayUtils {
      * @return The height of the status bar in pixels, or 0 if it cannot be determined.
      */
     fun getStatusBarHeight(context: Context): Int {
-        // TODO: This is a common way but might not be universally accurate.
-        // Consider edge cases and newer Android versions (WindowInsets).
-        var result = 0
-        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = context.resources.getDimensionPixelSize(resourceId)
+        // Prefer WindowInsets for API 30+; fallback for older APIs
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            val windowInsets = context.getSystemService(WindowManager::class.java)
+                ?.currentWindowMetrics?.windowInsets
+            windowInsets?.getInsets(WindowInsets.Type.statusBars())?.top ?: 0
+        } else {
+            var result = 0
+            val resourceId =
+                context.resources.getIdentifier("status_bar_height", "dimen", "android")
+            if (resourceId > 0) {
+                result = context.resources.getDimensionPixelSize(resourceId)
+            }
+            result
         }
-        return result
     }
 
     /**
