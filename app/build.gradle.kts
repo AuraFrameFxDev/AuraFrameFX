@@ -11,9 +11,9 @@ plugins {
     
     // Apply other plugins
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.openapi.generator)
+    // alias(libs.plugins.ksp) // Temporarily disabled
+    // alias(libs.plugins.hilt) // Temporarily disabled
+    // alias(libs.plugins.openapi.generator) // Temporarily disabled
 }
 
 // The 'android' block starts here...
@@ -74,13 +74,14 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization.converter)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    // implementation(libs.hilt.android) // Temporarily disabled
+    // ksp(libs.hilt.compiler) // Temporarily disabled
 
     // Using your local JAR file for the Xposed API
     compileOnly(files("libs/xposed-api-82.jar"))
 }
 
+/* // Temporarily disabled OpenAPI task configuration
 tasks.withType<GenerateTask> {
     generatorName.set("kotlin")
     inputSpec.set("$projectDir/src/main/resources/api/genesis-api.yaml")
@@ -97,19 +98,11 @@ tasks.withType<GenerateTask> {
         )
     )
 }
+*/
 androidComponents {
     onVariants { variant ->
-        tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
-            dependsOn(tasks.named("openApiGenerate"))
-        }
-    }
-}// --- ADD THIS BLOCK AT THE END ---
-// This is the correct, modern way to hook into the Android build process.
-// It waits until the variants are created and then adds the dependency.
-androidComponents {
-    onVariants { variant ->
-        tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
-            dependsOn(tasks.named("openApiGenerate"))
-        }
+        // tasks.named("compile${variant.name.replaceFirstChar { it.uppercase() }}Kotlin") {
+        //     dependsOn(tasks.named("openApiGenerate")) // Temporarily disabled
+        // }
     }
 }
