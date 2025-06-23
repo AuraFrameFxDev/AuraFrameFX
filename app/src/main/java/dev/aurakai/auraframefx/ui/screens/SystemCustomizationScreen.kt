@@ -2,21 +2,54 @@ package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+package dev.aurakai.auraframefx.ui.screens
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.ui.theme.Color
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
+import dev.aurakai.auraframefx.ui.models.*
+import dev.aurakai.auraframefx.ui.viewmodels.SystemCustomizationViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.system.lockscreen.LockScreenConfig
+import dev.aurakai.auraframefx.system.quicksettings.HapticFeedbackConfig
+import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsAnimation
+import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsConfig
+import dev.aurakai.auraframefx.system.quicksettings.QuickSettingsTileConfig
+import dev.aurakai.auraframefx.ui.models.*
+import dev.aurakai.auraframefx.ui.viewmodel.SystemCustomizationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SystemCustomizationScreen(
     viewModel: SystemCustomizationViewModel = hiltViewModel(),
 ) {
-    val quickSettingsConfig by viewModel.quickSettingsConfig.collectAsState()
-    val lockScreenConfig by viewModel.lockScreenConfig.collectAsState()
+    // Collect state from ViewModel
+    val quickSettingsConfig by viewModel.quickSettingsConfig.collectAsState(initial = null)
+    val lockScreenConfig by viewModel.lockScreenConfig.collectAsState(initial = null)
+    
+    // Helper functions to safely access properties
+    @Composable
+    fun QuickSettingsConfig?.safeTiles(): List<QuickSettingsTileConfig> = this?.tiles ?: emptyList()
+    
+    @Composable
+    fun LockScreenConfig?.safeElements(): List<LockScreenElementConfig> = this?.elements ?: emptyList()
+    
+    // Handle side effects
+    LaunchedEffect(Unit) {
+        // Initial data load or side effects can go here
+    }
 
     Scaffold(
         topBar = {
@@ -24,7 +57,7 @@ fun SystemCustomizationScreen(
                 title = { Text("System Customization") },
                 navigationIcon = {
                     IconButton(onClick = { /* TODO: Navigate back */ }) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                     }
                 }
             )
