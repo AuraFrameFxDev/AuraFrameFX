@@ -11,6 +11,14 @@ import kotlinx.coroutines.withContext
 class AiGenerationService(
     private val api: ContentApi
 ) {
+    /**
+     * Asynchronously generates AI-driven text based on the provided prompt.
+     *
+     * @param prompt The input text prompt to guide the AI text generation.
+     * @param maxTokens The maximum number of tokens to generate. Defaults to 500.
+     * @param temperature The sampling temperature for randomness in generation. Defaults to 0.7.
+     * @return A [Result] containing the generated text response on success, or an exception on failure.
+     */
     suspend fun generateText(prompt: String, maxTokens: Int = 500, temperature: Float = 0.7f): Result<GenerateTextResponse> = withContext(Dispatchers.IO) {
         try {
             val request = GenerateTextRequest(prompt = prompt, maxTokens = maxTokens, temperature = temperature)
@@ -21,6 +29,13 @@ class AiGenerationService(
         }
     }
 
+    /**
+     * Asynchronously generates a description for the specified image using the AI content API.
+     *
+     * @param imageUrl The URL of the image to describe.
+     * @param context Optional additional context to guide the description generation.
+     * @return A [Result] containing the generated image description on success, or an exception on failure.
+     */
     suspend fun generateImageDescription(imageUrl: String, context: String? = null): Result<GenerateImageDescriptionResponse> = withContext(Dispatchers.IO) {
         try {
             val request = GenerateImageDescriptionRequest(imageUrl = imageUrl, context = context)
