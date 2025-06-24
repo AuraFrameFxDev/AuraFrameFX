@@ -8,7 +8,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
-    id("org.openapi.generator")
+    id("org.openapi.generator") // Version is managed by pluginManagement or project level
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
 }
@@ -47,12 +47,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
         freeCompilerArgs += listOf(
             "-opt-in=kotlin.RequiresOptIn",
             "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
@@ -86,41 +86,101 @@ android {
 }
 
 // OpenAPI Generator configuration
-val generatedSourcesDir = layout.buildDirectory.dir("generated")
+val openApiGeneratedDir = layout.buildDirectory.dir("generated/openapi")
 
-tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateOpenApi") {
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateKotlinClient") {
+    group = "openapi tools"
     generatorName.set("kotlin")
-    inputSpec.set("${project.projectDir}/src/main/resources/auraframefx_ai_api.yaml")
-    outputDir.set(generatedSourcesDir.get().asFile.absolutePath)
-    apiPackage.set("dev.aurakai.auraframefx.api")
-    modelPackage.set("dev.aurakai.auraframefx.model")
+    inputSpec.set("${project.rootDir}/api-spec/aura-framefx-api.yaml")
+    outputDir.set("${openApiGeneratedDir.get().asFile}/kotlin")
+    apiPackage.set("dev.aurakai.auraframefx.api.kotlin.api")
+    modelPackage.set("dev.aurakai.auraframefx.api.kotlin.model")
     configOptions.set(
         mapOf(
             "dateLibrary" to "java8",
             "serializationLibrary" to "kotlinx_serialization",
             "useCoroutines" to "true",
             "enumPropertyNaming" to "UPPERCASE",
-            "serializableModel" to "true"
+            "serializableModel" to "true",
+            "library" to "jvm-retrofit2"
         )
     )
-    ignoreFileOverride.set("${project.projectDir}/.openapi-generator-ignore")
+    ignoreFileOverride.set("${project.rootDir}/.openapi-generator-ignore")
 }
 
-// Add generated sources to the main source set
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateTypescriptClient") {
+    group = "openapi tools"
+    generatorName.set("typescript-axios")
+    inputSpec.set("${project.rootDir}/api-spec/aura-framefx-api.yaml")
+    outputDir.set("${openApiGeneratedDir.get().asFile}/typescript")
+    configOptions.set(
+        mapOf(
+            "supportsES6" to "true",
+            "npmName" to "auraframefx-api-client-ts",
+            "npmVersion" to "1.0.0",
+            "stringEnums" to "true"
+        )
+    )
+    ignoreFileOverride.set("${project.rootDir}/.openapi-generator-ignore")
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateJavaClient") {
+    group = "openapi tools"
+    generatorName.set("java")
+    inputSpec.set("${project.rootDir}/api-spec/aura-framefx-api.yaml")
+    outputDir.set("${openApiGeneratedDir.get().asFile}/java")
+    apiPackage.set("dev.aurakai.auraframefx.api.java.api")
+    modelPackage.set("dev.aurakai.auraframefx.api.java.model")
+    configOptions.set(
+        mapOf(
+            "dateLibrary" to "java8",
+            "library" to "retrofit2",
+            "useJakartaEe" to "false", // For Android compatibility
+            "useBeanValidation" to "false"
+        )
+    )
+    ignoreFileOverride.set("${project.rootDir}/.openapi-generator-ignore")
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generatePythonClient") {
+    group = "openapi tools"
+    generatorName.set("python")
+    inputSpec.set("${project.rootDir}/api-spec/aura-framefx-api.yaml")
+    outputDir.set("${openApiGeneratedDir.get().asFile}/python")
+    configOptions.set(
+        mapOf(
+            "packageName" to "auraframefx_api_client_py",
+            "projectName" to "auraframefx-api-client-py",
+            "packageVersion" to "1.0.0"
+        )
+    )
+    ignoreFileOverride.set("${project.rootDir}/.openapi-generator-ignore")
+}
+
+// Add generated Kotlin sources to the main source set
 afterEvaluate {
     android.sourceSets.getByName("main") {
-        java.srcDir("${generatedSourcesDir.get()}/src/main/kotlin")
+        java.srcDir("${openApiGeneratedDir.get()}/kotlin/src/main/kotlin")
     }
+}
+
+val generateOpenApiClients = tasks.register("generateOpenApiClients") {
+    group = "openapi tools"
+    description = "Generates all OpenAPI clients (Kotlin, TypeScript, Java, Python)"
+    dependsOn("generateKotlinClient")
+    dependsOn("generateTypescriptClient")
+    dependsOn("generateJavaClient")
+    dependsOn("generatePythonClient")
 }
 
 // Ensure the OpenAPI generation happens before compilation
 tasks.named("preBuild") {
-    dependsOn("generateOpenApi")
+    dependsOn(generateOpenApiClients)
 }
 
 // Xposed framework configurations
-val xposedApiJar = files("${project.rootDir}/libs/api-82.jar")
-val xposedBridgeJar = files("${project.rootDir}/libs/bridge-82.jar")
+val xposedApiJar = files("${project.rootDir}/Libs/api-82.jar") // Corrected path
+val xposedBridgeJar = files("${project.rootDir}/Libs/xposed-api-82.jar") // Corrected path and file
 val xposedCompileOnly = configurations.create("xposedCompileOnly")
 
 dependencies {

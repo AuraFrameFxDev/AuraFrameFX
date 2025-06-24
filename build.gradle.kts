@@ -1,6 +1,16 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 @file:Suppress("UNUSED_VARIABLE", "UnstableApiUsage", "DEPRECATION")
 
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath("org.openapitools:openapi-generator-gradle-plugin:7.6.0")
+    }
+}
+
 // Xposed JAR files configuration
 val xposedApiJar = files("libs/api-82.jar")
 val xposedBridgeJar = files("libs/bridge-82.jar")
@@ -17,7 +27,7 @@ plugins {
     id("com.google.firebase.crashlytics") version "2.9.9" apply false
     id("com.google.firebase.firebase-perf") version "1.4.2" apply false
     id("androidx.navigation.safeargs.kotlin") version "2.7.7" apply false
-    id("org.openapi.generator") version "7.3.0" apply false
+    id("org.openapi.generator") version "7.6.0" apply false
 }
 
 subprojects {

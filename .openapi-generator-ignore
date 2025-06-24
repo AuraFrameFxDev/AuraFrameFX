@@ -1,0 +1,53 @@
+# Ignore Git files
+.git/
+.gitignore
+
+# Ignore IDE files
+.idea/
+*.iml
+*.vscode/
+
+# Ignore build artifacts
+build/
+dist/
+target/
+out/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore common dependency management files (if not part of the generated client)
+node_modules/
+venv/
+*/venv/
+*/.venv/
+
+# Python specific
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+
+# Java specific
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# Node/TypeScript specific
+*.log
+coverage/
+# package-lock.json # Usually committed for applications, but might be ignored for generated libraries
+# yarn.lock
+
+# Specific to OpenAPI Generator output that might not be needed
+README.md # Often a generic one is generated
+git_push.sh # Script to push to git, often not needed directly
+.travis.yml # CI configuration, might not be relevant
+# Add any other files or directories you want to ignore
+# For example, if the generator creates a test suite you don't intend to use:
+# src/test/
+# test/

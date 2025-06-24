@@ -650,6 +650,26 @@ components:
               example: {"field": "email", "issue": "invalid_format"}
       required:
         - error
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+          example: 400
+        message:
+          type: string
+          description: Error message
+          example: "Invalid request parameters."
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
+          nullable: true
+      required:
+        - code
+        - message
 
   # Common Responses
   responses:
@@ -658,18 +678,18 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiError'
+            $ref: '#/components/schemas/ErrorResponse' # Changed to ErrorResponse
     
     UnauthorizedError:
       description: Authentication credentials were missing or incorrect
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiError'
+            $ref: '#/components/schemas/ErrorResponse' # Changed to ErrorResponse
     
     RateLimitError:
       description: Rate limit exceeded
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ApiError'
+            $ref: '#/components/schemas/ErrorResponse' # Changed to ErrorResponse
