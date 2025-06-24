@@ -5,14 +5,13 @@ pluginManagement {
         eachPlugin {
             when (requested.id.namespace) {
                 "com.android" -> useVersion("8.10.0")
-                "org.jetbrains.kotlin" -> useVersion("2.1.20")
+                "org.jetbrains.kotlin" -> useVersion("2.1.21") # Also update Kotlin to match libs.versions.toml
                 "com.google.dagger.hilt.android" -> useVersion("2.50")
                 "com.google.gms.google-services" -> useVersion("4.4.0")
                 "com.google.firebase.crashlytics" -> useVersion("2.9.9")
                 "com.google.firebase.firebase-perf" -> useVersion("1.4.2")
                 "androidx.navigation.safeargs.kotlin" -> useVersion("2.7.7")
-                "com.google.devtools.ksp" -> useVersion("2.1.20-2.0.1")
-                "org.openapi.generator" -> useVersion("7.3.0")
+                "com.google.devtools.ksp" -> useVersion("2.1.21-2.0.2") # Also update KSP to match libs.versions.toml
             }
         }
     }
