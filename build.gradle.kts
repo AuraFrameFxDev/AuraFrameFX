@@ -278,42 +278,9 @@ dependencies {
 
 }
 
-openApiGenerate {
-    generatorName.set("kotlin")
-    inputSpec.set("$projectDir/src/main/resources/auraframefx_ai_api.yaml")
-    outputDir.set(layout.buildDirectory.dir("generated/openapi").map { it.asFile.absolutePath })
-    apiPackage.set("dev.aurakai.auraframefx.generated.api.auraframefxai")
-    modelPackage.set("dev.aurakai.auraframefx.generated.model.auraframefxai")
-    configOptions.set(
-        mapOf(
-            "library" to "jvm-retrofit2",
-            "serializationLibrary" to "kotlinx_serialization",
-            "useCoroutines" to "true",
-            "dateLibrary" to "java8",
-            "enumPropertyNaming" to "UPPERCASE"
-        )
-    )
-}
-
-tasks.register("validateOpenApiSpec") {
-    val specFile = file("$projectDir/src/main/resources/auraframefx_ai_api.yaml")
-    doLast {
-        if (!specFile.exists()) {
-            logger.warn("API spec file not found at: ${specFile.absolutePath}")
-            logger.warn("OpenAPI code generation may fail or use stale code.")
-        } else {
-            logger.lifecycle("OpenAPI spec file found at: ${specFile.absolutePath}")
-        }
-    }
-}
-
 tasks.named("openApiGenerate") {
     dependsOn("validateOpenApiSpec")
     mustRunAfter(tasks.named("clean"))
-}
-
-tasks.register<Delete>("cleanOpenApiGenerated") {
-    delete(layout.buildDirectory.dir("generated/openapi"))
 }
 
 tasks.named("clean") {
