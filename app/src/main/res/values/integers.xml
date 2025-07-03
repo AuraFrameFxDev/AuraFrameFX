@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- TODO: Add integer resources here if needed -->
-    <!-- Example:
-    <integer name="example_integer">100</integer>
-    -->
+    <integer name="sample_integer">100</integer>
 </resources>

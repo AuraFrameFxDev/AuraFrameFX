@@ -1,102 +1,106 @@
 package dev.aurakai.auraframefx.data
 
-// import androidx.datastore.preferences.core.edit
-// import androidx.datastore.preferences.core.stringPreferencesKey
-// import androidx.datastore.preferences.preferencesDataStore
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import dev.aurakai.auraframefx.model.UserData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
-// Example: Define a DataStore instance
-// val Context.dataStore by preferencesDataStore(name = "user_settings")
+// Define a DataStore instance using the extension property from DataStoreManager.kt
+// The actual definition `val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_prefs")`
+// is expected to be in DataStoreManager.kt or a similar central place.
+// For UserPreferences, we assume it's available via context.dataStore.
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_prefs")
 
-class UserPreferences(context: Context) {
+class UserPreferences(private val context: Context) {
 
-    // private val dataStore = context.dataStore
+    private val dataStore = context.dataStore
 
-    // Example preference key
-    // companion object {
-    //     val USER_NAME_KEY = stringPreferencesKey("user_name")
-    // }
-
-    // Example function to save a preference
-    // suspend fun saveUserName(name: String) {
-    //     dataStore.edit { settings ->
-    //         settings[USER_NAME_KEY] = name
-    //     }
-    // }
-
-    // Example function to read a preference
-    // val userNameFlow: Flow<String?> = dataStore.data.map { preferences ->
-    //     preferences[USER_NAME_KEY]
-    // }
-
-    // Placeholder content if not using Jetpack DataStore or for initial setup
-    init {
-        // TODO: Initialize preferences mechanism (e.g., SharedPreferences, DataStore)
-        // This is a placeholder. Actual implementation will depend on the chosen
-        // preferences storage solution.
-        val placeholder = "UserPreferences initialized (placeholder)"
+    companion object {
+        val API_KEY = stringPreferencesKey("api_key")
+        val USER_ID = stringPreferencesKey("user_id")
+        val USER_NAME = stringPreferencesKey("user_name")
+        val USER_EMAIL = stringPreferencesKey("user_email")
     }
 
-    // Minimal working implementation for placeholder
-    private val prefs = mutableMapOf<String, String>()
-
-    fun getPreference(key: String, defaultValue: String): String {
-        return prefs[key] ?: defaultValue
+    val apiKey: Flow<String?> = dataStore.data.map { preferences ->
+        preferences[API_KEY]
     }
 
-    fun setPreference(key: String, value: String) {
-        prefs[key] = value
+    suspend fun setApiKey(key: String?) {
+        dataStore.edit { settings ->
+            if (key != null) {
+                settings[API_KEY] = key
+            } else {
+                settings.remove(API_KEY)
+            }
+        }
     }
 
-    // Properties and methods based on error report (unused declarations)
-
-    // TODO: Reported as unused. Implement storage and retrieval if needed.
-    var apiKey: String? = null
-
-    // TODO: Reported as unused. Implement if needed.
-    fun setApiKey(_key: String?) {
-        this.apiKey = _key
-        // TODO: Persist API key
+    val userId: Flow<String?> = dataStore.data.map { preferences ->
+        preferences[USER_ID]
     }
 
-    // TODO: Reported as unused. Implement storage and retrieval if needed.
-    var userId: String? = null
-
-    // TODO: Reported as unused. Implement if needed.
-    fun setUserId(_id: String?) {
-        this.userId = _id
-        // TODO: Persist User ID
+    suspend fun setUserId(id: String?) {
+        dataStore.edit { settings ->
+            if (id != null) {
+                settings[USER_ID] = id
+            } else {
+                settings.remove(USER_ID)
+            }
+        }
     }
 
-    // TODO: Reported as unused. Implement storage and retrieval if needed.
-    var userName: String? = null
-
-    // TODO: Reported as unused. Implement if needed.
-    fun setUserName(_name: String?) {
-        this.userName = _name
-        // TODO: Persist User Name
+    val userName: Flow<String?> = dataStore.data.map { preferences ->
+        preferences[USER_NAME]
     }
 
-    // TODO: Reported as unused. Implement storage and retrieval if needed.
-    var userEmail: String? = null
+    suspend fun setUserName(name: String?) {
+        dataStore.edit { settings ->
+            if (name != null) {
+                settings[USER_NAME] = name
+            } else {
+                settings.remove(USER_NAME)
+            }
+        }
+    }
 
-    // TODO: Reported as unused. Implement if needed.
-    fun setUserEmail(_email: String?) {
-        this.userEmail = _email
-        // TODO: Persist User Email
+    val userEmail: Flow<String?> = dataStore.data.map { preferences ->
+        preferences[USER_EMAIL]
+    }
+
+    suspend fun setUserEmail(email: String?) {
+        dataStore.edit { settings ->
+            if (email != null) {
+                settings[USER_EMAIL] = email
+            } else {
+                settings.remove(USER_EMAIL)
+            }
+        }
     }
 
     /**
-     * Retrieves user data. The original error report mentioned a "NonExistentClass"
-     * for the return type, so using Any? as a placeholder.
-     * TODO: Reported as unused. Implement actual user data retrieval.
-     * @return User data object or null.
+     * Retrieves user data by collecting the latest values from DataStore.
+     * @return UserData object or null if essential data is missing.
      */
-    suspend fun getUserData(): UserData? { // Changed return type from Any? to UserData?
-        // TODO: Implement actual data retrieval logic.
-        // This might involve fetching from DataStore, SharedPreferences, or a database.
-        // Example: return UserData(id = userId, name = userName, email = userEmail, apiKey = apiKey)
-        return null
+    suspend fun getUserData(): UserData? {
+        val currentApiKey = apiKey.first()
+        val currentUserId = userId.first()
+        val currentUserName = userName.first()
+        val currentUserEmail = userEmail.first()
+
+        // Example: Consider returning null or a UserData object with nullable fields
+        // if not all data is critical. For this example, let's assume all are optional.
+        return UserData(
+            id = currentUserId,
+            name = currentUserName,
+            email = currentUserEmail,
+            apiKey = currentApiKey
+        )
     }
 }

@@ -16,16 +16,18 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AiServiceModule {
-    @Provides
-    @Singleton
-    fun provideAuraAIService(): AuraAIService = AuraAIServiceImpl()
+    // AuraAIServiceImpl has an @Inject constructor, so Hilt can provide it directly.
+    // No need for a @Provides method here if its dependencies are also provided.
 
     @Provides
     @Singleton
     fun provideKaiAIService(securityContext: SecurityContext): KaiAIService =
-        KaiAIServiceImpl(securityContext)
+        KaiAIServiceImpl(securityContext) // Assuming KaiAIServiceImpl also has @Inject or is provided elsewhere if it has deps
 
     @Provides
     @Singleton
-    fun provideCascadeAIService(): CascadeAIService = CascadeAIServiceImpl()
+    fun provideCascadeAIService(
+        auraService: AuraAIService, // Hilt will provide AuraAIServiceImpl
+        kaiService: KaiAIService    // Hilt will provide KaiAIService from the method above
+    ): CascadeAIService = CascadeAIServiceImpl(auraService, kaiService)
 }
